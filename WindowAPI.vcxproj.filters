@@ -1,0 +1,305 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="소스 파일">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="헤더 파일">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="MainGame">
+      <UniqueIdentifier>{0197a609-4f17-4b09-bb41-10cc33d95d87}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FrameworkManagers">
+      <UniqueIdentifier>{c2508486-b8b2-40af-9aea-64c1028bfdf7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FrameworkManagers\매니져">
+      <UniqueIdentifier>{5ce72af8-e27e-4d87-81a9-202553e2a4fc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FrameworkManagers\WinMain">
+      <UniqueIdentifier>{4a79707c-1728-49f2-ba7d-dc17dad14387}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FrameworkManagers\매니져\추가">
+      <UniqueIdentifier>{98b46edc-6ec1-468d-8b30-ddfe6f7febff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FrameworkManagers\데이터 입출력">
+      <UniqueIdentifier>{a80d3547-a461-4a54-a784-a91080ecb022}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FrameworkManagers\데이터 입출력\TXT데이터">
+      <UniqueIdentifier>{19e3a24c-eb76-48b4-a382-3874eebdfd4a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FrameworkManagers\데이터 입출력\싱글톤데이터">
+      <UniqueIdentifier>{452265ae-e465-42dd-8e7f-28e8719da539}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FrameworkManagers\데이터 입출력\INI데이터">
+      <UniqueIdentifier>{099fb0a7-c9ae-4204-b02b-52bb71ca0033}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FrameworkManagers\애니메이션">
+      <UniqueIdentifier>{3f0692ff-a0f0-4dd3-b8d1-8a9a2e45a646}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FrameworkManagers\유틸">
+      <UniqueIdentifier>{0e047507-cff2-4a5e-8198-0c562e8e0211}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FrameworkManagers\이펙트">
+      <UniqueIdentifier>{00981302-b796-40cd-8458-53325f5c9313}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FrameworkManagers\이미지">
+      <UniqueIdentifier>{fb39b492-861b-45db-9ab0-9b03a9eaad69}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameScene">
+      <UniqueIdentifier>{39ff0c44-8bac-4104-8f64-6f11bff616bf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObjects">
+      <UniqueIdentifier>{abe7f797-e87b-43ae-8e08-c196f9a4954b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameActors">
+      <UniqueIdentifier>{b2e3c638-5240-4f0a-87f5-0316f3d19035}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Framework2D">
+      <UniqueIdentifier>{9fbd4086-f21e-4a3b-b3d1-8ac4c5f5fa1b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Framework2D\로딩">
+      <UniqueIdentifier>{7f7e5c41-672d-4ff5-b6e3-026a2efaa45f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Framework2D\로딩\LoadingScene">
+      <UniqueIdentifier>{341396ee-3e30-486f-8e55-bddb70a82424}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Framework2D\애드온">
+      <UniqueIdentifier>{3cda2323-bee5-498c-bfe6-dfac759959ee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Framework2D\애드온\총알">
+      <UniqueIdentifier>{bf483cdc-0061-43a7-b258-9a4fa4e2fc54}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Framework2D\애드온\에너미">
+      <UniqueIdentifier>{3ed4abcc-0819-4ea8-b79e-e3168e55b954}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Framework2D\애드온\체력바">
+      <UniqueIdentifier>{413af328-8855-4598-a0a0-8dcf58fca46b}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="commonMacroFunction.h">
+      <Filter>FrameworkManagers\유틸</Filter>
+    </ClInclude>
+    <ClInclude Include="mainGame.h">
+      <Filter>MainGame</Filter>
+    </ClInclude>
+    <ClInclude Include="keyManager.h">
+      <Filter>FrameworkManagers\매니져</Filter>
+    </ClInclude>
+    <ClInclude Include="randomFuntion.h">
+      <Filter>FrameworkManagers\유틸</Filter>
+    </ClInclude>
+    <ClInclude Include="gameNode.h">
+      <Filter>FrameworkManagers\WinMain</Filter>
+    </ClInclude>
+    <ClInclude Include="image.h">
+      <Filter>FrameworkManagers\이미지</Filter>
+    </ClInclude>
+    <ClInclude Include="imageManager.h">
+      <Filter>FrameworkManagers\매니져</Filter>
+    </ClInclude>
+    <ClInclude Include="util.h">
+      <Filter>FrameworkManagers\유틸</Filter>
+    </ClInclude>
+    <ClInclude Include="bullet.h">
+      <Filter>Framework2D\애드온\총알</Filter>
+    </ClInclude>
+    <ClInclude Include="enemy.h">
+      <Filter>Framework2D\애드온\에너미</Filter>
+    </ClInclude>
+    <ClInclude Include="enemyManager.h">
+      <Filter>Framework2D\애드온\에너미</Filter>
+    </ClInclude>
+    <ClInclude Include="minion.h">
+      <Filter>Framework2D\애드온\에너미</Filter>
+    </ClInclude>
+    <ClInclude Include="saveData.h">
+      <Filter>FrameworkManagers\데이터 입출력\싱글톤데이터</Filter>
+    </ClInclude>
+    <ClInclude Include="progressBar.h">
+      <Filter>Framework2D\애드온\체력바</Filter>
+    </ClInclude>
+    <ClInclude Include="txtData.h">
+      <Filter>FrameworkManagers\데이터 입출력\TXT데이터</Filter>
+    </ClInclude>
+    <ClInclude Include="sceneManager.h">
+      <Filter>FrameworkManagers\매니져</Filter>
+    </ClInclude>
+    <ClInclude Include="stdafx.h">
+      <Filter>FrameworkManagers\WinMain</Filter>
+    </ClInclude>
+    <ClInclude Include="iniData.h">
+      <Filter>FrameworkManagers\데이터 입출력\INI데이터</Filter>
+    </ClInclude>
+    <ClInclude Include="singletonBase.h">
+      <Filter>FrameworkManagers\매니져</Filter>
+    </ClInclude>
+    <ClInclude Include="loading.h">
+      <Filter>Framework2D\로딩</Filter>
+    </ClInclude>
+    <ClInclude Include="loadingScene.h">
+      <Filter>Framework2D\로딩\LoadingScene</Filter>
+    </ClInclude>
+    <ClInclude Include="timeManager.h">
+      <Filter>FrameworkManagers\매니져</Filter>
+    </ClInclude>
+    <ClInclude Include="soundManager.h">
+      <Filter>FrameworkManagers\매니져</Filter>
+    </ClInclude>
+    <ClInclude Include="effect.h">
+      <Filter>FrameworkManagers\이펙트</Filter>
+    </ClInclude>
+    <ClInclude Include="effectManager.h">
+      <Filter>FrameworkManagers\매니져</Filter>
+    </ClInclude>
+    <ClInclude Include="animation.h">
+      <Filter>FrameworkManagers\애니메이션</Filter>
+    </ClInclude>
+    <ClInclude Include="UIManager.h">
+      <Filter>FrameworkManagers\매니져\추가</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>FrameworkManagers\매니져\추가</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderManager.h">
+      <Filter>FrameworkManagers\매니져\추가</Filter>
+    </ClInclude>
+    <ClInclude Include="gameObject.h">
+      <Filter>GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="gameActor.h">
+      <Filter>GameActors</Filter>
+    </ClInclude>
+    <ClInclude Include="mapToolScene.h">
+      <Filter>GameScene</Filter>
+    </ClInclude>
+    <ClInclude Include="startScene.h">
+      <Filter>GameScene</Filter>
+    </ClInclude>
+    <ClInclude Include="tileNode.h">
+      <Filter>GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="player.h">
+      <Filter>GameActors</Filter>
+    </ClInclude>
+    <ClInclude Include="stageScene.h">
+      <Filter>GameScene</Filter>
+    </ClInclude>
+    <ClInclude Include="gameStage.h">
+      <Filter>GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="gameItem.h">
+      <Filter>GameObjects</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>FrameworkManagers\WinMain</Filter>
+    </ClCompile>
+    <ClCompile Include="winMain.cpp">
+      <Filter>FrameworkManagers\WinMain</Filter>
+    </ClCompile>
+    <ClCompile Include="mainGame.cpp">
+      <Filter>MainGame</Filter>
+    </ClCompile>
+    <ClCompile Include="keyManager.cpp">
+      <Filter>FrameworkManagers\매니져</Filter>
+    </ClCompile>
+    <ClCompile Include="gameNode.cpp">
+      <Filter>FrameworkManagers\WinMain</Filter>
+    </ClCompile>
+    <ClCompile Include="image.cpp">
+      <Filter>FrameworkManagers\이미지</Filter>
+    </ClCompile>
+    <ClCompile Include="imageManager.cpp">
+      <Filter>FrameworkManagers\매니져</Filter>
+    </ClCompile>
+    <ClCompile Include="util.cpp">
+      <Filter>FrameworkManagers\유틸</Filter>
+    </ClCompile>
+    <ClCompile Include="bullet.cpp">
+      <Filter>Framework2D\애드온\총알</Filter>
+    </ClCompile>
+    <ClCompile Include="enemy.cpp">
+      <Filter>Framework2D\애드온\에너미</Filter>
+    </ClCompile>
+    <ClCompile Include="enemyManager.cpp">
+      <Filter>Framework2D\애드온\에너미</Filter>
+    </ClCompile>
+    <ClCompile Include="minion.cpp">
+      <Filter>Framework2D\애드온\에너미</Filter>
+    </ClCompile>
+    <ClCompile Include="saveData.cpp">
+      <Filter>FrameworkManagers\데이터 입출력\싱글톤데이터</Filter>
+    </ClCompile>
+    <ClCompile Include="progressBar.cpp">
+      <Filter>Framework2D\애드온\체력바</Filter>
+    </ClCompile>
+    <ClCompile Include="txtData.cpp">
+      <Filter>FrameworkManagers\데이터 입출력\TXT데이터</Filter>
+    </ClCompile>
+    <ClCompile Include="sceneManager.cpp">
+      <Filter>FrameworkManagers\매니져</Filter>
+    </ClCompile>
+    <ClCompile Include="iniData.cpp">
+      <Filter>FrameworkManagers\데이터 입출력\INI데이터</Filter>
+    </ClCompile>
+    <ClCompile Include="loading.cpp">
+      <Filter>Framework2D\로딩</Filter>
+    </ClCompile>
+    <ClCompile Include="loadingScene.cpp">
+      <Filter>Framework2D\로딩\LoadingScene</Filter>
+    </ClCompile>
+    <ClCompile Include="timeManager.cpp">
+      <Filter>FrameworkManagers\매니져</Filter>
+    </ClCompile>
+    <ClCompile Include="soundManager.cpp">
+      <Filter>FrameworkManagers\매니져</Filter>
+    </ClCompile>
+    <ClCompile Include="effect.cpp">
+      <Filter>FrameworkManagers\이펙트</Filter>
+    </ClCompile>
+    <ClCompile Include="effectManager.cpp">
+      <Filter>FrameworkManagers\매니져</Filter>
+    </ClCompile>
+    <ClCompile Include="animation.cpp">
+      <Filter>FrameworkManagers\애니메이션</Filter>
+    </ClCompile>
+    <ClCompile Include="UIManager.cpp">
+      <Filter>FrameworkManagers\매니져\추가</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderManager.cpp">
+      <Filter>FrameworkManagers\매니져\추가</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>FrameworkManagers\매니져\추가</Filter>
+    </ClCompile>
+    <ClCompile Include="gameObject.cpp">
+      <Filter>GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="gameActor.cpp">
+      <Filter>GameActors</Filter>
+    </ClCompile>
+    <ClCompile Include="mapToolScene.cpp">
+      <Filter>GameScene</Filter>
+    </ClCompile>
+    <ClCompile Include="startScene.cpp">
+      <Filter>GameScene</Filter>
+    </ClCompile>
+    <ClCompile Include="player.cpp">
+      <Filter>GameActors</Filter>
+    </ClCompile>
+    <ClCompile Include="stageScene.cpp">
+      <Filter>GameScene</Filter>
+    </ClCompile>
+    <ClCompile Include="gameStage.cpp">
+      <Filter>GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="gameItem.cpp">
+      <Filter>GameObjects</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
