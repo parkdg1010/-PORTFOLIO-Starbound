@@ -3,6 +3,8 @@
 
 HRESULT stageScene::init()
 {
+	_itemFac = new itemFactory;
+	
 
 	_stage = new gameStage;
 	_stage->init();
@@ -10,6 +12,7 @@ HRESULT stageScene::init()
 	_player = SAVEDATA->getPlayer();
 	_player->linkStage(_stage);
 	_player->init();
+	_player->setWeapon(_itemFac->createItem(ITEM_SPACESWORD, 1000, 20.f, 0.f, "", "¿ìÁÖ°Ë"));
 
 	CAMERAMANAGER->init();
 

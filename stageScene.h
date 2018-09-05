@@ -7,6 +7,7 @@ class stageScene : public gameNode
 {
 	player* _player;
 	gameStage* _stage;
+	itemFactory* _itemFac;
 public:
 	virtual HRESULT init();
 	virtual void update();

@@ -27,6 +27,8 @@ HRESULT mapToolScene::init()
 	_curBackTop = BACKTOP_0;
 	_curBackBot = BACKBOT_0;
 
+	_saveCount = 0;
+
 	initBrush();
 
 	return S_OK;
@@ -109,6 +111,17 @@ void mapToolScene::update()
 		setMap();
 	}
 
+	if (KEYMANAGER->isOnceKeyDown('Q'))
+	{
+		if (_saveCount > 0)
+			_saveCount--;
+	}
+	if (KEYMANAGER->isOnceKeyDown('E'))
+	{
+		if (_saveCount < 9)
+			_saveCount++;
+	}
+
 	if(!_isMinimize) ctrlPanelUpdate();
 	else _rcTaskBar = RectMake(0, WINSIZEY - 35, 134, 35);
 
@@ -156,6 +169,8 @@ void mapToolScene::render()
 		textMake(getMemDC(), 200, 120, "y", (_cameraLens.y) / TILESIZE);
 	}
 
+	IMAGEMANAGER->render("ºóÆÐµå", getMemDC(), _rcCtrlPanel.left + 9, _rcCtrlPanel.top + 9);
+	IMAGEMANAGER->frameRender("¼ýÀÚ", getMemDC(), _rcCtrlPanel.left + 10, _rcCtrlPanel.top + 10, _saveCount, 0);
 }
 
 void mapToolScene::release()
@@ -390,12 +405,16 @@ void mapToolScene::save()
 		vector<string> vStr;
 		sprintf_s(temp, "%d,%d,%d,%d,%d,%d", _tileX, _tileY, _curBackTop, _curBackBot, _cameraLens.x, _cameraLens.y);
 		vStr.push_back(temp);
-		TXTDATA->txtSave("Map/stage.world", vStr);
+
+		string name = "Map/stage" + to_string(_saveCount) + ".world";
+		TXTDATA->txtSave(name.c_str(), vStr);
 
 		HANDLE file;
 		DWORD write;
+
+		name = "Map/stage" + to_string(_saveCount) + ".map";
 		
-		file = CreateFile("Map/stage.map", GENERIC_WRITE, 0, NULL, CREATE_ALWAYS,
+		file = CreateFile(name.c_str(), GENERIC_WRITE, 0, NULL, CREATE_ALWAYS,
 			FILE_ATTRIBUTE_NORMAL, NULL);
 		WriteFile(file, _stage, sizeof(tagTile) * _tileX * _tileY, &write, NULL);
 
@@ -407,8 +426,10 @@ void mapToolScene::load()
 {
 	if (PtInRect(&_rcLoad, _ptMouse))
 	{
+		string name = "Map/stage" + to_string(_saveCount) + ".world";
+
 		vector<string> vStr;
-		vStr = TXTDATA->txtLoad("Map/stage.world");
+		vStr = TXTDATA->txtLoad(name.c_str());
 		_tileX = atoi(vStr[0].c_str());
 		_tileY = atoi(vStr[1].c_str());
 		_curBackTop = atoi(vStr[2].c_str());
@@ -422,7 +443,9 @@ void mapToolScene::load()
 		HANDLE file;
 		DWORD read;
 
-		file = CreateFile("Map/stage.map", GENERIC_READ, 0, NULL, OPEN_EXISTING, 
+		name = "Map/stage" + to_string(_saveCount) + ".map";
+
+		file = CreateFile(name.c_str(), GENERIC_READ, 0, NULL, OPEN_EXISTING,
 			FILE_ATTRIBUTE_NORMAL, NULL);
 		ReadFile(file, _stage, sizeof(tagTile) * _tileX * _tileY, &read, NULL);
 

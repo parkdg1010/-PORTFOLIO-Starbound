@@ -6,6 +6,7 @@ class player;
 class gameStage : public gameNode
 {
 private:
+	int _stageNum;
 	int _tileX, _tileY;
 	int _curBackTop;
 	int _curBackBot;

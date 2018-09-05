@@ -58,8 +58,21 @@ void player::render()
 		}
 		_curFrameY = _dir;
 		
-		_img[_state]->frameRender(getMemDC(), _x - _img[_state]->getFrameWidth()*0.5 - CAM->getX(),
-			_y - _img[_state]->getFrameHeight() * 0.5 - CAM->getY(), _curFrameX, _curFrameY);
+		if (_weapon == NULL)
+		{
+			_img[_state]->frameRender(getMemDC(), _x - _img[_state]->getFrameWidth()*0.5 - CAM->getX(),
+				_y - _img[_state]->getFrameHeight() * 0.5 - CAM->getY(), _curFrameX, _curFrameY);
+		}
+		else
+		{
+			//TODO : ÆÈ È¸Àü°¢µµ Àß ¸ÂÃçº¸±â, ¿ÞÆÈ ¿À¸¥ÆÈ À§Ä¡Á¶Á¤
+			float temp = utl::getAngle(_x, _y, _ptMouse.x, _ptMouse.y) *2;
+			if(KEYMANAGER->isOnceKeyDown(VK_F2)) cout << temp * 180 / PI << endl;
+			_hand[RIGHT]->rotateFrameRender(getMemDC(), _x -10 - CAM->getX(), _y +5 - CAM->getY(), 0, _dir, -temp);
+			_nohandImg[_state]->frameRender(getMemDC(), _x - _nohandImg[_state]->getFrameWidth()*0.5 - CAM->getX(),
+				_y - _nohandImg[_state]->getFrameHeight() * 0.5 - CAM->getY(), _curFrameX, _curFrameY);
+			_hand[LEFT]->rotateFrameRender(getMemDC(), _x -10 - CAM->getX(), _y +5 - CAM->getY(), 0, _dir, -temp);
+		}
 		//_hair->frameRender(getMemDC(), _x - _img[_state]->getFrameWidth()*0.5 - CAM->getX(), _y - _img[_state]->getFrameHeight() * 0.5 - CAM->getY(), 0, _curFrameY);
 		//textMake(getMemDC(), _x - CAM->getX(), _y - CAM->getY(), "X");
 		//textMake(getMemDC(), 100, 100, "Áß·Â", _gravity);
@@ -68,7 +81,7 @@ void player::render()
 	if (_isDebug)
 	{
 		_debugBuff->render(getMemDC());
-		Sleep(100);
+		textMake(getMemDC(), _x - CAM->getX(), _y - CAM->getY(), "X");
 	}
 }
 

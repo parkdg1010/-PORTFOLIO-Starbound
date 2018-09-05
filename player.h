@@ -31,8 +31,6 @@ private:
 	//image* _hair;
 
 	//image* _weapon; //비어있으면 아무것도 안함 채워져있으면 손도 바꾸고 무기도 렌더
-	
-	gameItem* _weapon;
 
 	tagSKILL _skill[3];
 
@@ -48,6 +46,7 @@ private:
 
 	Synthesize(int, _jumpCount, JumpCount)
 	Synthesize(float, _dashSpeed, DashSpeed)
+	Synthesize(gameItem*, _weapon, Weapon)
 
 public:
 	virtual void move();
@@ -68,7 +67,7 @@ public:
 
 	void initImage();
 
-	player() { gameObject::init(); }
+	player() { gameObject::init(); _weapon = NULL; }
 	~player() {}
 };
 

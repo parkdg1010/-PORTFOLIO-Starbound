@@ -5,6 +5,7 @@
 HRESULT gameStage::init()
 {
 	initImage();
+	_stageNum = 1;
 
 	return S_OK;
 }
@@ -42,8 +43,10 @@ void gameStage::saveStage()
 
 void gameStage::loadStage()
 {
+	string name = "Map/stage" + to_string(_stageNum) + ".world";
+
 	vector<string> vStr;
-	vStr = TXTDATA->txtLoad("Map/stage.world");
+	vStr = TXTDATA->txtLoad(name.c_str());
 	_tileX = atoi(vStr[0].c_str());
 	_tileY = atoi(vStr[1].c_str());
 	_curBackTop = atoi(vStr[2].c_str());
@@ -55,7 +58,9 @@ void gameStage::loadStage()
 	HANDLE file;
 	DWORD read;
 
-	file = CreateFile("Map/stage.map", GENERIC_READ, 0, NULL, OPEN_EXISTING,
+	name = "Map/stage" + to_string(_stageNum) + ".map";
+
+	file = CreateFile(name.c_str(), GENERIC_READ, 0, NULL, OPEN_EXISTING,
 		FILE_ATTRIBUTE_NORMAL, NULL);
 	ReadFile(file, _stage, sizeof(tagTile) * _tileX * _tileY, &read, NULL);
 

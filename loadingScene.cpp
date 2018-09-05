@@ -75,6 +75,10 @@ void loadingScene::loadingImage()
 
 	//아이템
 	loadingItem();
+
+	//ui
+	_loading->loadFrameImage("숫자", "Texture/ui/numbers.bmp", 160, 16, 10, 1);
+	_loading->loadImage("빈패드", "Texture/ui/empty.bmp", 18, 18, true, MAGENTA);
 	
 	//IMAGEMANAGER->addImage("mountain", "mountain.bmp", WINSIZEX, WINSIZEY, true, RGB(255, 0, 255));
 	//백그라운드 이미지
