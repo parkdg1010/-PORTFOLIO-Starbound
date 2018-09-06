@@ -66,12 +66,61 @@ void player::render()
 		else
 		{
 			//TODO : ÆÈ È¸Àü°¢µµ Àß ¸ÂÃçº¸±â, ¿ÞÆÈ ¿À¸¥ÆÈ À§Ä¡Á¶Á¤
-			float temp = utl::getAngle(_x, _y, _ptMouse.x, _ptMouse.y) *2;
-			if(KEYMANAGER->isOnceKeyDown(VK_F2)) cout << temp * 180 / PI << endl;
-			_hand[RIGHT]->rotateFrameRender(getMemDC(), _x -10 - CAM->getX(), _y +5 - CAM->getY(), 0, _dir, -temp);
+			float tempAngle = utl::getAngle(_x, _y, _ptMouse.x + CAM->getX(), _ptMouse.y + CAM->getY());
+			if (KEYMANAGER->isOnceKeyDown(VK_F2))
+				cout << tempAngle * 180 / PI << endl;
+
+			if (PI > tempAngle && tempAngle > -PI)
+			{
+				
+			}
+			else
+			{
+				tempAngle -= PI;
+			}
+			tempAngle -= (PI * 1.75);
+			POINT temp = { 0,0 };
+			switch (_state)
+			{
+			case IDLE:
+				temp.x = -4;
+				temp.y = -3;
+				break;
+			case WALK:
+				temp.x = -2;
+				temp.y = 4 - (_curFrameX%4);
+				break;
+			case RUN:
+				temp.x = -2;
+				temp.y = 4 - (_curFrameX % 4);
+				break;
+			case JUMP:
+				temp.x = -3;
+				temp.y = -3;
+				break;
+			case FALL:
+				temp.x = -3;
+				temp.y = +5;
+				break;
+			case CLIMB:
+				break;
+			case DUCK:
+				break;
+			}
+
+			if (_dir == LEFT)
+			{
+				temp.x += 7;
+				temp.y += 0;
+			}
+			
+			_hand[RIGHT]->rotateFrameRender(getMemDC(), _x -10 - CAM->getX(), _y +5 - CAM->getY(), 0, _dir, tempAngle);
 			_nohandImg[_state]->frameRender(getMemDC(), _x - _nohandImg[_state]->getFrameWidth()*0.5 - CAM->getX(),
 				_y - _nohandImg[_state]->getFrameHeight() * 0.5 - CAM->getY(), _curFrameX, _curFrameY);
-			_hand[LEFT]->rotateFrameRender(getMemDC(), _x -10 - CAM->getX(), _y +5 - CAM->getY(), 0, _dir, -temp);
+			if(_dir == RIGHT)
+				_hand[LEFT]->rotateFrameRender(getMemDC(), _x + temp.x - CAM->getX(), _y + temp.y - CAM->getY(), 0, _dir, tempAngle);
+			else
+				_hand[LEFT]->rotateFrameRender(getMemDC(), _x + temp.x - CAM->getX(), _y + temp.y - CAM->getY(), 0, _dir, tempAngle);
 		}
 		//_hair->frameRender(getMemDC(), _x - _img[_state]->getFrameWidth()*0.5 - CAM->getX(), _y - _img[_state]->getFrameHeight() * 0.5 - CAM->getY(), 0, _curFrameY);
 		//textMake(getMemDC(), _x - CAM->getX(), _y - CAM->getY(), "X");
@@ -82,6 +131,7 @@ void player::render()
 	{
 		_debugBuff->render(getMemDC());
 		textMake(getMemDC(), _x - CAM->getX(), _y - CAM->getY(), "X");
+		Sleep(100);
 	}
 }
 
