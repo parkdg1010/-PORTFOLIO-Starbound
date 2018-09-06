@@ -224,6 +224,7 @@ void mapToolScene::initImage()
 
 	//오브젝트
 	_woodencrate1 = IMAGEMANAGER->findImage("나무상자1");
+	_treelights = IMAGEMANAGER->findImage("트리전구");
 
 	//아이템
 	_item = IMAGEMANAGER->findImage("우주검");
@@ -316,6 +317,47 @@ void mapToolScene::setupWorld()
 		_stage = NULL;
 		_tileX = 0;
 		_tileY = 0;
+	}
+}
+
+void mapToolScene::setBackImage()
+{//top백그라운드
+	if (PtInRect(&_rcButton[0], _ptMouse))
+	{
+		_curBackTop = BACKTOP_0;
+	}
+	if (PtInRect(&_rcButton[1], _ptMouse))
+	{
+		_curBackTop = BACKTOP_1;
+	}
+	if (PtInRect(&_rcButton[2], _ptMouse))
+	{
+		_curBackTop = BACKTOP_2;
+	}
+	if (PtInRect(&_rcButton[3], _ptMouse))
+	{
+		_curBackTop = BACKTOP_3;
+	}
+	if (PtInRect(&_rcButton[4], _ptMouse))
+	{
+		_curBackTop = BACKTOP_4;
+	}
+	//bot백그라운드
+	if (PtInRect(&_rcButton[10], _ptMouse))
+	{
+		_curBackBot = BACKBOT_0;
+	}
+	if (PtInRect(&_rcButton[11], _ptMouse))
+	{
+		_curBackBot = BACKBOT_1;
+	}
+	if (PtInRect(&_rcButton[12], _ptMouse))
+	{
+		_curBackBot = BACKBOT_2;
+	}
+	if (PtInRect(&_rcButton[13], _ptMouse))
+	{
+		_curBackBot = BACKBOT_3;
 	}
 }
 
@@ -690,48 +732,20 @@ void mapToolScene::tabTileSetup()
 	//오브젝트탭
 	else if (_currentTab == CTRL_OBJECTTAB)
 	{
-		//top백그라운드
-		if (PtInRect(&_rcButton[0], _ptMouse))
-		{
-			_curBackTop = BACKTOP_0;
-		}
-		if (PtInRect(&_rcButton[1], _ptMouse))
-		{
-			_curBackTop = BACKTOP_1;
-		}
-		if (PtInRect(&_rcButton[2], _ptMouse))
-		{
-			_curBackTop = BACKTOP_2;
-		}
-		if (PtInRect(&_rcButton[3], _ptMouse))
-		{
-			_curBackTop = BACKTOP_3;
-		}
-		if (PtInRect(&_rcButton[4], _ptMouse))
-		{
-			_curBackTop = BACKTOP_4;
-		}
-		//bot백그라운드
-		if (PtInRect(&_rcButton[10], _ptMouse))
-		{
-			_curBackBot = BACKBOT_0;
-		}
-		if (PtInRect(&_rcButton[11], _ptMouse))
-		{
-			_curBackBot = BACKBOT_1;
-		}
-		if (PtInRect(&_rcButton[12], _ptMouse))
-		{
-			_curBackBot = BACKBOT_2;
-		}
-		if (PtInRect(&_rcButton[13], _ptMouse))
-		{
-			_curBackBot = BACKBOT_3;
-		}
+		//배경이미지 선택
+		setBackImage();
 
+		//오브젝트 선택
 		if (PtInRect(&_rcButton[20], _ptMouse))
 		{
 			_currentTile.objectType = OBJECT_WOODENCRATE1;
+			_currentTile.frameX = RND->getInt(2);
+			_currentTile.frameY = 0;
+		}
+
+		if (PtInRect(&_rcButton[30], _ptMouse))
+		{
+			_currentTile.objectType = OBJECT_TREELIGHTS;
 			_currentTile.frameX = RND->getInt(2);
 			_currentTile.frameY = 0;
 		}
@@ -854,6 +868,9 @@ void mapToolScene::stageRender()
 				case OBJECT_WOODENCRATE1:
 					curRender = _woodencrate1;
 					break;
+				case OBJECT_TREELIGHTS:
+					curRender = _treelights;
+					break;
 					//TODO : 오브젝트 렌더
 				}
 				if (curRender != NULL)
@@ -949,6 +966,9 @@ void mapToolScene::curtileMouseRender()
 			case OBJECT_WOODENCRATE1:
 				curRender = _woodencrate1;
 				break;
+			case OBJECT_TREELIGHTS:
+				curRender = _treelights;
+				break;
 			}
 			if (curRender != NULL)
 				curRender->frameRender(getMemDC(), _ptMouse.x + 10, _ptMouse.y + 10, _currentTile.frameX, _currentTile.frameY);
@@ -995,6 +1015,7 @@ void mapToolScene::curTabIconRender()
 		sampleRender(_objectIcon, 3, 1);
 
 		sampleRender(_objectIcon, 0, 2);
+		sampleRender(_objectIcon, 0, 3);
 	}
 	else if (_currentTab == CTRL_ENEMYTAB)
 	{

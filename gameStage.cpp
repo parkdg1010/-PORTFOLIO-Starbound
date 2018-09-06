@@ -7,6 +7,10 @@ HRESULT gameStage::init()
 	initImage();
 	_stageNum = 1;
 
+	_treeLightsCount = _treeLightsIdx = _ornatetorchCount = _ornatetorchidx = 0;
+
+	_ornatetorch = IMAGEMANAGER->findImage("장식등");
+
 	return S_OK;
 }
 
@@ -17,6 +21,7 @@ void gameStage::update()
 void gameStage::render()
 {
 	stageRender();
+	//TODO : 오브젝트 프레임 돌릴방법
 }
 
 void gameStage::release()
@@ -98,6 +103,7 @@ void gameStage::initImage()
 
 	//오브젝트
 	_woodencrate1 = IMAGEMANAGER->findImage("나무상자1");
+	_treeLights = IMAGEMANAGER->findImage("트리전구");
 
 	//아이템
 	_item = IMAGEMANAGER->findImage("우주검");
@@ -198,6 +204,9 @@ void gameStage::stageRender()
 				{
 				case OBJECT_WOODENCRATE1:
 					curRender = _woodencrate1;
+					break;
+				case OBJECT_TREELIGHTS:
+					curRender = _treeLights;
 					break;
 					//TODO : 오브젝트 렌더
 				}

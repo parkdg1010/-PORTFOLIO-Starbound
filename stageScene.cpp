@@ -5,7 +5,6 @@ HRESULT stageScene::init()
 {
 	_itemFac = new itemFactory;
 	
-
 	_stage = new gameStage;
 	_stage->init();
 

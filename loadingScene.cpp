@@ -100,8 +100,8 @@ void loadingScene::loadingMapToolImage()
 {
 	//타일
 	_loading->loadFrameImage("타일아이콘", "Texture/mapTool/icons/TileIcons_360x216x10x6.bmp", 360, 216, 10, 6);
-	_loading->loadFrameImage("오브젝트아이콘", "Texture/mapTool/icons/ObjectIcons_180x144_5x4.bmp", 180, 144, 5, 4);
-	_loading->loadFrameImage("아이템아이콘", "Texture/mapTool/icons/itemIcons_180x72_5x2.bmp", 180, 72, 5, 2);
+	_loading->loadFrameImage("오브젝트아이콘", "Texture/mapTool/icons/ObjectIcons_360x216_10x6.bmp", 360, 216, 10, 6);
+	_loading->loadFrameImage("아이템아이콘", "Texture/mapTool/icons/itemIcons_360x216_10x6.bmp", 360, 216, 10, 6);
 
 	_loading->loadImage("큰월드", "Texture/maptool/ui/bigWorld_36x36.bmp", 36, 36, true, MAGENTA);
 	_loading->loadImage("중간월드", "Texture/maptool/ui/midWorld_36x36.bmp", 36, 36, true, MAGENTA);
@@ -164,6 +164,9 @@ void loadingScene::loadingObjects()
 {
 	_loading->loadFrameImage("나무상자1", "Texture/object/box/woodencrate1_288x864_2x9.bmp", 288, 864, 2, 9);
 	_loading->loadImage("나무상자1_아이콘", "Texture/object/box/woodencrate1icon.bmp", 36, 36);
+	_loading->loadFrameImage("트리전구", "Texture/object/funiture/fairylights/fairylights_128x32_2x1.bmp", 128, 32, 2, 1);
+	_loading->loadImage("트리전구_아이콘", "Texture/object/funiture/fairylights/fairylightsicon.bmp", 36, 36);
+	_loading->loadFrameImage("장식등", "Texture/object/funiture/ornatetorch/ornatetorch_256x480_4x5.bmp", 256, 480, 4, 5);
 }
 
 void loadingScene::loadingItem()

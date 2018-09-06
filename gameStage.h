@@ -14,7 +14,8 @@ private:
 
 	image* _brick[2], *_cobbleBrick[2], *_concrete[2], *_darkwood[2], *_dirt[2];
 	image* _fullwood1[2], *_fullwood2[2], *_log[2], *_petalblock[2], *_rooftile[2];
-	image* _woodencrate1;
+	image* _woodencrate1, *_treeLights, *_ornatetorch;
+	int _treeLightsCount, _treeLightsIdx, _ornatetorchCount, _ornatetorchidx;
 	image* _item;
 
 	image* _backGroundTop[5];
@@ -23,7 +24,6 @@ private:
 	player* _player;
 
 public:
-	//경로를 따로 지정해서 인게임에서 맵에 상호작용한 것을 저장할 수 있게 해보자
 	void saveStage();
 	void loadStage();
 
