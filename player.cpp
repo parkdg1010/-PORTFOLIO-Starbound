@@ -65,18 +65,14 @@ void player::render()
 		}
 		else
 		{
-			//TODO : 팔 회전각도 잘 맞춰보기, 왼팔 오른팔 위치조정
+			//팔 회전각도, 위치조정
 			float tempAngle = utl::getAngle(_x, _y, _ptMouse.x + CAM->getX(), _ptMouse.y + CAM->getY());
 			if (KEYMANAGER->isOnceKeyDown(VK_F2))
 				cout << tempAngle * 180 / PI << endl;
 
-			if (PI > tempAngle && tempAngle > -PI)
+			if ((PI*0.5 < tempAngle && tempAngle < PI) || -PI < tempAngle && tempAngle < -PI * 0.5)
 			{
-				
-			}
-			else
-			{
-				tempAngle -= PI;
+				tempAngle += PI * 0.5;
 			}
 			tempAngle -= (PI * 1.75);
 			POINT temp = { 0,0 };
@@ -87,12 +83,9 @@ void player::render()
 				temp.y = -3;
 				break;
 			case WALK:
-				temp.x = -2;
-				temp.y = 4 - (_curFrameX%4);
-				break;
 			case RUN:
 				temp.x = -2;
-				temp.y = 4 - (_curFrameX % 4);
+				temp.y = 2 + (_curFrameX % 2);
 				break;
 			case JUMP:
 				temp.x = -3;
@@ -107,14 +100,13 @@ void player::render()
 			case DUCK:
 				break;
 			}
-
 			if (_dir == LEFT)
 			{
 				temp.x += 7;
 				temp.y += 0;
 			}
 			
-			_hand[RIGHT]->rotateFrameRender(getMemDC(), _x -10 - CAM->getX(), _y +5 - CAM->getY(), 0, _dir, tempAngle);
+			_hand[RIGHT]->rotateFrameRender(getMemDC(), _x + temp.x - 2 - CAM->getX(), _y + temp.y + 5 - CAM->getY(), 0, _dir, tempAngle);
 			_nohandImg[_state]->frameRender(getMemDC(), _x - _nohandImg[_state]->getFrameWidth()*0.5 - CAM->getX(),
 				_y - _nohandImg[_state]->getFrameHeight() * 0.5 - CAM->getY(), _curFrameX, _curFrameY);
 			if(_dir == RIGHT)
@@ -208,7 +200,7 @@ void player::move()
 	}
 
 	//_y가 +=_gravity해서 0.5f 더해진 만큼 여유를 주고 FALL검사
-	if (_y > _oldY + 0.5f) //이전보다 아래로 떨어져있으면
+	if (_y > _oldY + 0.32f) //이전보다 아래로 떨어져있으면
 	{
 		if (_state == JUMP)
 			_gravity += -sinf(PI*0.5) * _speed; //중력값에서 점프거리를 빼서 자연스런 낙하

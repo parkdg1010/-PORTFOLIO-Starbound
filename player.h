@@ -34,19 +34,19 @@ private:
 
 	tagSKILL _skill[3];
 
-	image* _debugBuff;
+	image* _debugBuff;					//충돌 디버깅버퍼
 
 	RECT _rcCollision;
 
-	bool _onGround;
-	bool _keepWalk;
-	float _longJumpValue;
+	bool _onGround;						//땅에 닿기
+	bool _keepWalk;						//계단오르기
+	float _longJumpValue;				//점프높이 제한
 
 	vector<int> tileIndex;
 
-	Synthesize(int, _jumpCount, JumpCount)
-	Synthesize(float, _dashSpeed, DashSpeed)
-	Synthesize(gameItem*, _weapon, Weapon)
+	Synthesize(int, _jumpCount, JumpCount)			//이단점프
+	Synthesize(float, _dashSpeed, DashSpeed)		//대쉬속도
+	Synthesize(gameItem*, _weapon, Weapon)			//무기
 
 public:
 	virtual void move();
