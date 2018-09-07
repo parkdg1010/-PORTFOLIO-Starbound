@@ -137,6 +137,8 @@ void loadingScene::loadingIntroImage()
 
 void loadingScene::loadingTiles()
 {
+	_loading->loadFrameImage("TILE_PIXEL", "Texture/tiles/front/pixel.bmp", 144, 48, 3, 1);
+
 	_loading->loadFrameImage("TILE_BRICK", "Texture/tiles/front/brick_240x432_5x9.bmp", 240, 432, 5, 9);
 	_loading->loadFrameImage("TILE_COBBLEBRICK", "Texture/tiles/front/cobblestonebrick_240x432_5x9.bmp", 240, 432, 5, 9);
 	_loading->loadFrameImage("TILE_CONCRETE", "Texture/tiles/front/concrete_240x432_5x9.bmp", 240, 432, 5, 9);

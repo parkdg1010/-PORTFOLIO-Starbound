@@ -71,6 +71,54 @@ void gameStage::loadStage()
 
 	CloseHandle(file);
 
+	_stageBuffer = IMAGEMANAGER->addImage("STAGE_BUFFER", _tileX * TILESIZE, _tileY * TILESIZE, true, RGB(255, 0, 255));
+
+
+	for (int i = 0; i < _tileX * _tileY; ++i)
+	{
+		image* curRender = NULL;
+		//TODO : 타일추가
+		switch (_stage[i].terrain)
+		{
+		case TR_BRICK:
+			curRender = _brick[_stage[i].frontBack];
+			break;
+		case TR_COBBLEBRICK:
+			curRender = _cobbleBrick[_stage[i].frontBack];
+			break;
+		case TR_CONCRETE:
+			curRender = _concrete[_stage[i].frontBack];
+			break;
+		case TR_DARKWOOD:
+			curRender = _darkwood[_stage[i].frontBack];
+			break;
+		case TR_DIRT:
+			curRender = _dirt[_stage[i].frontBack];
+			break;
+		case TR_FULLWOOD1:
+			curRender = _fullwood1[_stage[i].frontBack];
+			break;
+		case TR_FULLWOOD2:
+			curRender = _fullwood2[_stage[i].frontBack];
+			break;
+		case TR_LOG:
+			curRender = _log[_stage[i].frontBack];
+			break;
+		case TR_PETALBLOCK:
+			curRender = _petalblock[_stage[i].frontBack];
+			break;
+		case TR_ROOF:
+			curRender = _rooftile[_stage[i].frontBack];
+			break;
+		}
+		if (curRender != NULL)
+			curRender->frameRender(_stageBuffer->getMemDC(),
+				_stage[i].rc.left - 10 - CAM->getX(),
+				_stage[i].rc.top - 10 - CAM->getY(),
+				_stage[i].terrainFrameX,
+				_stage[i].terrainFrameY);
+	}
+
 	CAMERAMANAGER->setRange(_tileX * TILESIZE, _tileY * TILESIZE);
 	CAMERAMANAGER->setPosition((int)_player->getX(), (int)_player->getY());
 }
@@ -137,6 +185,8 @@ void gameStage::stageRender()
 		//int endX = (_player->getX() + WINSIZEX / 2) / TILESIZE + 2;
 		//int endY = (_player->getY() + WINSIZEY / 2) / TILESIZE + 2;
 
+		_stageBuffer->render(getMemDC(), CAM->getSX(), CAM->getSY(), CAM->getSourX(), CAM->getSourY(), WINSIZEX, WINSIZEY); //카메라 쉐이크할 이미지에 CAM->getSX(), CAM->getSY()
+
 		int startX = (CAM->getX()) / TILESIZE - 2;
 		int startY = (CAM->getY()) / TILESIZE - 2;
 		int endX = (CAM->getX() + WINSIZEX) / TILESIZE + 2;
@@ -146,54 +196,6 @@ void gameStage::stageRender()
 		if (startY < 0) startY = 0;
 		if (endX >= _tileX) endX = _tileX;
 		if (endY >= _tileY) endY = _tileY;
-
-		for (int i = startY; i < endY; ++i)
-		{
-			for (int j = startX; j < endX; ++j)
-			{
-				image* curRender = NULL;
-				//TODO : 타일추가
-				switch (_stage[i*_tileX + j].terrain)
-				{
-				case TR_BRICK:
-					curRender = _brick[_stage[i*_tileX + j].frontBack];
-					break;
-				case TR_COBBLEBRICK:
-					curRender = _cobbleBrick[_stage[i*_tileX + j].frontBack];
-					break;
-				case TR_CONCRETE:
-					curRender = _concrete[_stage[i*_tileX + j].frontBack];
-					break;
-				case TR_DARKWOOD:
-					curRender = _darkwood[_stage[i*_tileX + j].frontBack];
-					break;
-				case TR_DIRT:
-					curRender = _dirt[_stage[i*_tileX + j].frontBack];
-					break;
-				case TR_FULLWOOD1:
-					curRender = _fullwood1[_stage[i*_tileX + j].frontBack];
-					break;
-				case TR_FULLWOOD2:
-					curRender = _fullwood2[_stage[i*_tileX + j].frontBack];
-					break;
-				case TR_LOG:
-					curRender = _log[_stage[i*_tileX + j].frontBack];
-					break;
-				case TR_PETALBLOCK:
-					curRender = _petalblock[_stage[i*_tileX + j].frontBack];
-					break;
-				case TR_ROOF:
-					curRender = _rooftile[_stage[i*_tileX + j].frontBack];
-					break;
-				}
-				if (curRender != NULL)
-					curRender->frameRender(getMemDC(),
-						_stage[i*_tileX + j].rc.left - 10 - CAM->getX(),
-						_stage[i*_tileX + j].rc.top - 10 - CAM->getY(),
-						_stage[i*_tileX + j].terrainFrameX,
-						_stage[i*_tileX + j].terrainFrameY);
-			}
-		}
 
 		for (int i = startY; i < endY; ++i)
 		{

@@ -39,7 +39,7 @@ private:
 	RECT _rcCollision;
 
 	bool _onGround;						//땅에 닿기
-	bool _keepWalk;						//계단오르기
+	//bool _keepWalk;						//계단오르기
 	float _longJumpValue;				//점프높이 제한
 
 	vector<int> tileIndex;

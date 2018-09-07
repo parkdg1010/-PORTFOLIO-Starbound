@@ -195,7 +195,7 @@ void player::move()
 		{
 			_y += _speed * -sinf(PI*0.5);
 			updateHitbox();
-			_keepWalk = false;
+			//_keepWalk = false;
 		}
 	}
 
@@ -205,7 +205,7 @@ void player::move()
 		if (_state == JUMP)
 			_gravity += -sinf(PI*0.5) * _speed; //중력값에서 점프거리를 빼서 자연스런 낙하
 		
-		if(!_keepWalk)
+		//if(!_keepWalk)
 			changeState(FALL);
 
 		_onGround = false;
@@ -352,7 +352,7 @@ bool player::collideStage()
 				&& _stage->getStage()[(curTileX + (curTileY + 1) * _stage->getTileX())].terrain != TR_NONE)
 			{
 				_onGround = true;
-				_keepWalk = true;
+				//_keepWalk = true;
 				_y -= (temp.bottom - temp.top) *0.5;
 				updateHitbox();
 				_gravity = 0;

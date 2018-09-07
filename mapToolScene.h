@@ -19,8 +19,9 @@ private:
 	int _saveCount;
 
 	image* _tileIcon, *_objectIcon, *_itemIcon;
-	image* _brick[2], *_cobbleBrick[2], *_concrete[2], *_darkwood[2], *_dirt[2];
-	image* _fullwood1[2], *_fullwood2[2], *_log[2], *_petalblock[2], *_rooftile[2];
+	vector<image*> _tiles;
+	//image* _brick[2], *_cobbleBrick[2], *_concrete[2], *_darkwood[2], *_dirt[2];
+	//image* _fullwood1[2], *_fullwood2[2], *_log[2], *_petalblock[2], *_rooftile[2];
 	image* _woodencrate1, *_treelights;
 	image* _item;
 	RECT _rcButton[60];

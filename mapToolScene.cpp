@@ -200,27 +200,16 @@ void mapToolScene::initImage()
 
 	//TODO : 타일추가
 	//타일
-	_brick[FRONT] = IMAGEMANAGER->findImage("TILE_BRICK");
-	_cobbleBrick[FRONT] = IMAGEMANAGER->findImage("TILE_COBBLEBRICK");
-	_concrete[FRONT] = IMAGEMANAGER->findImage("TILE_CONCRETE");
-	_darkwood[FRONT] = IMAGEMANAGER->findImage("TILE_DARKWOOD");
-	_dirt[FRONT] = IMAGEMANAGER->findImage("TILE_DIRT");
-	_fullwood1[FRONT] = IMAGEMANAGER->findImage("TILE_FULLWOOD1");
-	_fullwood2[FRONT] = IMAGEMANAGER->findImage("TILE_FULLWOOD2");
-	_log[FRONT] = IMAGEMANAGER->findImage("TILE_LOG");
-	_petalblock[FRONT] = IMAGEMANAGER->findImage("TILE_PETALBLOCK");
-	_rooftile[FRONT] = IMAGEMANAGER->findImage("TILE_ROOF");
-
-	_brick[BACK] = IMAGEMANAGER->findImage("BACKTILE_BRICK");
-	_cobbleBrick[BACK] = IMAGEMANAGER->findImage("BACKTILE_COBBLEBRICK");
-	_concrete[BACK] = IMAGEMANAGER->findImage("BACKTILE_CONCRETE");
-	_darkwood[BACK] = IMAGEMANAGER->findImage("BACKTILE_DARKWOOD");
-	_dirt[BACK] = IMAGEMANAGER->findImage("BACKTILE_DIRT");
-	_fullwood1[BACK] = IMAGEMANAGER->findImage("BACKTILE_FULLWOOD1");
-	_fullwood2[BACK] = IMAGEMANAGER->findImage("BACKTILE_FULLWOOD2");
-	_log[BACK] = IMAGEMANAGER->findImage("BACKTILE_LOG");
-	_petalblock[BACK] = IMAGEMANAGER->findImage("BACKTILE_PETALBLOCK");
-	_rooftile[BACK] = IMAGEMANAGER->findImage("BACKTILE_ROOF");
+	image* tileType;
+	vector<string> keyname = { "TILE_BRICK","BACKTILE_BRICK", "TILE_COBBLEBRICK", "BACKTILE_COBBLEBRICK", 
+		"TILE_CONCRETE", "BACKTILE_CONCRETE", "TILE_DARKWOOD", "BACKTILE_DARKWOOD", "TILE_DIRT", 
+		"BACKTILE_DIRT", "TILE_FULLWOOD1", "BACKTILE_FULLWOOD1", "TILE_FULLWOOD2", "BACKTILE_FULLWOOD2", 
+		"TILE_LOG", "BACKTILE_LOG", "TILE_PETALBLOCK", "BACKTILE_PETALBLOCK", "TILE_ROOF", "BACKTILE_ROOF"};
+	for (int i = 0; i < keyname.size(); ++i)
+	{
+		tileType = IMAGEMANAGER->findImage(keyname[i]);
+		_tiles.push_back(tileType);
+	}
 
 	//오브젝트
 	_woodencrate1 = IMAGEMANAGER->findImage("나무상자1");
@@ -814,7 +803,12 @@ void mapToolScene::stageRender()
 		{
 			for (int j = startX; j < endX; ++j)
 			{
-				image* curRender = NULL;
+				_tiles[_stage[i*_tileX + j].terrain + _stage[i*_tileX + j].frontBack]->frameRender(getMemDC(),
+					_stage[i*_tileX + j].rc.left - 10 - CAM->getX(),
+					_stage[i*_tileX + j].rc.top - 10 - CAM->getY(),
+					_stage[i*_tileX + j].terrainFrameX,
+					_stage[i*_tileX + j].terrainFrameY);
+				/*image* curRender = NULL;
 				//TODO : 타일추가
 				switch (_stage[i*_tileX + j].terrain)
 				{
@@ -854,7 +848,7 @@ void mapToolScene::stageRender()
 						_stage[i*_tileX + j].rc.left - 10 - CAM->getX(), 
 						_stage[i*_tileX + j].rc.top - 10 - CAM->getY(),
 						_stage[i*_tileX + j].terrainFrameX, 
-						_stage[i*_tileX + j].terrainFrameY);
+						_stage[i*_tileX + j].terrainFrameY);*/
 			}
 		}
 
@@ -902,7 +896,7 @@ void mapToolScene::curtileMouseRender()
 	{
 		if (_currentTile.terrainType != TR_NONE)
 		{
-			image* curRender = NULL;
+			/*image* curRender = NULL;
 			//TODO : 타일추가
 			switch (_currentTile.terrainType)
 			{
@@ -938,7 +932,8 @@ void mapToolScene::curtileMouseRender()
 				break;
 			}
 			if (curRender != NULL)
-				curRender->frameRender(getMemDC(), _ptMouse.x + 10, _ptMouse.y + 10, _currentTile.frameX, _currentTile.frameY);
+				curRender->frameRender(getMemDC(), _ptMouse.x + 10, _ptMouse.y + 10, _currentTile.frameX, _currentTile.frameY);*/
+			_tiles[_currentTile.terrainType + _currentTile.frontBack];
 		}
 	}
 	else if (_currentTab == CTRL_ITEMTAB)

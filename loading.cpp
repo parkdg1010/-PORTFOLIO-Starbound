@@ -3,7 +3,7 @@
 //=============================================================
 //	## loadItem ## (로드아이템 클래스)
 //=============================================================
-HRESULT loadItem::init(string keyName, int width, int height)
+HRESULT loadItem::init(string keyName, int width, int height, bool isTrans, COLORREF transColor)
 {
 	//로딩종류 초기화
 	_kind = LOAD_KIND_IMAGE_0;

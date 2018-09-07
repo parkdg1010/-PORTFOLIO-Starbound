@@ -20,6 +20,7 @@ private:
 
 	image* _backGroundTop[5];
 	image* _backGroundBot[5];
+	image* _stageBuffer;
 
 	player* _player;
 
