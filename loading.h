@@ -96,7 +96,7 @@ public:
 	void render(void);
 
 	//빈 비트맵으로 로딩
-	void loadImage(string keyName, int width, int height, bool isTrans = FALSE, COLORREF transColor = RGB(0,0,0));
+	void loadImage(string keyName, int width, int height, bool isTrans = FALSE, COLORREF transColor = RGB(0, 0, 0));
 	//이미지 파일로 로딩 (주사용)
 	void loadImage(string keyName, const char* fileName, int width, int height, bool isTrans = FALSE, COLORREF transColor = RGB(0, 0, 0));
 	void loadImage(string keyName, const char* fileName, float x, float y, int width, int height, bool isTrans = FALSE, COLORREF transColor = RGB(0, 0, 0));

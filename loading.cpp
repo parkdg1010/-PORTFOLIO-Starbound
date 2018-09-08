@@ -11,6 +11,8 @@ HRESULT loadItem::init(string keyName, int width, int height, bool isTrans, COLO
 	_imageResource.keyName = keyName;
 	_imageResource.width = width;
 	_imageResource.height = height;
+	_imageResource.trans = isTrans;
+	_imageResource.transColor = transColor;
 
 	return S_OK;
 }
@@ -170,10 +172,10 @@ void loading::render(void)
 	}
 }
 
-void loading::loadImage(string keyName, int width, int height)
+void loading::loadImage(string keyName, int width, int height, bool isTrans, COLORREF transColor)
 {
 	loadItem* item = new loadItem;
-	item->init(keyName, width, height);
+	item->init(keyName, width, height, isTrans, transColor);
 	_vLoadItem.push_back(item);
 }
 
@@ -228,7 +230,7 @@ BOOL loading::loadingDone()
 	case LOAD_KIND_IMAGE_0:
 		{
 			tagImageResource img = item->getImageResource();
-			IMAGEMANAGER->addImage(img.keyName, img.width, img.height);
+			IMAGEMANAGER->addImage(img.keyName, img.width, img.height, img.trans, img.transColor);
 		}
 		break;
 	case LOAD_KIND_IMAGE_1:

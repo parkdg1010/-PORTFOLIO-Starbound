@@ -310,43 +310,22 @@ void mapToolScene::setupWorld()
 }
 
 void mapToolScene::setBackImage()
-{//top백그라운드
-	if (PtInRect(&_rcButton[0], _ptMouse))
+{
+	//top백그라운드
+	for (int i = 0; i < 5; ++i)
 	{
-		_curBackTop = BACKTOP_0;
-	}
-	if (PtInRect(&_rcButton[1], _ptMouse))
-	{
-		_curBackTop = BACKTOP_1;
-	}
-	if (PtInRect(&_rcButton[2], _ptMouse))
-	{
-		_curBackTop = BACKTOP_2;
-	}
-	if (PtInRect(&_rcButton[3], _ptMouse))
-	{
-		_curBackTop = BACKTOP_3;
-	}
-	if (PtInRect(&_rcButton[4], _ptMouse))
-	{
-		_curBackTop = BACKTOP_4;
+		if (PtInRect(&_rcButton[i], _ptMouse))
+		{
+			_curBackTop = i; //BACKTOP_0, BACKTOP_1, BACKTOP_2, BACKTOP_3, BACKTOP_4
+		}
 	}
 	//bot백그라운드
-	if (PtInRect(&_rcButton[10], _ptMouse))
+	for (int i = 0; i < 4; ++i)
 	{
-		_curBackBot = BACKBOT_0;
-	}
-	if (PtInRect(&_rcButton[11], _ptMouse))
-	{
-		_curBackBot = BACKBOT_1;
-	}
-	if (PtInRect(&_rcButton[12], _ptMouse))
-	{
-		_curBackBot = BACKBOT_2;
-	}
-	if (PtInRect(&_rcButton[13], _ptMouse))
-	{
-		_curBackBot = BACKBOT_3;
+		if (PtInRect(&_rcButton[10+i], _ptMouse))
+		{
+			_curBackBot = i; // BACKBOT_0, BACKBOT_1, BACKBOT_2, BACKBOT_3
+		}
 	}
 }
 
@@ -774,15 +753,12 @@ void mapToolScene::stageRender()
 {
 	if (_stage != NULL)
 	{
-		//스테이지 렌더
-
 		//백그라운드 렌더
 		RECT temp = { 0, -CAM->getY(), WINSIZEX, WINSIZEY - CAM->getY() }; //화면좌표인데 y는 바뀌면 안되니까 절대좌표로 바꿔버렸다
 		_backGroundTop[_curBackTop]->loopRender(getMemDC(), &temp, _cameraLens.x, 0);
 		temp = { -CAM->getX(), WINSIZEY - CAM->getY(),TILESIZE * _tileX - CAM->getX() + 200, TILESIZE * _tileY - CAM->getY() };
 		_backGroundBot[_curBackBot]->loopRender(getMemDC(), &temp, 0, 0);
 
-		
 		//스테이지 타일
 		int startX = (_cameraLens.x - WINSIZEX/2) / TILESIZE - 2;
 		int startY = (_cameraLens.y - WINSIZEY/2) / TILESIZE - 2;
@@ -794,6 +770,7 @@ void mapToolScene::stageRender()
 		endX = (CAM->getX() + WINSIZEX) / TILESIZE + 2;
 		endY = (CAM->getY() + WINSIZEY) / TILESIZE + 2;*/
 
+		//스테이지 렌더
 		if (startX < 0) startX = 0;
 		if (startY < 0) startY = 0;
 		if (endX >= _tileX) endX = _tileX;
@@ -803,52 +780,14 @@ void mapToolScene::stageRender()
 		{
 			for (int j = startX; j < endX; ++j)
 			{
-				_tiles[_stage[i*_tileX + j].terrain + _stage[i*_tileX + j].frontBack]->frameRender(getMemDC(),
-					_stage[i*_tileX + j].rc.left - 10 - CAM->getX(),
-					_stage[i*_tileX + j].rc.top - 10 - CAM->getY(),
-					_stage[i*_tileX + j].terrainFrameX,
-					_stage[i*_tileX + j].terrainFrameY);
-				/*image* curRender = NULL;
-				//TODO : 타일추가
-				switch (_stage[i*_tileX + j].terrain)
+				if (_stage[i*_tileX + j].terrain != TR_NONE)
 				{
-				case TR_BRICK:
-					curRender = _brick[_stage[i*_tileX + j].frontBack];
-					break;
-				case TR_COBBLEBRICK:
-					curRender = _cobbleBrick[_stage[i*_tileX + j].frontBack];
-					break;
-				case TR_CONCRETE:
-					curRender = _concrete[_stage[i*_tileX + j].frontBack];
-					break;
-				case TR_DARKWOOD:
-					curRender = _darkwood[_stage[i*_tileX + j].frontBack];
-					break;
-				case TR_DIRT:
-					curRender = _dirt[_stage[i*_tileX + j].frontBack];
-					break;
-				case TR_FULLWOOD1:
-					curRender = _fullwood1[_stage[i*_tileX + j].frontBack];
-					break;
-				case TR_FULLWOOD2:
-					curRender = _fullwood2[_stage[i*_tileX + j].frontBack];
-					break;
-				case TR_LOG:
-					curRender = _log[_stage[i*_tileX + j].frontBack];
-					break;
-				case TR_PETALBLOCK:
-					curRender = _petalblock[_stage[i*_tileX + j].frontBack];
-					break;
-				case TR_ROOF:
-					curRender = _rooftile[_stage[i*_tileX + j].frontBack];
-					break;
-				}
-				if (curRender != NULL)
-					curRender->frameRender(getMemDC(), 
-						_stage[i*_tileX + j].rc.left - 10 - CAM->getX(), 
+					_tiles[_stage[i*_tileX + j].terrain + _stage[i*_tileX + j].frontBack]->frameRender(getMemDC(),
+						_stage[i*_tileX + j].rc.left - 10 - CAM->getX(),
 						_stage[i*_tileX + j].rc.top - 10 - CAM->getY(),
-						_stage[i*_tileX + j].terrainFrameX, 
-						_stage[i*_tileX + j].terrainFrameY);*/
+						_stage[i*_tileX + j].terrainFrameX,
+						_stage[i*_tileX + j].terrainFrameY);
+				}
 			}
 		}
 
@@ -894,47 +833,8 @@ void mapToolScene::curtileMouseRender()
 {
 	if (_currentTab == CTRL_TERRAINTAB)
 	{
-		if (_currentTile.terrainType != TR_NONE)
-		{
-			/*image* curRender = NULL;
-			//TODO : 타일추가
-			switch (_currentTile.terrainType)
-			{
-			case TR_BRICK:
-				curRender = _brick[_currentTile.frontBack];
-				break;
-			case TR_COBBLEBRICK:
-				curRender = _cobbleBrick[_currentTile.frontBack];
-				break;
-			case TR_CONCRETE:
-				curRender = _concrete[_currentTile.frontBack];
-				break;
-			case TR_DARKWOOD:
-				curRender = _darkwood[_currentTile.frontBack];
-				break;
-			case TR_DIRT:
-				curRender = _dirt[_currentTile.frontBack];
-				break;
-			case TR_FULLWOOD1:
-				curRender = _fullwood1[_currentTile.frontBack];
-				break;
-			case TR_FULLWOOD2:
-				curRender = _fullwood2[_currentTile.frontBack];
-				break;
-			case TR_LOG:
-				curRender = _log[_currentTile.frontBack];
-				break;
-			case TR_PETALBLOCK:
-				curRender = _petalblock[_currentTile.frontBack];
-				break;
-			case TR_ROOF:
-				curRender = _rooftile[_currentTile.frontBack];
-				break;
-			}
-			if (curRender != NULL)
-				curRender->frameRender(getMemDC(), _ptMouse.x + 10, _ptMouse.y + 10, _currentTile.frameX, _currentTile.frameY);*/
-			_tiles[_currentTile.terrainType + _currentTile.frontBack];
-		}
+		if(_currentTile.terrainType != TR_NONE)
+			_tiles[_currentTile.terrainType + _currentTile.frontBack]->frameRender(getMemDC(), _ptMouse.x + 10, _ptMouse.y + 10, _currentTile.frameX, _currentTile.frameY);
 	}
 	else if (_currentTab == CTRL_ITEMTAB)
 	{
@@ -983,34 +883,33 @@ void mapToolScene::curTabIconRender()
 	}
 	else if (_currentTab == CTRL_TERRAINTAB)
 	{
-		sampleRender(_tileIcon, 0, 0);
-		sampleRender(_tileIcon, 1, 0);
-		sampleRender(_tileIcon, 2, 0);
-		sampleRender(_tileIcon, 3, 0);
-		sampleRender(_tileIcon, 4, 0);
-		sampleRender(_tileIcon, 5, 0);
-		sampleRender(_tileIcon, 6, 0);
-		sampleRender(_tileIcon, 7, 0);
-		sampleRender(_tileIcon, 8, 0);
+		for (int i = 0; i < 6; ++i)
+		{
+			for (int j = 0; j < 10; ++j)
+			{
+				sampleRender(_tileIcon, j, i);
+			}
+		}
 	}
 	else if (_currentTab == CTRL_ITEMTAB)
 	{
-		sampleRender(_itemIcon, 0, 0);
+		for (int i = 0; i < 6; ++i)
+		{
+			for (int j = 0; j < 10; ++j)
+			{
+				sampleRender(_itemIcon, j, i);
+			}
+		}
 	}
 	else if (_currentTab == CTRL_OBJECTTAB)
 	{
-		sampleRender(_objectIcon, 0, 0);
-		sampleRender(_objectIcon, 1, 0);
-		sampleRender(_objectIcon, 2, 0);
-		sampleRender(_objectIcon, 3, 0);
-		sampleRender(_objectIcon, 4, 0);
-		sampleRender(_objectIcon, 0, 1);
-		sampleRender(_objectIcon, 1, 1);
-		sampleRender(_objectIcon, 2, 1);
-		sampleRender(_objectIcon, 3, 1);
-
-		sampleRender(_objectIcon, 0, 2);
-		sampleRender(_objectIcon, 0, 3);
+		for (int i = 0; i < 6; ++i)
+		{
+			for (int j = 0; j < 10; ++j)
+			{
+				sampleRender(_objectIcon, j, i);
+			}
+		}
 	}
 	else if (_currentTab == CTRL_ENEMYTAB)
 	{

@@ -12,8 +12,8 @@ private:
 	int _curBackBot;
 	tagTile* _stage;
 
-	image* _brick[2], *_cobbleBrick[2], *_concrete[2], *_darkwood[2], *_dirt[2];
-	image* _fullwood1[2], *_fullwood2[2], *_log[2], *_petalblock[2], *_rooftile[2];
+	image* _pixelTiles;
+	vector<image*> _tiles;
 	image* _woodencrate1, *_treeLights, *_ornatetorch;
 	int _treeLightsCount, _treeLightsIdx, _ornatetorchCount, _ornatetorchidx;
 	image* _item;
@@ -21,12 +21,15 @@ private:
 	image* _backGroundTop[5];
 	image* _backGroundBot[5];
 	image* _stageBuffer;
+	image* _pixelBuffer;
 
 	player* _player;
 
 public:
 	void saveStage();
 	void loadStage();
+
+	void loadStageBuffer();
 
 	int getTileX() { return _tileX; }
 	int getTileY() { return _tileY; }

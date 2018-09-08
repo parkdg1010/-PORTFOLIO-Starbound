@@ -22,6 +22,9 @@ void gameStage::render()
 {
 	stageRender();
 	//TODO : 오브젝트 프레임 돌릴방법
+	if(_isDebug)
+		_pixelBuffer->render(getMemDC(), CAM->getSX(), CAM->getSY(), CAM->getSourX(), CAM->getSourY(), WINSIZEX, WINSIZEY); 
+		// 화면의 sx,sy 좌표부터 그리기 시작해서 소스의 sourX, sourY점부터 WINSIZEX, WINSIZEY 범위만큼 그림
 }
 
 void gameStage::release()
@@ -71,83 +74,65 @@ void gameStage::loadStage()
 
 	CloseHandle(file);
 
-	_stageBuffer = IMAGEMANAGER->addImage("STAGE_BUFFER", _tileX * TILESIZE, _tileY * TILESIZE, true, RGB(255, 0, 255));
+	loadStageBuffer();
 
+	CAMERAMANAGER->setRange(_tileX * TILESIZE, _tileY * TILESIZE);
+	CAMERAMANAGER->setPosition((int)_player->getX(), (int)_player->getY());
+}
+
+void gameStage::loadStageBuffer()
+{
+	_stageBuffer = IMAGEMANAGER->addImage("STAGE_BUFFER", _tileX * TILESIZE, _tileY * TILESIZE, true, MAGENTA);
+	_pixelBuffer = IMAGEMANAGER->addImage("PIXEL_BUFFER", _tileX * TILESIZE, _tileY * TILESIZE, true, MAGENTA);
+
+	HBRUSH myBrush = CreateSolidBrush(MAGENTA);
+	HBRUSH oldBrush = (HBRUSH)SelectObject(_stageBuffer->getMemDC(), myBrush);
+	HBRUSH oldBrush2 = (HBRUSH)SelectObject(_pixelBuffer->getMemDC(), myBrush);
+
+	Rectangle(_stageBuffer->getMemDC(), -10, -10, _tileX * TILESIZE, _tileY * TILESIZE);
+	Rectangle(_pixelBuffer->getMemDC(), -10, -10, _tileX * TILESIZE, _tileY * TILESIZE);
+
+	SelectObject(_stageBuffer->getMemDC(), oldBrush);
+	SelectObject(_pixelBuffer->getMemDC(), oldBrush2);
+
+	DeleteObject(myBrush);
+	DeleteObject(oldBrush);
+	DeleteObject(oldBrush2);
 
 	for (int i = 0; i < _tileX * _tileY; ++i)
 	{
-		image* curRender = NULL;
-		//TODO : 타일추가
-		switch (_stage[i].terrain)
+		if (_stage[i].terrain != TR_NONE)
 		{
-		case TR_BRICK:
-			curRender = _brick[_stage[i].frontBack];
-			break;
-		case TR_COBBLEBRICK:
-			curRender = _cobbleBrick[_stage[i].frontBack];
-			break;
-		case TR_CONCRETE:
-			curRender = _concrete[_stage[i].frontBack];
-			break;
-		case TR_DARKWOOD:
-			curRender = _darkwood[_stage[i].frontBack];
-			break;
-		case TR_DIRT:
-			curRender = _dirt[_stage[i].frontBack];
-			break;
-		case TR_FULLWOOD1:
-			curRender = _fullwood1[_stage[i].frontBack];
-			break;
-		case TR_FULLWOOD2:
-			curRender = _fullwood2[_stage[i].frontBack];
-			break;
-		case TR_LOG:
-			curRender = _log[_stage[i].frontBack];
-			break;
-		case TR_PETALBLOCK:
-			curRender = _petalblock[_stage[i].frontBack];
-			break;
-		case TR_ROOF:
-			curRender = _rooftile[_stage[i].frontBack];
-			break;
-		}
-		if (curRender != NULL)
-			curRender->frameRender(_stageBuffer->getMemDC(),
+			_tiles[_stage[i].terrain + _stage[i].frontBack]->frameRender(_stageBuffer->getMemDC(),
 				_stage[i].rc.left - 10 - CAM->getX(),
 				_stage[i].rc.top - 10 - CAM->getY(),
 				_stage[i].terrainFrameX,
 				_stage[i].terrainFrameY);
+			if (_stage[i].terrain % 2 == 0) //BACK타일이 아니면
+			{
+				_pixelTiles->frameRender(_pixelBuffer->getMemDC(), _stage[i].rc.left - 10 - CAM->getX(),
+					_stage[i].rc.top - 10 - CAM->getY(), 0, 0);
+			}
+		}
 	}
-
-	CAMERAMANAGER->setRange(_tileX * TILESIZE, _tileY * TILESIZE);
-	CAMERAMANAGER->setPosition((int)_player->getX(), (int)_player->getY());
 }
 
 void gameStage::initImage()
 {
 	//TODO : 타일추가
 	//타일
-	_brick[FRONT] = IMAGEMANAGER->findImage("TILE_BRICK");
-	_cobbleBrick[FRONT] = IMAGEMANAGER->findImage("TILE_COBBLEBRICK");
-	_concrete[FRONT] = IMAGEMANAGER->findImage("TILE_CONCRETE");
-	_darkwood[FRONT] = IMAGEMANAGER->findImage("TILE_DARKWOOD");
-	_dirt[FRONT] = IMAGEMANAGER->findImage("TILE_DIRT");
-	_fullwood1[FRONT] = IMAGEMANAGER->findImage("TILE_FULLWOOD1");
-	_fullwood2[FRONT] = IMAGEMANAGER->findImage("TILE_FULLWOOD2");
-	_log[FRONT] = IMAGEMANAGER->findImage("TILE_LOG");
-	_petalblock[FRONT] = IMAGEMANAGER->findImage("TILE_PETALBLOCK");
-	_rooftile[FRONT] = IMAGEMANAGER->findImage("TILE_ROOF");
+	image* tileType;
+	vector<string> keyname = { "TILE_BRICK","BACKTILE_BRICK", "TILE_COBBLEBRICK", "BACKTILE_COBBLEBRICK",
+		"TILE_CONCRETE", "BACKTILE_CONCRETE", "TILE_DARKWOOD", "BACKTILE_DARKWOOD", "TILE_DIRT",
+		"BACKTILE_DIRT", "TILE_FULLWOOD1", "BACKTILE_FULLWOOD1", "TILE_FULLWOOD2", "BACKTILE_FULLWOOD2",
+		"TILE_LOG", "BACKTILE_LOG", "TILE_PETALBLOCK", "BACKTILE_PETALBLOCK", "TILE_ROOF", "BACKTILE_ROOF" };
+	for (int i = 0; i < keyname.size(); ++i)
+	{
+		tileType = IMAGEMANAGER->findImage(keyname[i]);
+		_tiles.push_back(tileType);
+	}
 
-	_brick[BACK] = IMAGEMANAGER->findImage("BACKTILE_BRICK");
-	_cobbleBrick[BACK] = IMAGEMANAGER->findImage("BACKTILE_COBBLEBRICK");
-	_concrete[BACK] = IMAGEMANAGER->findImage("BACKTILE_CONCRETE");
-	_darkwood[BACK] = IMAGEMANAGER->findImage("BACKTILE_DARKWOOD");
-	_dirt[BACK] = IMAGEMANAGER->findImage("BACKTILE_DIRT");
-	_fullwood1[BACK] = IMAGEMANAGER->findImage("BACKTILE_FULLWOOD1");
-	_fullwood2[BACK] = IMAGEMANAGER->findImage("BACKTILE_FULLWOOD2");
-	_log[BACK] = IMAGEMANAGER->findImage("BACKTILE_LOG");
-	_petalblock[BACK] = IMAGEMANAGER->findImage("BACKTILE_PETALBLOCK");
-	_rooftile[BACK] = IMAGEMANAGER->findImage("BACKTILE_ROOF");
+	_pixelTiles = IMAGEMANAGER->findImage("TILE_PIXEL");
 
 	//오브젝트
 	_woodencrate1 = IMAGEMANAGER->findImage("나무상자1");
@@ -185,6 +170,7 @@ void gameStage::stageRender()
 		//int endX = (_player->getX() + WINSIZEX / 2) / TILESIZE + 2;
 		//int endY = (_player->getY() + WINSIZEY / 2) / TILESIZE + 2;
 
+		//스테이지 랜더
 		_stageBuffer->render(getMemDC(), CAM->getSX(), CAM->getSY(), CAM->getSourX(), CAM->getSourY(), WINSIZEX, WINSIZEY); //카메라 쉐이크할 이미지에 CAM->getSX(), CAM->getSY()
 
 		int startX = (CAM->getX()) / TILESIZE - 2;
