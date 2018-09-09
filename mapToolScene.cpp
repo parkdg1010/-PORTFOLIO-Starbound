@@ -168,9 +168,6 @@ void mapToolScene::render()
 		textMake(getMemDC(), 200, 100, "x", (_cameraLens.x) / TILESIZE);
 		textMake(getMemDC(), 200, 120, "y", (_cameraLens.y) / TILESIZE);
 	}
-
-	IMAGEMANAGER->render("빈패드", getMemDC(), _rcCtrlPanel.left + 9, _rcCtrlPanel.top + 9);
-	IMAGEMANAGER->frameRender("숫자", getMemDC(), _rcCtrlPanel.left + 10, _rcCtrlPanel.top + 10, _saveCount, 0);
 }
 
 void mapToolScene::release()
@@ -535,6 +532,8 @@ void mapToolScene::ctrlPanelRender()
 	_itemButton->frameRender(getMemDC(), _rcItem.left, _rcItem.top);
 	_objectButton->frameRender(getMemDC(), _rcObject.left, _rcObject.top);
 	_enemyButton->frameRender(getMemDC(), _rcEnemy.left, _rcEnemy.top);
+	IMAGEMANAGER->render("빈패드", getMemDC(), _rcCtrlPanel.left + 9, _rcCtrlPanel.top + 9);
+	IMAGEMANAGER->frameRender("숫자", getMemDC(), _rcCtrlPanel.left + 10, _rcCtrlPanel.top + 10, _saveCount, 0);
 }
 
 //카메라무브

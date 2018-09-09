@@ -33,7 +33,8 @@ public:
 
 	int getTileX() { return _tileX; }
 	int getTileY() { return _tileY; }
-	tagTile* getStage() { return _stage; }
+	image* getStageBuffer() { return _stageBuffer; }
+	image* getPixelBuffer() { return _pixelBuffer; }
 
 	virtual HRESULT init();
 	virtual void update();

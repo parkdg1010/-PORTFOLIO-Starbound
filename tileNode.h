@@ -88,6 +88,7 @@ struct tagCurrentTile
 {
 	TERRAIN terrainType;
 	TERRAIN_FRONTBACK frontBack;
+	FLATFORM flatformType;
 	OBJECT objectType;
 	ITEM itemType;
 	ACTOR actorType;

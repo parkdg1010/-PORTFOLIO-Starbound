@@ -4,8 +4,6 @@
 
 HRESULT player::init()
 {
-	_debugBuff = IMAGEMANAGER->addImage("test", 1280, 720, true);
-
 	initImage();
 
 	_oldX = _oldY = 0;
@@ -121,7 +119,6 @@ void player::render()
 
 	if (_isDebug)
 	{
-		_debugBuff->render(getMemDC());
 		textMake(getMemDC(), _x - CAM->getX(), _y - CAM->getY(), "X");
 		Sleep(100);
 	}
@@ -231,19 +228,17 @@ void player::move()
 
 void player::collide()
 {
-	this->collideStage();
+	this->collideStage(_speed);
 	this->collideObject();
 }
 
-bool player::collideStage()
+bool player::collideStage(int range)
 {
 	updateHitbox();
 
-	int curTileX, curTileY;
 	bool upCollision = false;
-
-	curTileX = _x / TILESIZE;
-	curTileY = _y / TILESIZE;
+	COLORREF color;
+	int r, g, b;
 
 	//맵밖으로 못나가게
 	if (_x - PLAYER_CONST::WIDTH * 0.5 < 0)
@@ -266,112 +261,76 @@ bool player::collideStage()
 		_y = _stage->getTileY() * TILESIZE - PLAYER_CONST::HEIGHT * 0.5;
 	}
 
+	//_speed값 만큼 벽을 뚫고 나갔을 경우 뚫고나간 현재 위치(x,y,에서 보정한 값)에서 
+	// 벽 반대쪽으로 _speed값만을 벽방향으로 1픽셀(i값)씩 검사하면 된다.
+
 	//위쪽 검사
-	RECT temp = { 0,0,0,0 };
-	if (_state == JUMP)
+	for (int i = _y - PLAYER_CONST::HEIGHT * 0.5 + range; i >= _y - PLAYER_CONST::HEIGHT * 0.5; --i)
 	{
-		if (_stage->getStage()[(curTileX + (curTileY - 2) * _stage->getTileX())].frontBack == FRONT)
+		color = GetPixel(_stage->getPixelBuffer()->getMemDC(), _x, i);
+		r = GetRValue(color);
+		g = GetGValue(color);
+		b = GetBValue(color);
+
+		if (r == 0 && g == 0 && b == 255)
 		{
-			if (IntersectRect(&temp, &_stage->getStage()[(curTileX + (curTileY - 2) * _stage->getTileX())].rc, &_rcCollision)
-				&& _stage->getStage()[(curTileX + (curTileY - 2) * _stage->getTileX())].terrain != TR_NONE)
-			{
-				_y += (temp.bottom - temp.top) *0.5;
-				updateHitbox();
-				upCollision = true;
-			}
+			_y = i + PLAYER_CONST::HEIGHT * 0.5;
+			upCollision = true;
+			break;
 		}
 	}
 
 	//아래쪽 검사
-	temp = { 0,0,0,0 };
-	if (_stage->getStage()[(curTileX + (curTileY+2) * _stage->getTileX())].frontBack == FRONT)
+	//WALK상태 FALL상태에 대해 처리해야함
+	for (int i = _y + PLAYER_CONST::HEIGHT * 0.5 - range; i <= _y + PLAYER_CONST::HEIGHT * 0.5; i++)
 	{
-		if (IntersectRect(&temp, &_stage->getStage()[(curTileX + (curTileY + 2) * _stage->getTileX())].rc, &_rcCollision)
-			&& _stage->getStage()[(curTileX + (curTileY + 2) * _stage->getTileX())].terrain != TR_NONE)
+		color = GetPixel(_stage->getPixelBuffer()->getMemDC(), _x, i);
+		r = GetRValue(color);
+		g = GetGValue(color);
+		b = GetBValue(color);
+
+		if (r == 0 && g == 0 && b == 255)
 		{
-			if (!_onGround || upCollision)
-			{
-				_onGround = true;
-				_y -= (temp.bottom - temp.top) *0.5;
-				updateHitbox();
-				_axisY = NONE;
-				_jumpCount = 0;
-				changeState(IDLE);
-			}
-			_longJumpValue = 0;
+			_y = i - PLAYER_CONST::HEIGHT * 0.5;
 			_gravity = 0;
+			if (_state == FALL)
+				changeState(IDLE);
+			_axisY = NONE;
+			_longJumpValue = 0;
+			_jumpCount = 0;
 		}
 	}
+	//TODO : 아래로 걸어가기 추가하자
 
-	//좌우 검사
-	if (_axisX == LEFT)
+	//왼쪽 검사
+	for (int i = _x - PLAYER_CONST::WIDTH * 0.5 + range; i >= _x - PLAYER_CONST::WIDTH * 0.5; --i)
 	{
-		curTileX = (_x - PLAYER_CONST::WIDTH/2) / TILESIZE;
-	}
-	if (_axisX == RIGHT)
-	{
-		curTileX = (_x + PLAYER_CONST::WIDTH / 2) / TILESIZE;
-	}
+		color = GetPixel(_stage->getPixelBuffer()->getMemDC(), i, _y);
+		r = GetRValue(color);
+		g = GetGValue(color);
+		b = GetBValue(color);
 
-	tileIndex.push_back(curTileX + (curTileY - 1) * _stage->getTileX()); //비어있고
-	tileIndex.push_back(curTileX + (curTileY) * _stage->getTileX()); //비어있고
-	//tileIndex.push_back(curTileX + (curTileY + 1) * _stage->getTileX()); //채워져있으면 -> 걸어가자
-
-	bool bodyCollision = false;
-
-	for (int i = 0; i < tileIndex.size(); ++i)
-	{
-		temp = { 0,0,0,0 };
-		if (_stage->getStage()[tileIndex[i]].frontBack == FRONT)
+		if (r == 0 && g == 0 && b == 255)
 		{
-			if (IntersectRect(&temp, &_stage->getStage()[tileIndex[i]].rc, &_rcCollision) 
-				&& _stage->getStage()[tileIndex[i]].terrain != TR_NONE)
-			{
-				if (_axisX == LEFT)
-				{
-					_x += (temp.right - temp.left) * 0.5;
-					updateHitbox();
-					bodyCollision = true;
-				}
-				else if(_axisX == RIGHT)
-				{
-					_x -= (temp.right - temp.left) * 0.5;
-					updateHitbox();
-					bodyCollision = true;
-				}
-			}
+			_x = i + PLAYER_CONST::WIDTH * 0.5;
+			break;
 		}
 	}
 
-	if (!bodyCollision && _state == WALK)
+	//오른쪽 검사
+	for (int i = _x + PLAYER_CONST::WIDTH * 0.5 - range; i <= _x + PLAYER_CONST::WIDTH * 0.5; ++i)
 	{
-		temp = { 0,0,0,0 };
-		if (_stage->getStage()[(curTileX + (curTileY + 1) * _stage->getTileX())].frontBack == FRONT)
-		{
-			if (IntersectRect(&temp, &_stage->getStage()[(curTileX + (curTileY + 1) * _stage->getTileX())].rc, &_rcCollision)
-				&& _stage->getStage()[(curTileX + (curTileY + 1) * _stage->getTileX())].terrain != TR_NONE)
-			{
-				_onGround = true;
-				//_keepWalk = true;
-				_y -= (temp.bottom - temp.top) *0.5;
-				updateHitbox();
-				_gravity = 0;
-			}
-		}
-	}
+		color = GetPixel(_stage->getPixelBuffer()->getMemDC(), i, _y);
+		r = GetRValue(color);
+		g = GetGValue(color);
+		b = GetBValue(color);
 
-	if (_isDebug)
-	{
-		PatBlt(_debugBuff->getMemDC(), 0, 0, WINSIZEX, WINSIZEY, BLACKNESS);
-		HBRUSH _myBrush = (HBRUSH)CreateSolidBrush(RGB(255, 0, 0));
-		SelectObject(_debugBuff->getMemDC(), _myBrush);
-		for (int i = 0; i < tileIndex.size(); i++)
+		if (r == 0 && g == 0 && b == 255)
 		{
-			Rectangle(_debugBuff->getMemDC(), _stage->getStage()[tileIndex[i]].rc.left - CAM->getX(), _stage->getStage()[tileIndex[i]].rc.top - CAM->getY(), _stage->getStage()[tileIndex[i]].rc.right - CAM->getX(), _stage->getStage()[tileIndex[i]].rc.bottom - CAM->getY());
+			_x = i - PLAYER_CONST::WIDTH * 0.5;
+			break;
 		}
 	}
-	
-	tileIndex.clear();
 
 	return false;
 }
@@ -398,11 +357,6 @@ void player::changeState(STATE state)
 void player::updateHitbox()
 {
 	_hitBox = RectMakeCenter((int)_x, (int)_y, PLAYER_CONST::WIDTH, PLAYER_CONST::HEIGHT);
-	_rcCollision = _hitBox;
-	_rcCollision.left += 1;
-	_rcCollision.right -= 1;
-	_rcCollision.top += 1;
-	_rcCollision.bottom -= 1;
 }
 
 void player::direction()

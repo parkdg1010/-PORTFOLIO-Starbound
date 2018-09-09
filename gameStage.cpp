@@ -108,7 +108,7 @@ void gameStage::loadStageBuffer()
 				_stage[i].rc.top - 10 - CAM->getY(),
 				_stage[i].terrainFrameX,
 				_stage[i].terrainFrameY);
-			if (_stage[i].terrain % 2 == 0) //BACK타일이 아니면
+			if (_stage[i].frontBack == FRONT)
 			{
 				_pixelTiles->frameRender(_pixelBuffer->getMemDC(), _stage[i].rc.left - 10 - CAM->getX(),
 					_stage[i].rc.top - 10 - CAM->getY(), 0, 0);
