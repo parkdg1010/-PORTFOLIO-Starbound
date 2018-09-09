@@ -34,8 +34,8 @@ private:
 
 	tagSKILL _skill[3];
 
-	bool _onGround;						//땅에 닿기
-	//bool _keepWalk;					//계단오르기
+	//bool _onGround;						//땅에 닿기
+	int _keepWalk;						//계단 내려가기
 	float _longJumpValue;				//점프높이 제한
 
 	Synthesize(int, _jumpCount, JumpCount)			//이단점프

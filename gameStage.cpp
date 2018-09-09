@@ -7,21 +7,22 @@ HRESULT gameStage::init()
 	initImage();
 	_stageNum = 1;
 
-	_treeLightsCount = _treeLightsIdx = _ornatetorchCount = _ornatetorchidx = 0;
-
-	_ornatetorch = IMAGEMANAGER->findImage("장식등");
+	_treeLightsCount = _ornatetorchCount = 0;
 
 	return S_OK;
 }
 
 void gameStage::update()
 {
+	_treeLightsCount = (_treeLightsCount + 1) % 15;
+	if (_treeLightsCount == 0)	_treeLights->setFrameX(RND->getInt(2));
+	_ornatetorchCount = (_ornatetorchCount + 1) % 22;
+	if (_ornatetorchCount == 0) _ornatetorch->setFrameX(RND->getInt(4));
 }
 
 void gameStage::render()
 {
 	stageRender();
-	//TODO : 오브젝트 프레임 돌릴방법
 	if(_isDebug)
 		_pixelBuffer->render(getMemDC(), CAM->getSX(), CAM->getSY(), CAM->getSourX(), CAM->getSourY(), WINSIZEX, WINSIZEY); 
 		// 화면의 sx,sy 좌표부터 그리기 시작해서 소스의 sourX, sourY점부터 WINSIZEX, WINSIZEY 범위만큼 그림
@@ -114,6 +115,22 @@ void gameStage::loadStageBuffer()
 					_stage[i].rc.top - 10 - CAM->getY(), 0, 0);
 			}
 		}
+		//발판 픽셀버퍼만들기
+		if (_stage[i].object == OBJECT_FF_WOOD)
+		{
+			//계단은 대각선으로
+			if (_stage[i].objFrameX)
+			{
+				_pixelTiles->frameRender(_pixelBuffer->getMemDC(), _stage[i].rc.left - 10 - CAM->getX(),
+					_stage[i].rc.top - 10 - CAM->getY(), 2, 0);
+			}
+			//발판은 일자로
+			else
+			{
+				_pixelTiles->frameRender(_pixelBuffer->getMemDC(), _stage[i].rc.left - 10 - CAM->getX(),
+					_stage[i].rc.top - 10 - CAM->getY(), 1, 0);
+			}
+		}
 	}
 }
 
@@ -132,11 +149,15 @@ void gameStage::initImage()
 		_tiles.push_back(tileType);
 	}
 
+	//발판
+	_flatform = IMAGEMANAGER->findImage("FLATFORM_WOOD");
+
 	_pixelTiles = IMAGEMANAGER->findImage("TILE_PIXEL");
 
 	//오브젝트
 	_woodencrate1 = IMAGEMANAGER->findImage("나무상자1");
 	_treeLights = IMAGEMANAGER->findImage("트리전구");
+	_ornatetorch = IMAGEMANAGER->findImage("장식등");
 
 	//아이템
 	_item = IMAGEMANAGER->findImage("우주검");
@@ -194,9 +215,20 @@ void gameStage::stageRender()
 					curRender = _woodencrate1;
 					break;
 				case OBJECT_TREELIGHTS:
-					curRender = _treeLights;
+					_treeLights->frameRender(getMemDC(),
+						_stage[i*_tileX + j].rc.left - 10 - CAM->getX(),
+						_stage[i*_tileX + j].rc.top - 10 - CAM->getY());
+					break;
+				case OBJECT_ORNATETORCH:
+					_ornatetorch->frameRender(getMemDC(),
+						_stage[i*_tileX + j].rc.left - 10 - CAM->getX(),
+						_stage[i*_tileX + j].rc.top - 10 - CAM->getY());
+					break;
+				case OBJECT_FF_WOOD:
+					curRender = _flatform;
 					break;
 					//TODO : 오브젝트 렌더
+					//CHECK : 일일이 하는건 에바같은데 더 나은 방법을 생각해보자
 				}
 				if (curRender != NULL)
 					curRender->frameRender(getMemDC(),

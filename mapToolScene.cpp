@@ -27,6 +27,9 @@ HRESULT mapToolScene::init()
 	_curBackTop = BACKTOP_0;
 	_curBackBot = BACKBOT_0;
 
+	_objRenderCollideX = 0;
+	_objShape = ' ';
+
 	_saveCount = 0;
 
 	initBrush();
@@ -211,6 +214,10 @@ void mapToolScene::initImage()
 	//오브젝트
 	_woodencrate1 = IMAGEMANAGER->findImage("나무상자1");
 	_treelights = IMAGEMANAGER->findImage("트리전구");
+	_ornatetorch = IMAGEMANAGER->findImage("장식등");
+
+	//발판
+	_flatform = IMAGEMANAGER->findImage("FLATFORM_WOOD");
 
 	//아이템
 	_item = IMAGEMANAGER->findImage("우주검");
@@ -382,6 +389,21 @@ void mapToolScene::setMap()
 						_stage[i * _tileX + j].object = _currentTile.objectType;
 						_stage[i * _tileX + j].objFrameX = _currentTile.frameX;
 						_stage[i * _tileX + j].objFrameY = _currentTile.frameY;
+
+						if (_currentTile.objectType == OBJECT_ORNATETORCH)
+						{
+							_stage[i * _tileX + j].objFrameX = _currentTile.frameX;
+							if(_stage[i * _tileX + j].frontBack == FRONT)
+								_stage[i * _tileX + j].objFrameY = setObjFrame(_objRenderCollideX, _objShape);
+							else
+								_stage[i * _tileX + j].objFrameY = _currentTile.frameY;
+						}
+						if (_currentTile.objectType == OBJECT_FF_WOOD)
+						{
+							_stage[i * _tileX + j].objFrameX = setObjFrame(_objRenderCollideX, _objShape);
+							_stage[i * _tileX + j].objFrameY = _currentTile.frameY;
+						}
+						//TODO : 오브젝트 프레임변경
 					}
 				}
 				if (_currentTab == CTRL_ENEMYTAB)
@@ -402,6 +424,94 @@ void mapToolScene::setMap()
 			}
 		}
 	}
+}
+
+int mapToolScene::setObjFrame(int type, char shape)
+{
+	int tempFrameX = 0;
+	int tempIdxX = (_ptMouse.x + CAM->getX()) / TILESIZE; //마우스 절대좌표의 타일인덱스
+	int tempIdxY = (_ptMouse.y + CAM->getY()) / TILESIZE; //마우스 절대좌표의 타일인덱스
+	
+	if (shape == 'x') //발판,계단
+	{
+		//검사할 타일인덱스좌표
+		int xShape[4] = { 
+			(tempIdxY + 1) * _tileX + (tempIdxX - 1),	//왼쪽아래
+			(tempIdxY - 1) * _tileX + (tempIdxX + 1),	//오른쪽위
+			(tempIdxY + 1) * _tileX + (tempIdxX + 1),	//오른쪽아래
+			(tempIdxY - 1) * _tileX + (tempIdxX - 1) };	//왼쪽위
+
+		if (_stage[xShape[0]].object == type)
+		{
+			tempFrameX = 3;
+			_stage[xShape[0]].objFrameX = tempFrameX;
+		}
+		if (_stage[xShape[1]].object == type)
+		{
+			tempFrameX = 3;
+			_stage[xShape[1]].objFrameX = tempFrameX;
+		}
+		if (_stage[xShape[2]].object == type)
+		{
+			tempFrameX = 2;
+			_stage[xShape[2]].objFrameX = tempFrameX;
+		}
+		if (_stage[xShape[3]].object == type)
+		{
+			tempFrameX = 2;
+			_stage[xShape[3]].objFrameX = tempFrameX;
+		}
+	}
+	else if (shape == 'o') // 장식등
+	{
+		int oShape[4] = {
+							(tempIdxY - 1) * _tileX + (tempIdxX),		//위쪽
+							(tempIdxY + 1) * _tileX + (tempIdxX), 		//아래쪽
+							(tempIdxY) * _tileX + (tempIdxX - 1), 		//왼쪽
+							(tempIdxY) * _tileX + (tempIdxX + 1),		//오른쪽
+						};
+
+		if (_stage[oShape[0]].terrain != type)
+		{
+			tempFrameX = 1;
+		}
+		else if (_stage[oShape[1]].terrain != type)
+		{
+			tempFrameX = 3;
+		}
+		else if (_stage[oShape[2]].terrain != type)
+		{
+			tempFrameX = 0;
+		}
+		else if (_stage[oShape[3]].terrain != type)
+		{
+			tempFrameX = 2;
+		}
+		else
+		{
+			tempFrameX = 3;
+		}
+	}
+	else if (shape == '8')
+	{
+		int eShape[8] = {
+			(tempIdxY)* _tileX + (tempIdxX - 1), 		//왼쪽
+			(tempIdxY - 1) * _tileX + (tempIdxX),		//위쪽
+			(tempIdxY)* _tileX + (tempIdxX + 1),		//오른쪽
+			(tempIdxY + 1) * _tileX + (tempIdxX),		//아래쪽
+			(tempIdxY + 1) * _tileX + (tempIdxX - 1),	//왼쪽아래
+			(tempIdxY - 1) * _tileX + (tempIdxX + 1),	//오른쪽위
+			(tempIdxY + 1) * _tileX + (tempIdxX + 1),	//오른쪽아래
+			(tempIdxY - 1) * _tileX + (tempIdxX - 1)};	//왼쪽위
+
+
+	}
+	else if (shape == ' ')
+	{
+		return _currentTile.frameX;
+	}
+
+	return tempFrameX;
 }
 
 void mapToolScene::save()
@@ -626,67 +736,15 @@ void mapToolScene::tabTileSetup()
 	//지형탭
 	else if (_currentTab == CTRL_TERRAINTAB)
 	{
-		if (PtInRect(&_rcButton[0], _ptMouse))
+		for (int i = 0; i < 60; ++i)
 		{
-			_currentTile.terrainType = TR_BRICK;
-			_currentTile.frameX = RND->getInt(5);
-			_currentTile.frameY = 0;
+			if (PtInRect(&_rcButton[i], _ptMouse))
+			{
+				_currentTile.terrainType = TERRAIN(i*2);
+				_currentTile.frameX = RND->getInt(5);
+				_currentTile.frameY = 0;
+			}
 		}
-		if (PtInRect(&_rcButton[1], _ptMouse))
-		{
-			_currentTile.terrainType = TR_COBBLEBRICK;
-			_currentTile.frameX = RND->getInt(5);
-			_currentTile.frameY = 0;
-		}
-		if (PtInRect(&_rcButton[2], _ptMouse))
-		{
-			_currentTile.terrainType = TR_CONCRETE;
-			_currentTile.frameX = RND->getInt(5);
-			_currentTile.frameY = 0;
-		}
-		if (PtInRect(&_rcButton[3], _ptMouse))
-		{
-			_currentTile.terrainType = TR_DARKWOOD;
-			_currentTile.frameX = RND->getInt(5);
-			_currentTile.frameY = 0;
-		}
-		if (PtInRect(&_rcButton[4], _ptMouse))
-		{
-			_currentTile.terrainType = TR_DIRT;
-			_currentTile.frameX = RND->getInt(5);
-			_currentTile.frameY = 0;
-		}
-		if (PtInRect(&_rcButton[5], _ptMouse))
-		{
-			_currentTile.terrainType = TR_FULLWOOD1;
-			_currentTile.frameX = RND->getInt(5);
-			_currentTile.frameY = 0;
-		}
-		if (PtInRect(&_rcButton[6], _ptMouse))
-		{
-			_currentTile.terrainType = TR_FULLWOOD2;
-			_currentTile.frameX = RND->getInt(5);
-			_currentTile.frameY = 0;
-		}
-		if (PtInRect(&_rcButton[7], _ptMouse))
-		{
-			_currentTile.terrainType = TR_LOG;
-			_currentTile.frameX = RND->getInt(5);
-			_currentTile.frameY = 0;
-		}
-		if (PtInRect(&_rcButton[8], _ptMouse))
-		{
-			_currentTile.terrainType = TR_PETALBLOCK;
-			_currentTile.frameX = RND->getInt(5);
-			_currentTile.frameY = 0;
-		}
-		if (PtInRect(&_rcButton[9], _ptMouse))
-		{
-			_currentTile.terrainType = TR_ROOF;
-			_currentTile.frameX = RND->getInt(5);
-			_currentTile.frameY = 0;
-		}
-		//TODO : 타일추가
 	}
 	//아이템탭
 	else if (_currentTab == CTRL_ITEMTAB)
@@ -708,6 +766,8 @@ void mapToolScene::tabTileSetup()
 			_currentTile.objectType = OBJECT_WOODENCRATE1;
 			_currentTile.frameX = RND->getInt(2);
 			_currentTile.frameY = 0;
+			_objRenderCollideX = OBJECT_NONE;
+			_objShape = ' ';
 		}
 
 		if (PtInRect(&_rcButton[30], _ptMouse))
@@ -715,6 +775,25 @@ void mapToolScene::tabTileSetup()
 			_currentTile.objectType = OBJECT_TREELIGHTS;
 			_currentTile.frameX = RND->getInt(2);
 			_currentTile.frameY = 0;
+			_objRenderCollideX = OBJECT_NONE;
+			_objShape = ' ';
+		}
+		if (PtInRect(&_rcButton[31], _ptMouse))
+		{
+			_currentTile.objectType = OBJECT_ORNATETORCH;
+			_currentTile.frameX = 0;
+			_currentTile.frameY = 0;
+			_objRenderCollideX = TR_NONE;
+			_objShape = 'o';
+		}
+
+		if (PtInRect(&_rcButton[40], _ptMouse))
+		{
+			_currentTile.objectType = OBJECT_FF_WOOD;
+			_currentTile.frameX = 0;
+			_currentTile.frameY = 0;
+			_objRenderCollideX = OBJECT_FF_WOOD;
+			_objShape = 'x';
 		}
 	}
 	//에너미탭
@@ -803,6 +882,12 @@ void mapToolScene::stageRender()
 				case OBJECT_TREELIGHTS:
 					curRender = _treelights;
 					break;
+				case OBJECT_ORNATETORCH:
+					curRender = _ornatetorch;
+					break;
+				case OBJECT_FF_WOOD:
+					curRender = _flatform;
+					break;
 					//TODO : 오브젝트 렌더
 				}
 				if (curRender != NULL)
@@ -862,6 +947,12 @@ void mapToolScene::curtileMouseRender()
 				break;
 			case OBJECT_TREELIGHTS:
 				curRender = _treelights;
+				break;
+			case OBJECT_ORNATETORCH:
+				curRender = _ornatetorch;
+				break;
+			case OBJECT_FF_WOOD:
+				curRender = _flatform;
 				break;
 			}
 			if (curRender != NULL)

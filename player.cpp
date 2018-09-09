@@ -18,7 +18,6 @@ HRESULT player::init()
 
 	_isActive = true;
 
-	_onGround = true;
 	_longJumpValue = 0;
 
 	return S_OK;
@@ -65,9 +64,6 @@ void player::render()
 		{
 			//팔 회전각도, 위치조정
 			float tempAngle = utl::getAngle(_x, _y, _ptMouse.x + CAM->getX(), _ptMouse.y + CAM->getY());
-			if (KEYMANAGER->isOnceKeyDown(VK_F2))
-				cout << tempAngle * 180 / PI << endl;
-
 			if ((PI*0.5 < tempAngle && tempAngle < PI) || -PI < tempAngle && tempAngle < -PI * 0.5)
 			{
 				tempAngle += PI * 0.5;
@@ -120,7 +116,6 @@ void player::render()
 	if (_isDebug)
 	{
 		textMake(getMemDC(), _x - CAM->getX(), _y - CAM->getY(), "X");
-		Sleep(100);
 	}
 }
 
@@ -132,7 +127,7 @@ void player::inputKey()
 {
 	_axisX = NONE;
 
-	if (KEYMANAGER->isOnceKeyDown('W'))
+	if (KEYMANAGER->isOnceKeyDown(' '))
 	{
 		if (_jumpCount < 2)
 		{
@@ -141,7 +136,7 @@ void player::inputKey()
 		}
 		_axisY = UP;
 	}
-	else if (KEYMANAGER->isStayKeyDown('W'))
+	else if (KEYMANAGER->isStayKeyDown(' '))
 	{
 		if (_longJumpValue < 7)
 		{
@@ -192,7 +187,15 @@ void player::move()
 		{
 			_y += _speed * -sinf(PI*0.5);
 			updateHitbox();
-			//_keepWalk = false;
+		}
+	}
+
+	if (_axisY == DOWN)
+	{
+		if (_state == JUMP)
+		{
+			changeState(FALL);
+			updateHitbox();
 		}
 	}
 
@@ -202,10 +205,9 @@ void player::move()
 		if (_state == JUMP)
 			_gravity += -sinf(PI*0.5) * _speed; //중력값에서 점프거리를 빼서 자연스런 낙하
 		
-		//if(!_keepWalk)
+		if(!_keepWalk)
 			changeState(FALL);
 
-		_onGround = false;
 	}
 
 	if (_axisY == DOWN)
@@ -275,6 +277,7 @@ bool player::collideStage(int range)
 		if (r == 0 && g == 0 && b == 255)
 		{
 			_y = i + PLAYER_CONST::HEIGHT * 0.5;
+			updateHitbox();
 			upCollision = true;
 			break;
 		}
@@ -282,25 +285,51 @@ bool player::collideStage(int range)
 
 	//아래쪽 검사
 	//WALK상태 FALL상태에 대해 처리해야함
-	for (int i = _y + PLAYER_CONST::HEIGHT * 0.5 - range; i <= _y + PLAYER_CONST::HEIGHT * 0.5; i++)
+	if (_state == WALK) _keepWalk = 15;
+	else _keepWalk = 0;
+
+	for (int i = _y + PLAYER_CONST::HEIGHT * 0.5 - range; i <= _y + PLAYER_CONST::HEIGHT * 0.5 + _keepWalk; i++)
 	{
 		color = GetPixel(_stage->getPixelBuffer()->getMemDC(), _x, i);
 		r = GetRValue(color);
 		g = GetGValue(color);
 		b = GetBValue(color);
 
+		//타일
 		if (r == 0 && g == 0 && b == 255)
 		{
 			_y = i - PLAYER_CONST::HEIGHT * 0.5;
+			updateHitbox();
 			_gravity = 0;
 			if (_state == FALL)
 				changeState(IDLE);
 			_axisY = NONE;
 			_longJumpValue = 0;
 			_jumpCount = 0;
+			break;
+		}
+		//발판
+		else if (r == 0 && g == 255 & b == 0)
+		{
+			if (_axisY == DOWN && _state == FALL)
+			{
+				_longJumpValue = 8;
+				_jumpCount = 1;
+			}
+			else
+			{
+				_y = i - PLAYER_CONST::HEIGHT * 0.5;
+				updateHitbox();
+				_gravity = 0;
+				if (_state == FALL)
+					changeState(IDLE);
+				_axisY = NONE;
+				_longJumpValue = 0;
+				_jumpCount = 0;
+				break;
+			}
 		}
 	}
-	//TODO : 아래로 걸어가기 추가하자
 
 	//왼쪽 검사
 	for (int i = _x - PLAYER_CONST::WIDTH * 0.5 + range; i >= _x - PLAYER_CONST::WIDTH * 0.5; --i)
@@ -313,6 +342,7 @@ bool player::collideStage(int range)
 		if (r == 0 && g == 0 && b == 255)
 		{
 			_x = i + PLAYER_CONST::WIDTH * 0.5;
+			updateHitbox();
 			break;
 		}
 	}
@@ -328,6 +358,7 @@ bool player::collideStage(int range)
 		if (r == 0 && g == 0 && b == 255)
 		{
 			_x = i - PLAYER_CONST::WIDTH * 0.5;
+			updateHitbox();
 			break;
 		}
 	}

@@ -171,6 +171,7 @@ void loadingScene::loadingObjects()
 	_loading->loadFrameImage("트리전구", "Texture/object/funiture/fairylights/fairylights_128x32_2x1.bmp", 128, 32, 2, 1);
 	_loading->loadImage("트리전구_아이콘", "Texture/object/funiture/fairylights/fairylightsicon.bmp", 36, 36);
 	_loading->loadFrameImage("장식등", "Texture/object/funiture/ornatetorch/ornatetorch_256x480_4x5.bmp", 256, 480, 4, 5);
+	_loading->loadImage("장식등_아이콘", "Texture/object/funiture/ornatetorch/ornatetorchicon.bmp", 36, 36);
 }
 
 void loadingScene::loadingItem()

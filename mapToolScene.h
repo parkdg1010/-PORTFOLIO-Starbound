@@ -20,7 +20,8 @@ private:
 
 	image* _tileIcon, *_objectIcon, *_itemIcon;
 	vector<image*> _tiles;
-	image* _woodencrate1, *_treelights;
+	image* _woodencrate1, *_treelights, *_ornatetorch;
+	image* _flatform;
 	image* _item;
 	RECT _rcButton[60];
 	vector<tagTile*> _vItemBox;
@@ -40,11 +41,15 @@ private:
 	int _curBackTop;
 	int _curBackBot;
 
+	int _objRenderCollideX;						//오브젝트끼리 겹치면 이미지 변경
+	char _objShape;								//충돌할 인덱스 x,o,8 형태
+
 	HBRUSH _myBrush;
 public:
 	void setupWorld();							//스테이지 크기 셋업
 	void setBackImage();						//배경이미지 셋업
 	void setMap();								//스테이지에 타일입히기
+	int setObjFrame(int type, char shape = ' ');//오브젝트 모양변경 o,x,8 //다이아몬드 4방향, 대각선4방향, 8방향 //검사할 타입
 	void save();
 	void load();
 	void minimize();							//패널 최소화
