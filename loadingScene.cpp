@@ -29,6 +29,7 @@ void loadingScene::update(void)
 	//로딩완료후 씬변경
 	if (_loading->loadingDone()) //loadingImage와 loadingSound의 인자값으로 addimage, addframeimage하고 다 되면 true
 	{
+		loadingEffect();
 		SCENEMANAGER->loadScene("시작"); //게임씬으로 전환
 	}
 }
@@ -93,8 +94,8 @@ void loadingScene::loadingSound()
 
 void loadingScene::loadingEffect()
 {
+	EFFECTMANAGER->addEffect("점프먼지", "JUMP_DUST", 0.2, 10);
 }
-
 
 void loadingScene::loadingMapToolImage()
 {
@@ -198,4 +199,6 @@ void loadingScene::loadingPlayer()
 	_loading->loadFrameImage("FLORAN_RUN", "Texture/character/floran/run_1032x258_8x2.bmp", 1032, 258, 8, 2);
 	_loading->loadFrameImage("FLORAN_JUMP", "Texture/character/floran/jump_516x258_4x2.bmp", 516, 258, 4, 2);
 	_loading->loadFrameImage("FLORAN_FALL", "Texture/character/floran/fall_516x258_4x2.bmp", 516, 258, 4, 2);
+
+	_loading->loadFrameImage("JUMP_DUST", "Texture/character/dust2/dust2_128x32_4x1.bmp", 128, 32, 4, 1);
 }

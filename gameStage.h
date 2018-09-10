@@ -15,7 +15,7 @@ private:
 	image* _pixelTiles;
 	vector<image*> _tiles;
 	image* _woodencrate1, *_treeLights, *_ornatetorch, *_flatform;
-	int _treeLightsCount, _ornatetorchCount;
+	int _treeLightsCount, _treeLightsIdx, _ornatetorchCount, _ornatetorchIdx;
 	image* _item;
 
 	image* _backGroundTop[5];

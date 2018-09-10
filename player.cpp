@@ -138,7 +138,7 @@ void player::inputKey()
 	}
 	else if (KEYMANAGER->isStayKeyDown(' '))
 	{
-		if (_longJumpValue < 7)
+		if (_longJumpValue < 7 && (_state == JUMP || _state == FALL))
 		{
 			_gravity -= 0.21f;
 			_longJumpValue += 0.21f;
@@ -187,6 +187,10 @@ void player::move()
 		{
 			_y += _speed * -sinf(PI*0.5);
 			updateHitbox();
+			if (_jumpCount == 1)
+			{
+				EFFECTMANAGER->play("점프먼지", _x, _y); //TODO : 점프뛴 위치에 두어야하는데
+			}
 		}
 	}
 

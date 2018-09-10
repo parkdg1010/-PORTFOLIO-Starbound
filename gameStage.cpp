@@ -7,7 +7,7 @@ HRESULT gameStage::init()
 	initImage();
 	_stageNum = 1;
 
-	_treeLightsCount = _ornatetorchCount = 0;
+	_treeLightsCount = _treeLightsIdx = _ornatetorchCount = _ornatetorchIdx = 0;
 
 	return S_OK;
 }
@@ -15,9 +15,9 @@ HRESULT gameStage::init()
 void gameStage::update()
 {
 	_treeLightsCount = (_treeLightsCount + 1) % 15;
-	if (_treeLightsCount == 0)	_treeLights->setFrameX(RND->getInt(2));
+	if (_treeLightsCount == 0)	_treeLightsIdx = RND->getInt(2); //_treeLights->setFrameX(RND->getInt(2));
 	_ornatetorchCount = (_ornatetorchCount + 1) % 22;
-	if (_ornatetorchCount == 0) _ornatetorch->setFrameX(RND->getInt(4));
+	if (_ornatetorchCount == 0) _ornatetorchIdx = RND->getInt(4); //_ornatetorch->setFrameX(RND->getInt(4));
 }
 
 void gameStage::render()
@@ -217,12 +217,12 @@ void gameStage::stageRender()
 				case OBJECT_TREELIGHTS:
 					_treeLights->frameRender(getMemDC(),
 						_stage[i*_tileX + j].rc.left - 10 - CAM->getX(),
-						_stage[i*_tileX + j].rc.top - 10 - CAM->getY());
+						_stage[i*_tileX + j].rc.top - 10 - CAM->getY(), _treeLightsIdx, _stage[i*_tileX + j].objFrameY);
 					break;
 				case OBJECT_ORNATETORCH:
 					_ornatetorch->frameRender(getMemDC(),
 						_stage[i*_tileX + j].rc.left - 10 - CAM->getX(),
-						_stage[i*_tileX + j].rc.top - 10 - CAM->getY());
+						_stage[i*_tileX + j].rc.top - 10 - CAM->getY(), _ornatetorchIdx, _stage[i*_tileX + j].objFrameY);
 					break;
 				case OBJECT_FF_WOOD:
 					curRender = _flatform;
