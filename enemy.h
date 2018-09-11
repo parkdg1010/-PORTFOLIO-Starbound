@@ -8,6 +8,10 @@ private:
 	//·£´ýÀ¸·Î ÃÑ¾Ë ¹ß»ç ÄðÅ¸ÀÓ ÁÖ±â
 	int _fireCount;
 	int _rndFireCount;
+protected:
+	RECT _playerHitBox;
+	float _playerX;
+	float _playerY;
 
 public:
 	virtual void move();
@@ -15,6 +19,10 @@ public:
 	virtual bool collideStage() { return false; }
 	virtual bool collideObject(gameObject* gameObject = NULL);
 	virtual void damaged(gameObject* actor);
+
+	void setPlayerHitBox(RECT p) { _playerHitBox = p; }
+	void setPlayerX(float x) { _playerX = x; }
+	void setPlayerY(float y) { _playerY = y; }
 
 	virtual HRESULT init(POINTf position, int dir);
 	virtual void update();

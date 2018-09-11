@@ -2,6 +2,7 @@
 #include "gameNode.h"
 #include "bullet.h"
 #include "enemy.h"
+#include "kluexboss.h"
 
 enum ENEMY_TYPE
 {

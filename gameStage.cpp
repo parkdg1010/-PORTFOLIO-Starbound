@@ -119,7 +119,7 @@ void gameStage::loadStageBuffer()
 		if (_stage[i].object == OBJECT_FF_WOOD)
 		{
 			//계단은 대각선으로
-			if (_stage[i].objFrameX)
+			if (_stage[i].objFrameX) // 0만 아니면 계단임
 			{
 				_pixelTiles->frameRender(_pixelBuffer->getMemDC(), _stage[i].rc.left - 10 - CAM->getX(),
 					_stage[i].rc.top - 10 - CAM->getY(), 2, 0);

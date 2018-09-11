@@ -222,10 +222,10 @@
       <Filter>GameObjects\스테이지</Filter>
     </ClInclude>
     <ClInclude Include="homeStage.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>GameObjects\스테이지</Filter>
     </ClInclude>
     <ClInclude Include="dungeonStage.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>GameObjects\스테이지</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -350,10 +350,10 @@
       <Filter>GameObjects\스테이지</Filter>
     </ClCompile>
     <ClCompile Include="homeStage.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>GameObjects\스테이지</Filter>
     </ClCompile>
     <ClCompile Include="dungeonStage.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>GameObjects\스테이지</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

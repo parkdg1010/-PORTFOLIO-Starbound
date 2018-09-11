@@ -1,9 +1,10 @@
 #include "stdafx.h"
 #include "enemyManager.h"
+#include "player.h"
 
 HRESULT enemyManager::init()
 {
-	_count = 0;
+	//_count = 0;
 
 	return S_OK;
 }
@@ -12,6 +13,10 @@ void enemyManager::update()
 {
 	for (int i = 0; i < _vEnemy.size(); ++i)
 	{
+		_vEnemy[i]->setPlayerHitBox(_player->getHitBox());
+		_vEnemy[i]->setPlayerX(_player->getX());
+		_vEnemy[i]->setPlayerY(_player->getY());
+
 		_vEnemy[i]->bltUpdate();
 		_vEnemy[i]->update();
 	}
@@ -25,7 +30,6 @@ void enemyManager::render()
 		_vEnemy[i]->bltRender();
 		_vEnemy[i]->render();
 	}
-
 }
 
 void enemyManager::release()

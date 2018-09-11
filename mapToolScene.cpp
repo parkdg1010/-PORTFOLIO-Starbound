@@ -440,7 +440,7 @@ int mapToolScene::setObjFrame(int type, char shape)
 			(tempIdxY - 1) * _tileX + (tempIdxX + 1),	//오른쪽위
 			(tempIdxY + 1) * _tileX + (tempIdxX + 1),	//오른쪽아래
 			(tempIdxY - 1) * _tileX + (tempIdxX - 1) };	//왼쪽위
-
+		//계단은 충돌한 타일의 모양을 바꾸면서 자기도 바꿈
 		if (_stage[xShape[0]].object == type)
 		{
 			tempFrameX = 3;
@@ -464,13 +464,14 @@ int mapToolScene::setObjFrame(int type, char shape)
 	}
 	else if (shape == 'o') // 장식등
 	{
+		//검사할 타일인덱스 좌표
 		int oShape[4] = {
 							(tempIdxY - 1) * _tileX + (tempIdxX),		//위쪽
 							(tempIdxY + 1) * _tileX + (tempIdxX), 		//아래쪽
 							(tempIdxY) * _tileX + (tempIdxX - 1), 		//왼쪽
 							(tempIdxY) * _tileX + (tempIdxX + 1),		//오른쪽
 						};
-
+		//주변에 TR_NONE이 아니면 그쪽에 붙여서
 		if (_stage[oShape[0]].terrain != type)
 		{
 			tempFrameX = 1;
@@ -494,6 +495,7 @@ int mapToolScene::setObjFrame(int type, char shape)
 	}
 	else if (shape == '8')
 	{
+		//미완성
 		int eShape[8] = {
 			(tempIdxY)* _tileX + (tempIdxX - 1), 		//왼쪽
 			(tempIdxY - 1) * _tileX + (tempIdxX),		//위쪽

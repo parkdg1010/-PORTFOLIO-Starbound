@@ -5,10 +5,6 @@ class gameStage;
 class gameObject : public gameNode
 {
 protected:
-	enum AXIS
-	{
-		RIGHT, LEFT, UP, DOWN, NONE
-	};
 	float _x, _y, _z;
 	float _angle;
 	float _speed;
@@ -84,7 +80,7 @@ public:
 	virtual void render();
 	virtual void release();
 
-	gameObject() {}
+	gameObject() : _stage(NULL) {}
 	~gameObject() {}
 };
 
