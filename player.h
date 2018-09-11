@@ -54,6 +54,8 @@ public:
 	void updateHitbox();
 	void direction();
 
+	virtual void drawUI();
+
 	virtual HRESULT init();
 	virtual void update();
 	virtual void render();

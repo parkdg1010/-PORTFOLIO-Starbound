@@ -5,7 +5,7 @@ HRESULT stageScene::init()
 {
 	_itemFac = new itemFactory;
 	
-	_stage = new gameStage;
+	_stage = new dungeonStage;
 	_stage->init();
 
 	_player = SAVEDATA->getPlayer();

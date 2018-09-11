@@ -69,14 +69,26 @@
     <Filter Include="Framework2D\애드온">
       <UniqueIdentifier>{3cda2323-bee5-498c-bfe6-dfac759959ee}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Framework2D\애드온\총알">
-      <UniqueIdentifier>{bf483cdc-0061-43a7-b258-9a4fa4e2fc54}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Framework2D\애드온\에너미">
-      <UniqueIdentifier>{3ed4abcc-0819-4ea8-b79e-e3168e55b954}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Framework2D\애드온\체력바">
       <UniqueIdentifier>{413af328-8855-4598-a0a0-8dcf58fca46b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameActors\kluexboss">
+      <UniqueIdentifier>{ca56992e-3350-4ecc-90c6-ed31a4382d87}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameActors\에너미">
+      <UniqueIdentifier>{3ed4abcc-0819-4ea8-b79e-e3168e55b954}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObjects\총알">
+      <UniqueIdentifier>{bf483cdc-0061-43a7-b258-9a4fa4e2fc54}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObjects\아이템">
+      <UniqueIdentifier>{e3441224-110f-4173-ab3b-f561701f84d4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObjects\아이템\무기">
+      <UniqueIdentifier>{e399fa84-1bc1-4445-87b4-008a745c7937}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObjects\스테이지">
+      <UniqueIdentifier>{9c18ca6f-3779-468f-b940-f9c0df458ec0}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -103,18 +115,6 @@
     </ClInclude>
     <ClInclude Include="util.h">
       <Filter>FrameworkManagers\유틸</Filter>
-    </ClInclude>
-    <ClInclude Include="bullet.h">
-      <Filter>Framework2D\애드온\총알</Filter>
-    </ClInclude>
-    <ClInclude Include="enemy.h">
-      <Filter>Framework2D\애드온\에너미</Filter>
-    </ClInclude>
-    <ClInclude Include="enemyManager.h">
-      <Filter>Framework2D\애드온\에너미</Filter>
-    </ClInclude>
-    <ClInclude Include="minion.h">
-      <Filter>Framework2D\애드온\에너미</Filter>
     </ClInclude>
     <ClInclude Include="saveData.h">
       <Filter>FrameworkManagers\데이터 입출력\싱글톤데이터</Filter>
@@ -188,11 +188,44 @@
     <ClInclude Include="stageScene.h">
       <Filter>GameScene</Filter>
     </ClInclude>
-    <ClInclude Include="gameStage.h">
-      <Filter>GameObjects</Filter>
+    <ClInclude Include="kluexboss.h">
+      <Filter>GameActors\kluexboss</Filter>
+    </ClInclude>
+    <ClInclude Include="kluexbossPh1.h">
+      <Filter>GameActors\kluexboss</Filter>
+    </ClInclude>
+    <ClInclude Include="kluexbossPh2.h">
+      <Filter>GameActors\kluexboss</Filter>
+    </ClInclude>
+    <ClInclude Include="enemy.h">
+      <Filter>GameActors\에너미</Filter>
+    </ClInclude>
+    <ClInclude Include="enemyManager.h">
+      <Filter>GameActors\에너미</Filter>
+    </ClInclude>
+    <ClInclude Include="bullet.h">
+      <Filter>GameObjects\총알</Filter>
     </ClInclude>
     <ClInclude Include="gameItem.h">
-      <Filter>GameObjects</Filter>
+      <Filter>GameObjects\아이템</Filter>
+    </ClInclude>
+    <ClInclude Include="weapon.h">
+      <Filter>GameObjects\아이템\무기</Filter>
+    </ClInclude>
+    <ClInclude Include="rangedWeapon.h">
+      <Filter>GameObjects\아이템\무기</Filter>
+    </ClInclude>
+    <ClInclude Include="meleeWeapon.h">
+      <Filter>GameObjects\아이템\무기</Filter>
+    </ClInclude>
+    <ClInclude Include="gameStage.h">
+      <Filter>GameObjects\스테이지</Filter>
+    </ClInclude>
+    <ClInclude Include="homeStage.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="dungeonStage.h">
+      <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -219,18 +252,6 @@
     </ClCompile>
     <ClCompile Include="util.cpp">
       <Filter>FrameworkManagers\유틸</Filter>
-    </ClCompile>
-    <ClCompile Include="bullet.cpp">
-      <Filter>Framework2D\애드온\총알</Filter>
-    </ClCompile>
-    <ClCompile Include="enemy.cpp">
-      <Filter>Framework2D\애드온\에너미</Filter>
-    </ClCompile>
-    <ClCompile Include="enemyManager.cpp">
-      <Filter>Framework2D\애드온\에너미</Filter>
-    </ClCompile>
-    <ClCompile Include="minion.cpp">
-      <Filter>Framework2D\애드온\에너미</Filter>
     </ClCompile>
     <ClCompile Include="saveData.cpp">
       <Filter>FrameworkManagers\데이터 입출력\싱글톤데이터</Filter>
@@ -295,11 +316,44 @@
     <ClCompile Include="stageScene.cpp">
       <Filter>GameScene</Filter>
     </ClCompile>
-    <ClCompile Include="gameStage.cpp">
-      <Filter>GameObjects</Filter>
+    <ClCompile Include="kluexbossPh2.cpp">
+      <Filter>GameActors\kluexboss</Filter>
+    </ClCompile>
+    <ClCompile Include="kluexbossPh1.cpp">
+      <Filter>GameActors\kluexboss</Filter>
+    </ClCompile>
+    <ClCompile Include="kluexboss.cpp">
+      <Filter>GameActors\kluexboss</Filter>
+    </ClCompile>
+    <ClCompile Include="enemy.cpp">
+      <Filter>GameActors\에너미</Filter>
+    </ClCompile>
+    <ClCompile Include="enemyManager.cpp">
+      <Filter>GameActors\에너미</Filter>
+    </ClCompile>
+    <ClCompile Include="bullet.cpp">
+      <Filter>GameObjects\총알</Filter>
     </ClCompile>
     <ClCompile Include="gameItem.cpp">
-      <Filter>GameObjects</Filter>
+      <Filter>GameObjects\아이템</Filter>
+    </ClCompile>
+    <ClCompile Include="weapon.cpp">
+      <Filter>GameObjects\아이템\무기</Filter>
+    </ClCompile>
+    <ClCompile Include="rangedWeapon.cpp">
+      <Filter>GameObjects\아이템\무기</Filter>
+    </ClCompile>
+    <ClCompile Include="meleeWeapon.cpp">
+      <Filter>GameObjects\아이템\무기</Filter>
+    </ClCompile>
+    <ClCompile Include="gameStage.cpp">
+      <Filter>GameObjects\스테이지</Filter>
+    </ClCompile>
+    <ClCompile Include="homeStage.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="dungeonStage.cpp">
+      <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

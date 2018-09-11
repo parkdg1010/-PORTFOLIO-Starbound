@@ -19,6 +19,14 @@ float MY_UTIL::getAngle(float startX, float startY, float endX, float endY)
 	return atan2(startY - endY, endX - startX);
 }
 
+float MY_UTIL::getAnglePL(float startX, float startY, float endX, float endY)
+{
+	float angle = atan2(startY - endY, endX - startX);
+	if (angle < 0)
+		angle += 2 * PI;	//0보다 작으면 360도 더해서 양수값으로?
+	return angle;
+}
+
 void MY_UTIL::textMake(HDC dc, int x, int y, const char * name, int value)
 {
 	char temp[256];

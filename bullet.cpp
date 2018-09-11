@@ -1,268 +1,125 @@
 #include "stdafx.h"
 #include "bullet.h"
-//=============================================================
-//	## bullet ## (공용총알 - 너희들이 만들면 된다)
-//=============================================================
-HRESULT bullet::init(const char * imageName, int bulletMax, float range)
+
+HRESULT bullet::init(float radius, float speed, float damage, float range, const char * imageName)
 {
-	//총알 이미지 초기화
-	_imageName = imageName;
-	//총알갯수 및 사거리 초기화
-	_bulletMax = bulletMax;
+	if (strcmp(imageName, "없음") != 0) //문자열 비교함수 strcmp 
+		_image = IMAGEMANAGER->findImage(imageName);
+	else
+		_image = NULL;
+	_radius = radius;
+	_speed = speed;
 	_range = range;
+	_damage = damage;
+	_isActive = false;
+
+	_x = _y = _fireX = _fireY = 0;
+	_angle = 0;
+	_gravity = 0;
+	_count = _index = 0;
 
 	return S_OK;
 }
 
-void bullet::release(void)
+void bullet::update()
 {
-}
-
-void bullet::update(void)
-{
-	this->move();
-}
-
-void bullet::render(void)
-{
-	_viBullet = _vBullet.begin();
-	for (_viBullet; _viBullet != _vBullet.end(); ++_viBullet)
+	if (!_isActive) return;
+		
+	_x += _speed * cosf(_angle);
+	_y += _speed * -sinf(_angle) + _gravity;
+	if (getDistance(_fireX, _fireY, _x, _y) >= _range)
 	{
-		_viBullet->bulletImage->render(getMemDC(), _viBullet->rc.left, _viBullet->rc.top);
+		_isActive = false;
+	}
+	_hitBox = RectMakeCenter(_x, _y, _radius * 2, _radius * 2);
+
+	if (_image != NULL)
+	{
+		_count = (_count + 1) % 7;
+		if (_count == 0) ++_index;
+		if (_index > _image->getMaxFrameX()) _index = 0;
 	}
 }
 
-void bullet::fire(float x, float y, float angle, float speed)
+void bullet::render(bool rotate)
 {
-	//총알 벡터에 담는것을 제한하자
-	if (_bulletMax < _vBullet.size() + 1) return;
+	if (!_isActive) return;
 
-	tagBullet bullet;
-	ZeroMemory(&bullet, sizeof(tagBullet));
-	bullet.bulletImage = IMAGEMANAGER->findImage(_imageName);
-	bullet.speed = speed;
-	bullet.angle = angle;
-	bullet.x = bullet.fireX = x;
-	bullet.y = bullet.fireY = y;
-	bullet.rc = RectMakeCenter(bullet.x, bullet.y,
-		bullet.bulletImage->getWidth(),
-		bullet.bulletImage->getHeight());
-
-	//벡터에 담기
-	_vBullet.push_back(bullet);
+	if (_image == NULL) Ellipse(getMemDC(), _hitBox.left - CAM->getX(), _hitBox.top - CAM->getY(), _hitBox.right - CAM->getX(),_hitBox.bottom-CAM->getY());
+	else if(!rotate) _image->frameRender(getMemDC(), _x-CAM->getX(), _y-CAM->getY(), _index, _dir); //기본렌더
+	else _image->rotateFrameRender(getMemDC(), _x - CAM->getX(), _y - CAM->getY(), _index, 0, _angle); //회전렌더
 }
 
-void bullet::move()
+void bullet::release()
 {
-	_viBullet = _vBullet.begin();
-	for (; _viBullet != _vBullet.end();)
-	{
-		_viBullet->x += cosf(_viBullet->angle) * _viBullet->speed;
-		_viBullet->y += -sinf(_viBullet->angle) * _viBullet->speed;
-		_viBullet->rc = RectMakeCenter(_viBullet->x, _viBullet->y,
-			_viBullet->bulletImage->getWidth(),
-			_viBullet->bulletImage->getHeight());
-
-		//총알이 사거리보다 커졌을때
-		float distance = getDistance(_viBullet->fireX, _viBullet->fireY,
-			_viBullet->x, _viBullet->y);
-		if (_range < distance)
-		{
-			_viBullet = _vBullet.erase(_viBullet);
-		}
-		else
-		{
-			++_viBullet;
-		}
-	}
 }
 
-
-//=============================================================
-//	## missile ## (missile[0] -> 배열처럼 미리 장전해두고 총알발사)
-//=============================================================
-HRESULT missile::init(int bulletMax, float range)
+void bullet::fire(float fireX, float fireY, float fireAngle, string soundKey)
 {
-	//사거리, 총알갯수 초기화
-	_range = range;
-	_bulletMax = bulletMax;
+	if (_isActive) return;
 
-	//총알의 갯수만큼 구조체를 초기화 한 후 벡터에 담기
-	for (int i = 0; i < bulletMax; i++)
+	if (strcmp(soundKey.c_str(), "없음") != 0) //문자열 비교함수 strcmp
+		SOUNDMANAGER->play(soundKey, _effectVolume);
+
+	setFireCenter(fireX, fireY);
+	_angle = fireAngle;
+	_isActive = true;
+}
+
+bool bullet::collideMap(string pixelImageName)
+{
+	//벽과 충돌할떄
+	COLORREF color = GetPixel(IMAGEMANAGER->findImage(pixelImageName)->getMemDC(), _x, _y);
+	int r = GetRValue(color);
+	int g = GetGValue(color);
+	int b = GetBValue(color);
+	if (!(r == 255 && g == 0 && b == 255))
 	{
-		//총알 구조체 선언
-		tagBullet bullet;
-		//제로메모리 또는 멤셋
-		//구조체의 변수들의 값을 한번에 0으로 초기화 시켜준다
-		ZeroMemory(&bullet, sizeof(tagBullet));
-		bullet.bulletImage = new image;
-		bullet.bulletImage->init("missile.bmp", 25, 124, true, RGB(255, 0, 255));
-		bullet.speed = 5.0f;
-		bullet.fire = false;
-
-		//벡터에 담기
-		_vBullet.push_back(bullet);
+		if(_isActive) _isActive = false;
+		return true;
 	}
 
-	return S_OK;
-}
-
-void missile::release(void)
-{
-	for (int i = 0; i < _vBullet.size(); i++)
+	//사거리 벗어남
+	float distance = getDistance(_fireX, _fireY, _x, _y);
+	if (_range < distance)
 	{
-		_vBullet[i].bulletImage->release();
-		SAFE_DELETE(_vBullet[i].bulletImage);
+		_isActive = false;
 	}
+
+	//플레이어랑 충돌도 만들자
+	return false;
 }
 
-void missile::update(void)
+bool bullet::collideMap(image * pixelImage)
 {
-	this->move();
-}
-
-void missile::render(void)
-{
-	/*
-	for (int i = 0; i < _vBullet.size(); i++)
+	//벽과 충돌할떄
+	COLORREF color = GetPixel(pixelImage->getMemDC(), _x, _y);
+	int r = GetRValue(color);
+	int g = GetGValue(color);
+	int b = GetBValue(color);
+	if (!(r == 255 && g == 0 && b == 255))
 	{
-		if (!_vBullet[i].fire) continue;
-		_vBullet[i].bulletImage->render(getMemDC(), _vBullet[i].rc.left, _vBullet[i].rc.top);
+		if (_isActive) _isActive = false;
+		return true;
 	}
-	*/
 
-	_viBullet = _vBullet.begin();
-	for (_viBullet; _viBullet != _vBullet.end(); ++_viBullet)
+	//사거리 벗어남
+	float distance = getDistance(_fireX, _fireY, _x, _y);
+	if (_range < distance)
 	{
-		if (!_viBullet->fire) continue;
-		_viBullet->bulletImage->render(getMemDC(), _viBullet->rc.left, _viBullet->rc.top);
+		_isActive = false;
 	}
+
+	return false;
 }
 
-void missile::fire(float x, float y)
+bool bullet::collideActor(gameObject* actor)
 {
-	_viBullet = _vBullet.begin();
-	for (_viBullet; _viBullet != _vBullet.end(); ++_viBullet)
-	{
-		if (_viBullet->fire) continue;
-
-		_viBullet->fire = true;
-		_viBullet->x = _viBullet->fireX = x;
-		_viBullet->y = _viBullet->fireY = y;
-		_viBullet->rc = RectMakeCenter(_viBullet->x, _viBullet->y,
-			_viBullet->bulletImage->getWidth(),
-			_viBullet->bulletImage->getHeight());
-		break;
-	}
-}
-
-void missile::move()
-{
-	_viBullet = _vBullet.begin();
-	for (_viBullet; _viBullet != _vBullet.end(); ++_viBullet)
-	{
-		if (!_viBullet->fire) continue;
-
-		_viBullet->y -= _viBullet->speed;
-		_viBullet->rc = RectMakeCenter(_viBullet->x, _viBullet->y,
-			_viBullet->bulletImage->getWidth(),
-			_viBullet->bulletImage->getHeight());
-
-		//총알이 사거리보다 커졌을때 
-		float distance = getDistance(_viBullet->fireX, _viBullet->fireY,
-			_viBullet->x, _viBullet->y);
-		if (_range < distance)
-		{
-			_viBullet->fire = false;
-		}
-	}
-}
-
-//=============================================================
-//	## missileM1 ## (폭탄처럼 한발씩 발사하면서 생성하고 자동삭제)
-//=============================================================
-HRESULT missileM1::init(int bulletMax, float range)
-{
-	//총알갯수, 사거리 초기화
-	_bulletMax = bulletMax;
-	_range = range;
-
-	return S_OK;
-}
-
-void missileM1::release(void)
-{
-}
-
-void missileM1::update(void)
-{
-	move();
-}
-
-void missileM1::render(void)
-{
-	_viBullet = _vBullet.begin();
-	for (_viBullet; _viBullet != _vBullet.end(); ++_viBullet)
-	{
-		_viBullet->bulletImage->frameRender(getMemDC(), _viBullet->rc.left, _viBullet->rc.top);
+	if (!_isActive) return false;
 	
-		_viBullet->count++;
-		if (_viBullet->count % 3 == 0)
-		{
-			_viBullet->bulletImage->setFrameX(_viBullet->bulletImage->getFrameX() + 1);
-			if (_viBullet->bulletImage->getFrameX() >= _viBullet->bulletImage->getMaxFrameX())
-			{
-				_viBullet->bulletImage->setFrameX(0);
-			}
-			_viBullet->count = 0;
-		}
-	}
+	if (!actor->getIsActive()) return false;
+
+	RECT temp;
+
+	return IntersectRect(&temp, &actor->getHitBox(), &_hitBox);
 }
-
-void missileM1::fire(float x, float y)
-{
-	//총알 벡터에 담는것을 제한하자
-	if (_bulletMax < _vBullet.size() + 1) return;
-
-	tagBullet bullet;
-	ZeroMemory(&bullet, sizeof(tagBullet));
-	bullet.bulletImage = new image;
-	bullet.bulletImage->init("missile.bmp", 416, 64, 13, 1);
-	bullet.speed = 5.0f;
-	bullet.x = bullet.fireX = x;
-	bullet.y = bullet.fireY = y;
-	bullet.rc = RectMakeCenter(bullet.x, bullet.y,
-		bullet.bulletImage->getFrameWidth(),
-		bullet.bulletImage->getFrameHeight());
-
-	//벡터에 담기
-	_vBullet.push_back(bullet);
-}
-
-void missileM1::move()
-{
-	_viBullet = _vBullet.begin();
-	for (; _viBullet != _vBullet.end();)
-	{
-		_viBullet->y -= _viBullet->speed;
-		_viBullet->rc = RectMakeCenter(_viBullet->x, _viBullet->y,
-			_viBullet->bulletImage->getFrameWidth(),
-			_viBullet->bulletImage->getFrameHeight());
-
-		//총알이 사거리보다 커졌을때
-		float distance = getDistance(_viBullet->fireX, _viBullet->fireY,
-			_viBullet->x, _viBullet->y);
-		if (_range < distance)
-		{
-			_viBullet->bulletImage->release();
-			SAFE_DELETE(_viBullet->bulletImage);
-			_viBullet = _vBullet.erase(_viBullet);
-		}
-		else
-		{
-			++_viBullet;
-		}
-	}
-}
-
-

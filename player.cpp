@@ -133,6 +133,14 @@ void player::inputKey()
 		{
 			++_jumpCount;
 			changeState(JUMP);
+			//점프이펙트
+			if (_jumpCount == 1)
+			{
+				for (int i = 0; i < RND->getFromIntTo(6,3); ++i)
+				{
+					EFFECTMANAGER->play("점프먼지", _x+RND->getInt(30)-RND->getInt(30), _y+PLAYER_CONST::HEIGHT*0.5);
+				}
+			}
 		}
 		_axisY = UP;
 	}
@@ -187,10 +195,6 @@ void player::move()
 		{
 			_y += _speed * -sinf(PI*0.5);
 			updateHitbox();
-			if (_jumpCount == 1)
-			{
-				EFFECTMANAGER->play("점프먼지", _x, _y); //TODO : 점프뛴 위치에 두어야하는데
-			}
 		}
 	}
 
@@ -400,6 +404,10 @@ void player::direction()
 	else if (_x <= _ptMouse.x + CAM->getX()) _dir = RIGHT;
 	
 	float temp = utl::getAngle(_x, _y, _ptMouse.x + CAM->getX(), _ptMouse.y + CAM->getY());
+}
+
+void player::drawUI()
+{
 }
 
 void player::initImage()

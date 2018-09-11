@@ -1,66 +1,51 @@
 #include "stdafx.h"
 #include "enemy.h"
 
-HRESULT enemy::init(void)
-{
-	return S_OK;
-}
-
-HRESULT enemy::init(const char * imageName, POINT position)
+HRESULT enemy::init(POINTf position, int dir)
 {
 	//프레임 초기화
 	_count = 0;
-	_currentFrameX = _currentFrameY = 0;
+	_curFrameX = _curFrameY = 0;
 
-	//이미지, 이미지렉트 초기화
-	_image = IMAGEMANAGER->findImage(imageName);
-	_rc = RectMakeCenter(position.x, position.y, _image->getFrameWidth(), _image->getFrameHeight());
+	_oldX = _oldY = 0;
 
-	//랜덤으로 총알 쿨타임 주기
-	_fireCount = 0;
-	_rndFireCount = RND->getFromIntTo(1, 1000);
+	_dir = dir;
+
+	(_dir == LEFT) ? (_angle = 180) : (_angle = 0);
+
+	_isActive = true;
 
 	return S_OK;
 }
 
-void enemy::release(void)
-{
-}
-
-void enemy::update(void)
+void enemy::update()
 {
 	move();
-	animation();
 }
 
-void enemy::render(void)
+void enemy::render()
 {
-	draw();
 }
 
-//알아서 만들면 된다
+void enemy::release()
+{
+}
+
 void enemy::move()
 {
 }
 
-void enemy::draw()
+void enemy::collide()
 {
-	_image->frameRender(getMemDC(), _rc.left, _rc.top, _currentFrameX, _currentFrameY);
 }
 
-void enemy::animation()
+bool enemy::collideObject(gameObject * gameObject)
 {
-	_count++;
-	if (_count % 3 == 0)
-	{
-		_image->setFrameX(_image->getFrameX() + 1);
-		_currentFrameX++;
-		if (_currentFrameX >= _image->getMaxFrameX())
-		{
-			_currentFrameX = 0;
-			_count = 0;
-		}
-	}
+	return false;
+}
+
+void enemy::damaged(gameObject * actor)
+{
 }
 
 bool enemy::bulletCountFire()

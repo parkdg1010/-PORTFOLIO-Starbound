@@ -94,7 +94,7 @@ void loadingScene::loadingSound()
 
 void loadingScene::loadingEffect()
 {
-	EFFECTMANAGER->addEffect("점프먼지", "JUMP_DUST", 0.2, 10);
+	EFFECTMANAGER->addEffect("점프먼지", "JUMP_DUST", 0.05, 10);
 }
 
 void loadingScene::loadingMapToolImage()
@@ -200,5 +200,10 @@ void loadingScene::loadingPlayer()
 	_loading->loadFrameImage("FLORAN_JUMP", "Texture/character/floran/jump_516x258_4x2.bmp", 516, 258, 4, 2);
 	_loading->loadFrameImage("FLORAN_FALL", "Texture/character/floran/fall_516x258_4x2.bmp", 516, 258, 4, 2);
 
-	_loading->loadFrameImage("JUMP_DUST", "Texture/character/dust2/dust2_128x32_4x1.bmp", 128, 32, 4, 1);
+	_loading->loadFrameImage("JUMP_DUST", "Texture/character/dust2/jumpDust_64x32_2x1.bmp", 64, 32, 2, 1);
+}
+
+void loadingScene::loadingMonster()
+{
+	_loading->loadImage("BIRDBOSS1", "Texture/character/dust2/kluexbossstatue_4719x1089_13x3.bmp", 4719, 1089);
 }

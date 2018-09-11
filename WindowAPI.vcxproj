@@ -151,12 +151,17 @@
     <ClInclude Include="bullet.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="commonMacroFunction.h" />
+    <ClInclude Include="dungeonStage.h" />
     <ClInclude Include="effect.h" />
     <ClInclude Include="effectManager.h" />
     <ClInclude Include="gameActor.h" />
     <ClInclude Include="gameItem.h" />
     <ClInclude Include="gameObject.h" />
     <ClInclude Include="gameStage.h" />
+    <ClInclude Include="homeStage.h" />
+    <ClInclude Include="kluexboss.h" />
+    <ClInclude Include="kluexbossPh1.h" />
+    <ClInclude Include="kluexbossPh2.h" />
     <ClInclude Include="mapToolScene.h" />
     <ClInclude Include="enemy.h" />
     <ClInclude Include="enemyManager.h" />
@@ -168,10 +173,11 @@
     <ClInclude Include="loading.h" />
     <ClInclude Include="loadingScene.h" />
     <ClInclude Include="mainGame.h" />
-    <ClInclude Include="minion.h" />
+    <ClInclude Include="meleeWeapon.h" />
     <ClInclude Include="player.h" />
     <ClInclude Include="progressBar.h" />
     <ClInclude Include="randomFuntion.h" />
+    <ClInclude Include="rangedWeapon.h" />
     <ClInclude Include="RenderManager.h" />
     <ClInclude Include="saveData.h" />
     <ClInclude Include="sceneManager.h" />
@@ -185,17 +191,23 @@
     <ClInclude Include="txtData.h" />
     <ClInclude Include="UIManager.h" />
     <ClInclude Include="util.h" />
+    <ClInclude Include="weapon.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="animation.cpp" />
     <ClCompile Include="bullet.cpp" />
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="dungeonStage.cpp" />
     <ClCompile Include="effect.cpp" />
     <ClCompile Include="effectManager.cpp" />
     <ClCompile Include="gameActor.cpp" />
     <ClCompile Include="gameItem.cpp" />
     <ClCompile Include="gameObject.cpp" />
     <ClCompile Include="gameStage.cpp" />
+    <ClCompile Include="homeStage.cpp" />
+    <ClCompile Include="kluexboss.cpp" />
+    <ClCompile Include="kluexbossPh1.cpp" />
+    <ClCompile Include="kluexbossPh2.cpp" />
     <ClCompile Include="mapToolScene.cpp" />
     <ClCompile Include="enemy.cpp" />
     <ClCompile Include="enemyManager.cpp" />
@@ -207,9 +219,10 @@
     <ClCompile Include="loading.cpp" />
     <ClCompile Include="loadingScene.cpp" />
     <ClCompile Include="mainGame.cpp" />
-    <ClCompile Include="minion.cpp" />
+    <ClCompile Include="meleeWeapon.cpp" />
     <ClCompile Include="player.cpp" />
     <ClCompile Include="progressBar.cpp" />
+    <ClCompile Include="rangedWeapon.cpp" />
     <ClCompile Include="RenderManager.cpp" />
     <ClCompile Include="saveData.cpp" />
     <ClCompile Include="sceneManager.cpp" />
@@ -226,6 +239,7 @@
     <ClCompile Include="txtData.cpp" />
     <ClCompile Include="UIManager.cpp" />
     <ClCompile Include="util.cpp" />
+    <ClCompile Include="weapon.cpp" />
     <ClCompile Include="winMain.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

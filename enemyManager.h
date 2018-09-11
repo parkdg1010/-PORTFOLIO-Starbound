@@ -1,37 +1,50 @@
 #pragma once
 #include "gameNode.h"
-#include "minion.h"
 #include "bullet.h"
+#include "enemy.h"
 
+enum ENEMY_TYPE
+{
+	FENNIX,
+	SCAVERAN,
+	TOUMINGO,
+	TRICTUS,
+	VOLTIP
+};
 
+class player;
 class enemyManager : public gameNode
 {
 private:
-	vector<enemy*> _vMinion;
-	vector<enemy*>::iterator _viMinion;
+	player * _player;
+	image* _mapPixel;
+	vector<enemy*> _vEnemy;
 
-	bullet* _bullet;	//공용총알 클래스
 	int _count;
-
 public:
-	HRESULT init(void);
-	void release(void);
-	void update(void);
-	void render(void);
+	HRESULT init();
+	void update();
+	void render();
+	void release();
 
-	//미니언 세팅 => 초기화에 넣기
-	void setMinion();
-
-	//미니언 총알발사
-	void minionBulletFire();
-
-	//미니언 삭제
-	void removeMinion(int index);
+	//상호참조
+	void linkPlayer(player* p) { _player = p; };
+	void linkMapPixel(image* map) { _mapPixel = map; };
 
 	//미니언 벡터 가져오기
-	vector<enemy*> getMinion() { return _vMinion; }
+	vector<enemy*> getEnemy() { return _vEnemy; }
+
+	//에너미 추가
+	void addEnemy(enemy* enemy) { _vEnemy.push_back(enemy); }
+	void setPostion(int index, POINTf pos = { WINSIZEX / 2, WINSIZEY / 2 }, int dir = 1) { _vEnemy[index]->setPos(pos.x, pos.y); }
 
 	enemyManager() {}
 	~enemyManager() {}
+};
+
+class enemyFactory
+{
+public:
+	enemy * createEnemy(int type, POINTf pos = { WINSIZEX / 2, WINSIZEY / 2 }, int dir = 1);
 };
 

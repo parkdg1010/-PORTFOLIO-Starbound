@@ -21,6 +21,9 @@ namespace MY_UTIL
 	float getDistance(float _x, float _y);
 	// 두 점 사이의 각도
 	float getAngle(float startX, float startY, float endX, float endY);
+	//+로만 두 점 사이의 각도
+	float getAnglePL(float startX, float startY, float endX, float endY);
+
 	void textMake(HDC dc, int x, int y, const char* name, int value); //숫자를 넣으면 숫자출력 문자를 넣으면 문자 출력 실수를 넣으면 실수 출력
 	void textMake(HDC dc, int x, int y, const char* name, float value);
 	void textMake(HDC dc, int x, int y, const char* name);

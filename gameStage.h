@@ -5,8 +5,7 @@
 class player;
 class gameStage : public gameNode
 {
-private:
-	int _stageNum;
+protected:
 	int _tileX, _tileY;
 	int _curBackTop;
 	int _curBackBot;
@@ -15,7 +14,6 @@ private:
 	image* _pixelTiles;
 	vector<image*> _tiles;
 	image* _woodencrate1, *_treeLights, *_ornatetorch, *_flatform;
-	int _treeLightsCount, _treeLightsIdx, _ornatetorchCount, _ornatetorchIdx;
 	image* _item;
 
 	image* _backGroundTop[5];
@@ -24,6 +22,8 @@ private:
 	image* _pixelBuffer;
 
 	player* _player;
+
+	Synthesize(int, _stageNum, StageNum)
 
 public:
 	void saveStage();

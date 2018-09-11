@@ -2,6 +2,8 @@
 #include "gameNode.h"
 #include "player.h"
 #include "gameStage.h"
+#include "homeStage.h"
+#include "dungeonStage.h"
 
 class stageScene : public gameNode
 {

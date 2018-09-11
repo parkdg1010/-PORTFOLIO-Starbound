@@ -1,10 +1,6 @@
 #include "stdafx.h"
 #include "mainGame.h"
 
-image * cursor;
-int cursorFrameX = 0;
-int cursorFrameY = 0;
-
 //=============================================================
 //	## √ ±‚»≠ ## init()
 //=============================================================

@@ -1,118 +1,43 @@
 #pragma once
-#include "gameNode.h"
+#include "gameObject.h"
 
-//총알 구조체
-struct tagBullet
+class bullet : public gameObject
 {
-	image* bulletImage;
-	RECT rc;
-	float x, y;
-	float fireX, fireY;
-	float speed;
-	float angle;
-	float gravity;
-	float radius;
-	bool fire;
-	int count;
-};
+	image* _image;		// 불릿이미지
+	image* _pixelMap;	// 픽셀맵 받아오기
+	float _radius;		// 불릿 반지름
+	float _range;		// 불릿사거리
 
-//=============================================================
-//	## bullet ## (공용총알 - 너희들이 만들면 된다)
-//=============================================================
-class bullet : public gameNode
-{
-private:
-	//총알 구조체를 담을 벡터, 반복자
-	vector<tagBullet> _vBullet;
-	vector<tagBullet>::iterator _viBullet;
-
-private:
-	const char* _imageName;		//총알 이미지 이름(키값)
-	float _range;			//총알 사거리
-	int _bulletMax;			//총알 최대갯수
-	bool _isFrameImg;		//이미지매니져에 들어 있는 이미지가 프레임이 있냐 없냐?
-
+	float _fireX, _fireY;
 public:
-	HRESULT init(const char* imageName, int bulletMax, float range);
-	void release(void);
-	void update(void);
-	void render(void);
+	virtual HRESULT init(float radius, float speed, float damage, float range, const char* imageName = "없음");
+	//불릿반지름, 속도, 공격력, 사거리, 이미지키값 이미지키값을 안넣으면 Ellipse를 그려서 발사해준다.
+	virtual void update();
+	//액티브상태면 무브
+	virtual void render(bool rotate = false);
+	//렌더, rotate가 true면 로테이트렌더한다.
+	virtual void release();
 
-	//총알발사
-	void fire(float x, float y, float angle, float speed);
-	//총알무브
-	void move();
+	virtual void fire(float fireX, float fireY, float fireAngle, string soundKey = "없음");
+	//발사할때 사운드키값으로 재생시키고 발사위치 정하고 발사각도(호도) 지정
 
-	//총알벡터 가져오기
-	vector<tagBullet> getVBullet() { return _vBullet; }
-	vector<tagBullet>::iterator getViBullet() { return _viBullet; }
+	virtual bool collideMap(string pixelImageName);		//벽과의 충돌을 하기위해 픽셀이미지키값을 넘겨주게 했음
+	virtual bool collideMap(image * pixelImage);		//벽과의 충돌을 하기위해 픽셀이미지키값을 넘겨주게 했음
+
+	virtual bool collideActor(gameObject* actor);		
+	//true면 충돌이고 false면 충돌아님, 이후의 행동(피해주기)과 비활성은 사용할 클래스에서 결정
+
+	void setPixelMap(image* pixelMap) { _pixelMap = pixelMap; }
+
+	float getRange() { return _range; }
+
+	float getEffectAngle() { return getAnglePL(_x, _y, _fireX, _fireY); }
+	//angle값을 양수로만 표현하기위해 getAnglePL을 사용
+
+	void setIsActive(bool isActive) { _isActive = isActive; }
+	void setFireCenter(float fireX, float fireY) { _fireX = fireX; _fireY = fireY; _x = fireX; _y = fireY; }
 
 	bullet() {}
 	~bullet() {}
 };
-
-//=============================================================
-//	## missile ## (missile[0] -> 배열처럼 미리 장전해두고 총알발사)
-//=============================================================
-class missile : public gameNode
-{
-private:
-	//총알 구조체를 담을 벡터, 반복자
-	vector<tagBullet> _vBullet;
-	vector<tagBullet>::iterator _viBullet;
-
-private:
-	float _range;			//총알 사거리
-	int _bulletMax;			//총알 최대갯수
-
-public:
-	HRESULT init(int bulletMax, float range);
-	void release(void);
-	void update(void);
-	void render(void);
-
-	//총알발사
-	void fire(float x, float y);
-	//총알무브
-	void move();
-
-	missile() {}
-	~missile() {}
-};
-
-//=============================================================
-//	## missileM1 ## (폭탄처럼 한발씩 발사하면서 생성하고 자동삭제)
-//=============================================================
-class missileM1 : public gameNode
-{
-private:
-	//총알 구조체를 담을 벡터, 반복자
-	vector<tagBullet> _vBullet;
-	vector<tagBullet>::iterator _viBullet;
-
-private:
-	float _range;			//총알 사거리
-	int _bulletMax;			//총알 최대갯수
-
-public:
-	HRESULT init(int bulletMax, float range);
-	void release(void);
-	void update(void);
-	void render(void);
-
-	//총알발사
-	void fire(float x, float y);
-	//총알무브
-	void move();
-
-	//총알벡터 가져오기
-	vector<tagBullet> getVBullet() { return _vBullet; }
-
-	missileM1() {}
-	~missileM1() {}
-};
-
-
-
-
 
