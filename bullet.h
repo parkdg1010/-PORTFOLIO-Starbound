@@ -4,7 +4,7 @@
 class bullet : public gameObject
 {
 	image* _image;		// 불릿이미지
-	image* _pixelMap;	// 픽셀맵 받아오기
+	//image* _pixelMap;	// 픽셀맵 받아오기 (게임오브젝트에 포함)
 	float _radius;		// 불릿 반지름
 	float _range;		// 불릿사거리
 
@@ -19,7 +19,7 @@ public:
 	virtual void release();
 
 	virtual void fire(float fireX, float fireY, float fireAngle, string soundKey = "없음");
-	//발사할때 사운드키값으로 재생시키고 발사위치 정하고 발사각도(호도) 지정
+	//발사할때 사운드키값으로 재생시키고 발사위치 정하고 발사각도(호도) 지정 for문 continue는 사용처에서
 
 	virtual bool collideMap(string pixelImageName);		//벽과의 충돌을 하기위해 픽셀이미지키값을 넘겨주게 했음
 	virtual bool collideMap(image * pixelImage);		//벽과의 충돌을 하기위해 픽셀이미지키값을 넘겨주게 했음
@@ -27,7 +27,7 @@ public:
 	virtual bool collideActor(gameObject* actor);		
 	//true면 충돌이고 false면 충돌아님, 이후의 행동(피해주기)과 비활성은 사용할 클래스에서 결정
 
-	void setPixelMap(image* pixelMap) { _pixelMap = pixelMap; }
+	//void setPixelMap(image* pixelMap) { _pixelMap = pixelMap; }
 
 	float getRange() { return _range; }
 

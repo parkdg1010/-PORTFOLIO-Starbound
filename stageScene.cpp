@@ -7,24 +7,27 @@ HRESULT stageScene::init()
 	_enemyFac = new enemyFactory;
 	
 	_stage = new dungeonStage;
-	_stage->init();
-
 	_enemyManager = new enemyManager;
-	initMonster();
-	_enemyManager->init();
+
+	_stage->init();
 
 	_player = SAVEDATA->getPlayer();
 	_player->linkStage(_stage);
-	_player->init();
 	_player->setWeapon(_itemFac->createItem(ITEM_SPACESWORD, 1000, 20.f, 0.f, "", "¿ìÁÖ°Ë"));
-
-	_enemyManager->linkMapPixel(_stage->getPixelBuffer());
-	_enemyManager->linkPlayer(_player);
-
-	CAMERAMANAGER->init();
+	_player->init();
 
 	_stage->linkPlayer(_player);
+	_enemyManager->linkPlayer(_player);
+
 	_stage->loadStage();
+
+	_enemyManager->linkStage(_stage);
+	initMonster();
+	_enemyManager->init();
+
+	CAMERAMANAGER->init();
+	CAMERAMANAGER->setRange(_stage->getTileX() * TILESIZE, _stage->getTileY() * TILESIZE);
+	CAMERAMANAGER->setPosition((int)_player->getX(), (int)_player->getY());
 
 	return S_OK;
 }
@@ -60,9 +63,9 @@ void stageScene::release()
 
 void stageScene::initMonster()
 {
-	POINTf pos;
 	_kluexboss = new kluexboss;
-	pos = { 2000,500 };
+	POINTf pos;
+	pos = { 1000,340 };
 	_kluexboss->init(pos, LEFT);
 	_enemyManager->addEnemy(_kluexboss);
 }

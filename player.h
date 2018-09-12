@@ -8,6 +8,7 @@ namespace PLAYER_CONST
 	const int HEIGHT = 128;
 }
 
+class gameStage;
 class player : public gameActor
 {
 private:
@@ -38,6 +39,8 @@ private:
 	int _keepWalk;						//계단 내려가기
 	float _longJumpValue;				//점프높이 제한
 
+	gameStage* _stage;
+
 	Synthesize(int, _jumpCount, JumpCount)			//이단점프
 	Synthesize(float, _dashSpeed, DashSpeed)		//대쉬속도
 	Synthesize(gameItem*, _weapon, Weapon)			//무기
@@ -62,6 +65,8 @@ public:
 	virtual void release();
 
 	void initImage();
+
+	void linkStage(gameStage* stage) { _stage = stage; }
 
 	player() { gameObject::init(); _weapon = NULL; }
 	~player() {}

@@ -1,5 +1,6 @@
 #pragma once
 #include "gameNode.h"
+#include "gameStage.h"
 #include "bullet.h"
 #include "enemy.h"
 #include "kluexboss.h"
@@ -18,7 +19,7 @@ class enemyManager : public gameNode
 {
 private:
 	player * _player;
-	image* _mapPixel;
+	gameStage* _stage;
 	vector<enemy*> _vEnemy;
 
 	int _count;
@@ -29,8 +30,9 @@ public:
 	void release();
 
 	//상호참조
-	void linkPlayer(player* p) { _player = p; };
-	void linkMapPixel(image* map) { _mapPixel = map; };
+	void linkPlayer(player* p) { _player = p; }
+	//void linkMapPixel(image* map) { _mapPixel = map; }
+	void linkStage(gameStage* stage) { _stage = stage; }
 
 	//미니언 벡터 가져오기
 	vector<enemy*> getEnemy() { return _vEnemy; }

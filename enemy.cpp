@@ -1,8 +1,10 @@
 #include "stdafx.h"
 #include "enemy.h"
 
-HRESULT enemy::init(POINTf position, int dir)
+HRESULT enemy::init(POINTf pos, int dir)
 {
+	_x = pos.x;
+	_y = pos.y;
 	//프레임 초기화
 	_count = 0;
 	_curFrameX = _curFrameY = 0;

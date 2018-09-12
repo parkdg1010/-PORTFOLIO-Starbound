@@ -37,7 +37,7 @@ public:
 	//초당 FPS 갱신횟수
 	void setFPS(int framePerSec);
 	//프레임 업데이트 (값이 클수록 빨리돈다)
-	void frameUpdate(float elapsedTime);
+	bool frameUpdate(float elapsedTime);
 
 	//플레이 시작
 	void start();

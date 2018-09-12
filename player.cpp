@@ -138,7 +138,7 @@ void player::inputKey()
 			{
 				for (int i = 0; i < RND->getFromIntTo(6,3); ++i)
 				{
-					EFFECTMANAGER->play("점프먼지", _x+RND->getInt(30)-RND->getInt(30), _y+PLAYER_CONST::HEIGHT*0.5);
+					EFFECTMANAGER->play("JUMP_DUST", _x+RND->getInt(30)-RND->getInt(30), _y+PLAYER_CONST::HEIGHT*0.5);
 				}
 			}
 		}

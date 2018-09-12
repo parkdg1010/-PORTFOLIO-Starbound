@@ -6,6 +6,11 @@ HRESULT enemyManager::init()
 {
 	//_count = 0;
 
+	for (int i = 0; i < _vEnemy.size(); ++i)
+	{
+		_vEnemy[i]->linkMapPixel(_stage->getPixelBuffer());
+	}
+
 	return S_OK;
 }
 

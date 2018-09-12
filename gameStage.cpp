@@ -74,9 +74,6 @@ void gameStage::loadStage()
 	CloseHandle(file);
 
 	loadStageBuffer();
-
-	CAMERAMANAGER->setRange(_tileX * TILESIZE, _tileY * TILESIZE);
-	CAMERAMANAGER->setPosition((int)_player->getX(), (int)_player->getY());
 }
 
 void gameStage::loadStageBuffer()

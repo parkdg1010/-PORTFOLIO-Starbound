@@ -47,7 +47,7 @@ public:
 
 	void linkPlayer(player* p) { _player = p; }
 
-	gameStage() {}
+	gameStage() : _stageBuffer(NULL), _pixelBuffer(NULL) {}
 	~gameStage() {}
 };
 

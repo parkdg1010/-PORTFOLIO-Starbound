@@ -1,4 +1,5 @@
 #include "stdafx.h"
+#include "gameStage.h"
 #include "kluexboss.h"
 
 HRESULT kluexboss::init(POINTf pos, int dir)
@@ -18,6 +19,11 @@ HRESULT kluexboss::init(POINTf pos, int dir)
 
 void kluexboss::update()
 {
+	_currentPhase->linkMapPixel(_mapPixel);
+	_currentPhase->setPlayerHitBox(_playerHitBox);
+	_currentPhase->setPlayerX(_playerX);
+	_currentPhase->setPlayerY(_playerY);
+
 	_currentPhase->update();
 }
 

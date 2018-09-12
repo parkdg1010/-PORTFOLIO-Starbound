@@ -20,6 +20,7 @@ public:
 	void loadingIntroImage();
 	void loadingTiles();
 	void loadingObjects();
+	void loadingEffectImage();
 	void loadingItem();
 	void loadingPlayer();
 	void loadingMonster();

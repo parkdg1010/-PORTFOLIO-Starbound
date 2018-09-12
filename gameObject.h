@@ -1,7 +1,6 @@
 #pragma once
 #include "gameNode.h"
 
-class gameStage;
 class gameObject : public gameNode
 {
 protected:
@@ -21,7 +20,7 @@ protected:
 
 	bool _isActive;
 
-	gameStage* _stage; //스테이지를 여기에 줘야 초기좌표도 좀 찍고 집어던졌을때 맵충돌도 할 수 있을거같다
+	image* _mapPixel;	//스테이지를 여기에 줘야 초기좌표도 좀 찍고 집어던졌을때 맵충돌도 할 수 있을거같다
 
 	Synthesize(float, _hp, Hp)
 	Synthesize(float, _damage, Damage)
@@ -73,14 +72,14 @@ public:
 	bool getIsActive() { return _isActive; }
 	void setIsActive(bool isActive) { _isActive = isActive; }
 
-	void linkStage(gameStage* stage) { _stage = stage; }
+	void linkMapPixel(image* pixel) { _mapPixel = pixel; }
 
 	virtual HRESULT init();
 	virtual void update();
 	virtual void render();
 	virtual void release();
 
-	gameObject() : _stage(NULL) {}
+	gameObject() : _mapPixel(NULL) {}
 	~gameObject() {}
 };
 

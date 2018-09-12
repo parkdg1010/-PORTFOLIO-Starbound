@@ -165,11 +165,12 @@ void animation::setFPS(int framePerSec)
 	_frameUpdateSec = 1.0f / framePerSec;
 }
 
-void animation::frameUpdate(float elapsedTime)
+bool animation::frameUpdate(float elapsedTime)
 {
 	//플레이 중이냐?
 	if (_play)
 	{
+		bool temp = false;
 		_elapsedSec += elapsedTime;
 		//프레임 업데이트 시간이 다되었다면
 		if (_elapsedSec >= _frameUpdateSec)
@@ -187,8 +188,11 @@ void animation::frameUpdate(float elapsedTime)
 					_nowPlayIdx--;
 					_play = false;
 				}
+				temp = true;
 			}
 		}
+
+		return temp;
 	}
 }
 

@@ -71,11 +71,17 @@ void loadingScene::loadingImage()
 	//오브젝트
 	loadingObjects();
 
+	//이펙트이미지
+	loadingEffectImage();
+
 	//플레이어
 	loadingPlayer();
 
 	//아이템
 	loadingItem();
+
+	//몬스터
+	loadingMonster();
 
 	//ui
 	_loading->loadFrameImage("숫자", "Texture/ui/numbers.bmp", 160, 16, 10, 1);
@@ -92,9 +98,28 @@ void loadingScene::loadingSound()
 {
 }
 
+void loadingScene::loadingEffectImage()
+{
+	_loading->loadFrameImage("JUMPDUSTImg", "Texture/character/dust2/jumpDust_64x32_2x1.bmp", 64, 32, 2, 1);
+
+	_loading->loadFrameImage("kluexstaffplasmaImg", "Texture/projectiles/kluexstaffplasma.bmp", 432, 51, 8, 1);					//기운수정 조준판
+	_loading->loadFrameImage("redpulsecannonexplosionImg", "Texture/projectiles/redpulsecannonexplosion.bmp", 468, 117, 4, 1);	//기운수정 쏠떄
+	_loading->loadFrameImage("energycrystalImg", "Texture/projectiles/energycrystal.bmp", 192, 24, 4, 1);						//기운수정(불릿)
+	_loading->loadImage("pillarplatformImg", "Texture/projectiles/pillarplatform.bmp", 144, 192, true, MAGENTA);				//발판
+	_loading->loadImage("firefloorhazardImg", "Texture/projectiles/firefloorhazard.bmp", 1536, 48, true, MAGENTA);				//마그마올리기
+	_loading->loadFrameImage("iceeruptionImg", "Texture/projectiles/iceeruption.bmp", 768, 168, 4, 1);							//얼음기둥
+	_loading->loadFrameImage("energywaveImg", "Texture/projectiles/energywave.bmp", 576, 66, 3, 1);								//기운파도(불릿)
+}
+
 void loadingScene::loadingEffect()
 {
-	EFFECTMANAGER->addEffect("점프먼지", "JUMP_DUST", 0.05, 10);
+	EFFECTMANAGER->addEffect("JUMP_DUST", "JUMPDUSTImg", 0.05, 10);
+
+	EFFECTMANAGER->addEffect("kluex_Staff_Plasma", "kluexstaffplasmaImg", 0.05, 20);
+	EFFECTMANAGER->addEffect("red_Pulse_Cannon_Explosion", "redpulsecannonexplosionImg", 0.05, 20);
+	EFFECTMANAGER->addEffect("energy_Crystal", "energycrystalImg", 0.05, 20);
+	EFFECTMANAGER->addEffect("ice_Eruption", "iceeruptionImg", 0.05, 10);
+	EFFECTMANAGER->addEffect("energy_Wave", "energywaveImg", 0.05, 10);
 }
 
 void loadingScene::loadingMapToolImage()
@@ -199,11 +224,9 @@ void loadingScene::loadingPlayer()
 	_loading->loadFrameImage("FLORAN_RUN", "Texture/character/floran/run_1032x258_8x2.bmp", 1032, 258, 8, 2);
 	_loading->loadFrameImage("FLORAN_JUMP", "Texture/character/floran/jump_516x258_4x2.bmp", 516, 258, 4, 2);
 	_loading->loadFrameImage("FLORAN_FALL", "Texture/character/floran/fall_516x258_4x2.bmp", 516, 258, 4, 2);
-
-	_loading->loadFrameImage("JUMP_DUST", "Texture/character/dust2/jumpDust_64x32_2x1.bmp", 64, 32, 2, 1);
 }
 
 void loadingScene::loadingMonster()
 {
-	_loading->loadImage("BIRDBOSS1", "Texture/character/dust2/kluexbossstatue_4719x1089_13x3.bmp", 4719, 1089);
+	_loading->loadImage("BIRDBOSS1", "Texture/enemy/monsters/boss/kluexbossstatue/kluexbossstatue_4719x1089_13x3.bmp", 4719, 1089, true, MAGENTA);
 }

@@ -56,8 +56,6 @@ void bullet::release()
 
 void bullet::fire(float fireX, float fireY, float fireAngle, string soundKey)
 {
-	if (_isActive) return;
-
 	if (strcmp(soundKey.c_str(), "없음") != 0) //문자열 비교함수 strcmp
 		SOUNDMANAGER->play(soundKey, _effectVolume);
 
@@ -69,6 +67,8 @@ void bullet::fire(float fireX, float fireY, float fireAngle, string soundKey)
 bool bullet::collideMap(string pixelImageName)
 {
 	//벽과 충돌할떄
+	if (IMAGEMANAGER->findImage(pixelImageName) == NULL) return false;
+
 	COLORREF color = GetPixel(IMAGEMANAGER->findImage(pixelImageName)->getMemDC(), _x, _y);
 	int r = GetRValue(color);
 	int g = GetGValue(color);
@@ -93,6 +93,8 @@ bool bullet::collideMap(string pixelImageName)
 bool bullet::collideMap(image * pixelImage)
 {
 	//벽과 충돌할떄
+	if (pixelImage == NULL) return false;
+
 	COLORREF color = GetPixel(pixelImage->getMemDC(), _x, _y);
 	int r = GetRValue(color);
 	int g = GetGValue(color);
