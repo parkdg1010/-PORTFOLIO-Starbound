@@ -56,6 +56,7 @@ HRESULT kluexbossPh1::init(POINTf pos, int dir)
 
 void kluexbossPh1::update()
 {
+	
 	//이것도 딜레이 넣어서 생성하기
 	if (KEYMANAGER->isOnceKeyDown('3'))
 	{
@@ -102,13 +103,13 @@ void kluexbossPh1::update()
 		}
 	}
 
-	_img[_state]->frameUpdate(0.46f);
-
 	for (int i = 0; i < _vPlasmaBall.size(); ++i)
 	{
 		_vPlasmaBall[i].setAngle(utl::getAnglePL(_vPlasmaBall[i].getX(), _vPlasmaBall[i].getY(), _playerX, _playerY));
 		_vPlasmaBall[i].update();
 	}
+
+	_img[_state]->frameUpdate(0.46f);
 }
 
 void kluexbossPh1::render()
