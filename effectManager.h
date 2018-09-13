@@ -17,10 +17,10 @@ private:
 	mEffect _mEffect;		//이펙트벡터가 담겨있는 맵
 
 public:
-	HRESULT init(void);
-	void release(void);
-	void update(void);
-	void render(void);
+	HRESULT init();
+	void release();
+	void update();
+	void render();
 
 	//이펙트 추가(이펙트키값, 이미지키값, 이펙트속도, 버퍼갯수)
 	void addEffect(string effectName, const char* imageName, float effectFPS, int buffer);

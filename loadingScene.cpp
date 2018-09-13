@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "loadingScene.h"
 
-HRESULT loadingScene::init(void)
+HRESULT loadingScene::init()
 {
 	//로딩클래스 초기화
 	_loading = new loading;
@@ -14,14 +14,14 @@ HRESULT loadingScene::init(void)
 	return S_OK;
 }
 
-void loadingScene::release(void)
+void loadingScene::release()
 {
 	//로딩클래스 해제
 	_loading->release();
 	SAFE_DELETE(_loading);
 }
 
-void loadingScene::update(void)
+void loadingScene::update()
 {
 	//로딩클래스 업데이트
 	_loading->update(); //로딩바 업데이트
@@ -34,7 +34,7 @@ void loadingScene::update(void)
 	}
 }
 
-void loadingScene::render(void)
+void loadingScene::render()
 {
 	//로딩클래스 렌더
 	_loading->render();

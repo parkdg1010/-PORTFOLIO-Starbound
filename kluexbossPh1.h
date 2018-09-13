@@ -1,6 +1,6 @@
 #pragma once
 #include "enemy.h"
-enum tagkluexState
+enum tagKLUEXSTATE
 {
 	MAIN,
 	FIRE,
@@ -10,6 +10,12 @@ class kluexbossPh1 : public enemy
 {
 	image* _pic;
 	animation* _img[3];
+
+	vector<bullet> _vPlasmaBall;
+	int _plasmaCount;
+	int _p1FireDelay; //¹ß»çµô·¹ÀÌ
+	int _p1FireCount; //¹ß»çÈ½¼ö
+
 public:
 	virtual void bltUpdate();
 	virtual void bltRender();

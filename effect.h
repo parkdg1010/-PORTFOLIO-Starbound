@@ -14,9 +14,9 @@ private:
 
 public:
 	HRESULT init(image* effectImg, float effectFPS);
-	void release(void);
-	void update(void);
-	void render(void);
+	void release();
+	void update();
+	void render();
 
 	//내가 원하는 좌표에 이펙트 시작하기
 	void startEffect(int x, int y);

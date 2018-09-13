@@ -2,12 +2,12 @@
 #include "effectManager.h"
 #include "effect.h"
 
-HRESULT effectManager::init(void)
+HRESULT effectManager::init()
 {
 	return S_OK;
 }
 
-void effectManager::release(void)
+void effectManager::release()
 {
 	miEffect iter = _mEffect.begin();
 	for (iter; iter != _mEffect.end(); ++iter)
@@ -22,7 +22,7 @@ void effectManager::release(void)
 	_mEffect.clear();
 }
 
-void effectManager::update(void)
+void effectManager::update()
 {
 	miEffect mIter;
 	mIter = _mEffect.begin();
@@ -35,7 +35,7 @@ void effectManager::update(void)
 	}
 }
 
-void effectManager::render(void)
+void effectManager::render()
 {
 	miEffect mIter;
 	mIter = _mEffect.begin();

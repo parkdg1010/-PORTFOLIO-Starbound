@@ -8,10 +8,10 @@ private:
 	loading * _loading;
 
 public:
-	HRESULT init(void);
-	void release(void);
-	void update(void);
-	void render(void);
+	HRESULT init();
+	void release();
+	void update();
+	void render();
 
 	//로딩이미지 함수(이곳에 이미지를 전부 넣어라)
 	void loadingImage();

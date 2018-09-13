@@ -3,6 +3,7 @@
 
 class bullet : public gameObject
 {
+protected:
 	image* _image;		// 불릿이미지
 	//image* _pixelMap;	// 픽셀맵 받아오기 (게임오브젝트에 포함)
 	float _radius;		// 불릿 반지름
