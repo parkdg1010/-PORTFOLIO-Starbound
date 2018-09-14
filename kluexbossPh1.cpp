@@ -13,6 +13,8 @@ HRESULT kluexbossPh1::init(POINTf pos, int dir)
 {
 	enemy::init(pos, dir);
 
+	_hp = 2000;
+
 	_pic = IMAGEMANAGER->findImage("BIRDBOSS1");
 
 	_img[MAIN] = new animation;
@@ -56,69 +58,16 @@ HRESULT kluexbossPh1::init(POINTf pos, int dir)
 
 void kluexbossPh1::update()
 {
-	
-	//이것도 딜레이 넣어서 생성하기
-	if (KEYMANAGER->isOnceKeyDown('3'))
-	{
-		_img[_state]->start();
-		
-		if (_plasmaCount < _vPlasmaBall.size())
-		{
-			if (!_vPlasmaBall[_plasmaCount].getIsActive())
-			{
-				_vPlasmaBall[_plasmaCount].fire(_x + 200 * cosf(_plasmaCount *PI*0.25), _y + 200 * -sinf(_plasmaCount *PI*0.25), utl::getAnglePL(_vPlasmaBall[_plasmaCount].getX(), _vPlasmaBall[_plasmaCount].getY(), _playerX, _playerY));
-				++_plasmaCount;
-			}
-		}
-	}
-
-	if (_plasmaCount >= _vPlasmaBall.size())
-	{
-		_p1FireDelay = (_p1FireDelay + 1 ) % 30;
-		
-		if (_p1FireDelay == 0 && _p1FireCount < 20)
-		{
-			for (int i = 0; i < _vbullet->size(); ++i)
-			{
-				if (_vbullet->at(i).getIsActive()) continue;
-
-				int temp = RND->getInt(5);
-				//TODO 이펙트가 안나온다 뭐가 문제일까
-				EFFECTMANAGER->play("red_Pulse_Cannon_Explosion", _vPlasmaBall[temp].getX(), _vPlasmaBall[temp].getY());
-				_vbullet->at(i).fire(_vPlasmaBall[temp].getX(), _vPlasmaBall[temp].getY(),
-					utl::getAnglePL(_vPlasmaBall[temp].getX(), _vPlasmaBall[temp].getY(), _playerX, _playerY));
-				++_p1FireCount;
-				break;
-			}
-		}
-
-		if (_p1FireCount >= 20)
-		{
-			for (int i = 0; i < _vPlasmaBall.size(); ++i)
-			{
-				_vPlasmaBall[i].setIsActive(false);
-			}
-			_plasmaCount = 0;
-			_p1FireCount = 0;
-		}
-	}
-
-	for (int i = 0; i < _vPlasmaBall.size(); ++i)
-	{
-		_vPlasmaBall[i].setAngle(utl::getAnglePL(_vPlasmaBall[i].getX(), _vPlasmaBall[i].getY(), _playerX, _playerY));
-		_vPlasmaBall[i].update();
-	}
+	pattern1Update();
 
 	_img[_state]->frameUpdate(0.46f);
 }
 
 void kluexbossPh1::render()
 {
-	_pic->aniRender(getMemDC(), _x - (_img[_state]->getFrameWidth() >> 1) - CAM->getX(), _y - (_img[_state]->getFrameHeight() >> 1) - CAM->getY(), _img[_state]);
-	for (int i = 0; i < _vPlasmaBall.size(); ++i)
-	{
-		_vPlasmaBall[i].render(true);
-	}
+	_pic->aniRender(getMemDC(), int(_x - (_img[_state]->getFrameWidth() >> 1) - CAM->getX()), int(_y - (_img[_state]->getFrameHeight() >> 1) - CAM->getY()), _img[_state]);
+	
+	pattern1Render();
 }
 
 void kluexbossPh1::release()
@@ -168,4 +117,66 @@ void kluexbossPh1::damaged(gameObject * actor)
 
 void kluexbossPh1::drawUI()
 {
+}
+
+void kluexbossPh1::pattern1Update()
+{
+	//이것도 딜레이 넣어서 생성하기
+	if (KEYMANAGER->isOnceKeyDown('3'))
+	{
+		_img[_state]->start();
+		if (_plasmaCount < _vPlasmaBall.size())
+		{
+			if (!_vPlasmaBall[_plasmaCount].getIsActive())
+			{
+				_vPlasmaBall[_plasmaCount].fire(_x + 200 * cosf(_plasmaCount *PI*0.25f), _y + 200 * -sinf(_plasmaCount *PI*0.25f), utl::getAnglePL(_vPlasmaBall[_plasmaCount].getX(), _vPlasmaBall[_plasmaCount].getY(), _playerX, _playerY));
+				++_plasmaCount;
+			}
+		}
+	}
+
+	if (_plasmaCount >= _vPlasmaBall.size())
+	{
+		_p1FireDelay = (_p1FireDelay + 1) % int(_hp * 0.03f); //체력과 비례해서 발사딜레이 줄이기
+
+		if (_p1FireDelay == 0 && _p1FireCount < 20)
+		{
+			for (int i = 0; i < _vbullet->size(); ++i)
+			{
+				if (_vbullet->at(i).getIsActive()) continue;
+
+				int temp = RND->getInt(5);
+
+				EFFECTMANAGER->play("red_Pulse_Cannon_Explosion", (int)_vPlasmaBall[temp].getX(), (int)_vPlasmaBall[temp].getY());
+				_vbullet->at(i).fire(_vPlasmaBall[temp].getX(), _vPlasmaBall[temp].getY(),
+					utl::getAnglePL(_vPlasmaBall[temp].getX(), _vPlasmaBall[temp].getY(), _playerX, _playerY));
+				++_p1FireCount;
+				break;
+			}
+		}
+
+		if (_p1FireCount >= 20)
+		{
+			for (int i = 0; i < _vPlasmaBall.size(); ++i)
+			{
+				_vPlasmaBall[i].setIsActive(false);
+			}
+			_plasmaCount = 0;
+			_p1FireCount = 0;
+		}
+	}
+
+	for (int i = 0; i < _vPlasmaBall.size(); ++i)
+	{
+		_vPlasmaBall[i].setAngle(utl::getAnglePL(_vPlasmaBall[i].getX(), _vPlasmaBall[i].getY(), _playerX, _playerY));
+		_vPlasmaBall[i].update();
+	}
+}
+
+void kluexbossPh1::pattern1Render()
+{
+	for (int i = 0; i < _vPlasmaBall.size(); ++i)
+	{
+		_vPlasmaBall[i].render(true);
+	}
 }

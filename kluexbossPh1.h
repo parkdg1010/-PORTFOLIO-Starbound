@@ -31,6 +31,9 @@ public:
 	virtual void render();
 	virtual void release();
 
+	void pattern1Update();
+	void pattern1Render();
+
 	kluexbossPh1() {}
 	~kluexbossPh1() {}
 };
