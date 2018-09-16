@@ -45,7 +45,7 @@ public:
 
 	void setPosition(float x, float y) { _x = x, _y = y; }
 	void setPosition(POINTf pos) { _x = pos.x, _y = pos.y; }
-	void setPutOn(POINTf pos, int dir) { _x = pos.x, _y = pos.y, _dir = dir; }
+	void setPosition(POINTf pos, int dir) { _x = pos.x, _y = pos.y, _dir = dir; }
 
 	float getAngle() { return _angle; }
 	void setAngle(float angle) { _angle = angle; }

@@ -61,7 +61,7 @@ enemy * enemyFactory::createEnemy(int type, POINTf pos, int dir)
 
 	if (_enemy != NULL)
 	{
-		_enemy->setPutOn(pos, dir); 
+		_enemy->setPosition(pos, dir); 
 		//init해버리면 update와 render해야해서 상호참조하기 불편하므로 위치만 잡아준다.
 		//또한 init에 있던 x,y,z,dir 초기화를 생성자에 추가했다.
 		return _enemy;
