@@ -1,9 +1,9 @@
 #include "stdafx.h"
 #include "kluexbossPh2.h"
 
-HRESULT kluexbossPh2::init(POINTf pos, int dir)
+HRESULT kluexbossPh2::init()
 {
-	enemy::init(pos, dir);
+	enemy::init();
 
 	return S_OK;
 }

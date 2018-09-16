@@ -2,15 +2,21 @@
 #include "gameStage.h"
 #include "kluexboss.h"
 
-HRESULT kluexboss::init(POINTf pos, int dir)
+HRESULT kluexboss::init()
 {
-	enemy::init(pos, dir);
+	enemy::init();
 
 	_phase1 = new kluexbossPh1;
-	_phase1->init(pos, dir);
+	_phase1->setPos(_x, _y);
+	_phase1->linkPlayer(_player);		//에너미매니저에서 받은 포인터를 그대로 넘겨주기만 하면 되니까 이 cpp는 player를 include할 필요가 없다.
+	_phase1->linkMapPixel(_mapPixel);
+	_phase1->init();
 
 	_phase2 = new kluexbossPh2;
-	_phase2->init(pos, dir);
+	_phase2->setPos(_x, _y);
+	_phase2->linkPlayer(_player);
+	_phase2->linkMapPixel(_mapPixel);
+	_phase2->init();
 
 	_currentPhase = _phase1;
 
@@ -19,11 +25,6 @@ HRESULT kluexboss::init(POINTf pos, int dir)
 
 void kluexboss::update()
 {
-	_currentPhase->linkMapPixel(_mapPixel);
-	_currentPhase->setPlayerHitBox(_playerHitBox);
-	_currentPhase->setPlayerX(_playerX);
-	_currentPhase->setPlayerY(_playerY);
-
 	_currentPhase->update();
 }
 

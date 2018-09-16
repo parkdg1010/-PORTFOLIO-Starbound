@@ -44,6 +44,8 @@ public:
 	void setZ(float z) { _z = z; }
 
 	void setPos(float x, float y) { _x = x, _y = y; }
+	void setPos(POINTf pos) { _x = pos.x, _y = pos.y; }
+	void setPutOn(POINTf pos, int dir) { _x = pos.x, _y = pos.y, _dir = dir; }
 
 	float getAngle() { return _angle; }
 	void setAngle(float angle) { _angle = angle; }
@@ -79,7 +81,7 @@ public:
 	virtual void render();
 	virtual void release();
 
-	gameObject() : _mapPixel(NULL) {}
+	gameObject() : _mapPixel(NULL), _x(0), _y(0), _z(0), _dir(0) {} //상호참조등을 위해 init에서 빼서 생성자로 옮김
 	~gameObject() {}
 };
 

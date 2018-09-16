@@ -106,6 +106,8 @@ void loadingScene::loadingEffectImage()
 	_loading->loadFrameImage("redpulsecannonexplosionImg", "Texture/projectiles/redpulsecannonexplosion.bmp", 468, 117, 4, 1);	//기운수정 쏠떄
 	_loading->loadFrameImage("energycrystalImg", "Texture/projectiles/energycrystal.bmp", 192, 24, 4, 1);						//기운수정(불릿)
 	_loading->loadImage("pillarplatformImg", "Texture/projectiles/pillarplatform.bmp", 144, 192, true, MAGENTA);				//발판
+	_loading->loadImage("pillarplatformPixelImg", "Texture/projectiles/pillarplatformPixel.bmp", 144, 192);						//발판픽셀 - 마젠타를 여기서 무시해버리면 그릴때 발판 초록색만 나와버린다 아랫부분이 안지워짐
+	_loading->loadImage("pillarplatformPixelEraserImg", "Texture/projectiles/platformPixelEraser.bmp", 144, 192);				//발판픽셀 - 지우기
 	_loading->loadImage("firefloorhazardImg", "Texture/projectiles/firefloorhazard.bmp", 1536, 48, true, MAGENTA);				//마그마올리기
 	_loading->loadFrameImage("iceeruptionImg", "Texture/projectiles/iceeruption.bmp", 768, 168, 4, 1);							//얼음기둥
 	_loading->loadFrameImage("energywaveImg", "Texture/projectiles/energywave.bmp", 576, 66, 3, 1);								//기운파도(불릿)

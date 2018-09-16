@@ -1,21 +1,20 @@
 #include "stdafx.h"
 #include "enemy.h"
+#include "player.h"
 
-HRESULT enemy::init(POINTf pos, int dir)
+HRESULT enemy::init()
 {
-	_x = pos.x;
-	_y = pos.y;
 	//프레임 초기화
 	_count = 0;
 	_curFrameX = _curFrameY = 0;
 
 	_oldX = _oldY = 0;
 
-	_dir = dir;
-
 	(_dir == LEFT) ? (_angle = 180) : (_angle = 0);
 
 	_isActive = true;
+
+	//_vbullet = NULL;
 
 	return S_OK;
 }

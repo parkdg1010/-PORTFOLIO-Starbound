@@ -4,11 +4,11 @@
 
 HRESULT enemyManager::init()
 {
-	//_count = 0;
-
 	for (int i = 0; i < _vEnemy.size(); ++i)
 	{
+		_vEnemy[i]->linkPlayer(_player);
 		_vEnemy[i]->linkMapPixel(_stage->getPixelBuffer());
+		_vEnemy[i]->init();
 	}
 
 	return S_OK;
@@ -18,10 +18,6 @@ void enemyManager::update()
 {
 	for (int i = 0; i < _vEnemy.size(); ++i)
 	{
-		_vEnemy[i]->setPlayerHitBox(_player->getHitBox());
-		_vEnemy[i]->setPlayerX(_player->getX());
-		_vEnemy[i]->setPlayerY(_player->getY());
-
 		_vEnemy[i]->bltUpdate();
 		_vEnemy[i]->update();
 	}
@@ -65,7 +61,9 @@ enemy * enemyFactory::createEnemy(int type, POINTf pos, int dir)
 
 	if (_enemy != NULL)
 	{
-		_enemy->init(pos, dir);
+		_enemy->setPutOn(pos, dir); 
+		//init해버리면 update와 render해야해서 상호참조하기 불편하므로 위치만 잡아준다.
+		//또한 init에 있던 x,y,z,dir 초기화를 생성자에 추가했다.
 		return _enemy;
 	}
 	

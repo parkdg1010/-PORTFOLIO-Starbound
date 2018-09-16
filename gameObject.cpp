@@ -4,14 +4,12 @@
 
 HRESULT gameObject::init()
 {
-	_x = _y = _z = 0;
 	_angle = 0;
 	_speed = 0;
 	_gravity = 0;
 
 	_axisX = NONE;
 	_axisY = NONE;
-	_dir = 0;
 
 	_curFrameX = 0;
 	_curFrameY = 0;

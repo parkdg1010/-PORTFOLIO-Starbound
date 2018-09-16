@@ -66,6 +66,6 @@ void stageScene::initMonster()
 	_kluexboss = new kluexboss;
 	POINTf pos;
 	pos = { 1000,520 };
-	_kluexboss->init(pos, LEFT);
+	_kluexboss->setPutOn(pos, LEFT);
 	_enemyManager->addEnemy(_kluexboss);
 }

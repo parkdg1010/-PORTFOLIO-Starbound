@@ -17,7 +17,7 @@ void gameStage::render()
 {
 	stageRender();
 	if(_isDebug)
-		_pixelBuffer->render(getMemDC(), CAM->getSX(), CAM->getSY(), CAM->getSourX(), CAM->getSourY(), WINSIZEX, WINSIZEY); 
+		_pixelBuffer->render(getMemDC(), CAM->getSX(), CAM->getSY(), CAM->getSourX(), CAM->getSourY(), WINSIZEX, WINSIZEY);
 		// 화면의 sx,sy 좌표부터 그리기 시작해서 소스의 sourX, sourY점부터 WINSIZEX, WINSIZEY 범위만큼 그림
 }
 

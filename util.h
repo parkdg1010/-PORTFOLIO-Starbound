@@ -14,6 +14,9 @@
 #define PI_4		PI/4
 #define PI_8		PI/8
 
+//ADDED 매크로 함수
+#define DELAYCOUNT(count, delay) {count = (count +1) % delay;}
+
 namespace MY_UTIL
 {
 	// 두 점 사이의 거리
