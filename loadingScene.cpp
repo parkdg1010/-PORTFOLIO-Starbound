@@ -231,5 +231,6 @@ void loadingScene::loadingPlayer()
 void loadingScene::loadingMonster()
 {
 	_loading->loadImage("BIRDBOSS1", "Texture/enemy/monsters/boss/kluexbossstatue/kluexbossstatue_4719x1089_13x3.bmp", 4719, 1089, true, MAGENTA);
-	_loading->loadImage("FENNIX1", "Texture/enemy/monsters/walkers/fennix/fennix_960x288.bmp", 960, 288, true, MAGENTA);
+	_loading->loadImage("FENNIX_R", "Texture/enemy/monsters/walkers/fennix/fennix_R_960x288.bmp", 960, 288, true, MAGENTA);
+	_loading->loadImage("FENNIX_L", "Texture/enemy/monsters/walkers/fennix/fennix_L_960x288.bmp", 960, 288, true, MAGENTA);
 }

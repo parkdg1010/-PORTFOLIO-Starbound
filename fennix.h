@@ -12,7 +12,8 @@ enum tagFENNIXSTATE
 };
 class fennix : public enemy
 {
-	animation* _img[6];
+	animation* _imgR[6];
+	animation* _imgL[6];
 public:
 	virtual void bltUpdate();
 	virtual void bltRender();

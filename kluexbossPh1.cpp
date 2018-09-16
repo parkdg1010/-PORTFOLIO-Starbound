@@ -8,20 +8,20 @@ HRESULT kluexbossPh1::init()
 
 	_hp = 2000;
 
-	_pic = IMAGEMANAGER->findImage("BIRDBOSS1");
+	_picL = IMAGEMANAGER->findImage("BIRDBOSS1");
 
 	_img[BOSS_MAIN] = new animation;
-	_img[BOSS_MAIN]->init(_pic->getWidth(), _pic->getHeight(), 13, 3);
+	_img[BOSS_MAIN]->init(_picL->getWidth(), _picL->getHeight(), 13, 3);
 	_img[BOSS_MAIN]->setPlayFrame(0, 11, true);
 	_img[BOSS_MAIN]->setFPS(1);
 
 	_img[BOSS_FIRE] = new animation;
-	_img[BOSS_FIRE]->init(_pic->getWidth(), _pic->getHeight(), 13, 3);
+	_img[BOSS_FIRE]->init(_picL->getWidth(), _picL->getHeight(), 13, 3);
 	_img[BOSS_FIRE]->setPlayFrame(13, 24, true);
 	_img[BOSS_FIRE]->setFPS(1);
 
 	_img[BOSS_ICE] = new animation;
-	_img[BOSS_ICE]->init(_pic->getWidth(), _pic->getHeight(), 13, 3);
+	_img[BOSS_ICE]->init(_picL->getWidth(), _picL->getHeight(), 13, 3);
 	_img[BOSS_ICE]->setPlayFrame(26, 37, true);
 	_img[BOSS_ICE]->setFPS(1);
 
@@ -103,7 +103,7 @@ void kluexbossPh1::update()
 
 void kluexbossPh1::render()
 {
-	_pic->aniRender(getMemDC(), int(_x - (_img[_state]->getFrameWidth() >> 1) - CAM->getX()),
+	_picL->aniRender(getMemDC(), int(_x - (_img[_state]->getFrameWidth() >> 1) - CAM->getX()),
 		int(_y - (_img[_state]->getFrameHeight() >> 1) - CAM->getY()), _img[_state]); //비트연산 *0.5
 	
 	switch (_activeP)
