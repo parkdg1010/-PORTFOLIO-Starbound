@@ -154,6 +154,7 @@
     <ClInclude Include="dungeonStage.h" />
     <ClInclude Include="effect.h" />
     <ClInclude Include="effectManager.h" />
+    <ClInclude Include="fennix.h" />
     <ClInclude Include="gameActor.h" />
     <ClInclude Include="gameItem.h" />
     <ClInclude Include="gameObject.h" />
@@ -200,6 +201,7 @@
     <ClCompile Include="dungeonStage.cpp" />
     <ClCompile Include="effect.cpp" />
     <ClCompile Include="effectManager.cpp" />
+    <ClCompile Include="fennix.cpp" />
     <ClCompile Include="gameActor.cpp" />
     <ClCompile Include="gameItem.cpp" />
     <ClCompile Include="gameObject.cpp" />

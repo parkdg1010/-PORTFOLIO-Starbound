@@ -43,8 +43,8 @@ public:
 	float getZ() { return _z; }
 	void setZ(float z) { _z = z; }
 
-	void setPos(float x, float y) { _x = x, _y = y; }
-	void setPos(POINTf pos) { _x = pos.x, _y = pos.y; }
+	void setPosition(float x, float y) { _x = x, _y = y; }
+	void setPosition(POINTf pos) { _x = pos.x, _y = pos.y; }
 	void setPutOn(POINTf pos, int dir) { _x = pos.x, _y = pos.y, _dir = dir; }
 
 	float getAngle() { return _angle; }

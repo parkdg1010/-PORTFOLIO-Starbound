@@ -35,7 +35,7 @@ void player::update()
 	}
 	else
 	{
-		setPos(1600, 430);
+		setPosition(1600, 430);
 		_isActive = true;
 	}
 }
@@ -111,11 +111,6 @@ void player::render()
 		//_hair->frameRender(getMemDC(), _x - _img[_state]->getFrameWidth()*0.5 - CAM->getX(), _y - _img[_state]->getFrameHeight() * 0.5 - CAM->getY(), 0, _curFrameY);
 		//textMake(getMemDC(), _x - CAM->getX(), _y - CAM->getY(), "X");
 		//textMake(getMemDC(), 100, 100, "ม฿ทย", _gravity);
-	}
-
-	if (_isDebug)
-	{
-		textMake(getMemDC(), _x - CAM->getX(), _y - CAM->getY(), "X");
 	}
 }
 

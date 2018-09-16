@@ -11,6 +11,7 @@ private:
 	int _fireCount;
 	int _rndFireCount;
 protected:
+	image * _pic;
 	vector<bullet>* _vbullet;
 	player* _player;
 public:

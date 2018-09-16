@@ -9,7 +9,6 @@ enum tagKLUEXSTATE
 };
 class kluexbossPh1 : public enemy
 {
-	image* _pic;
 	animation* _img[3];
 
 	//패턴변환

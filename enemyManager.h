@@ -39,7 +39,7 @@ public:
 
 	//에너미 추가
 	void addEnemy(enemy* enemy) { _vEnemy.push_back(enemy); }
-	void setPostion(int index, POINTf pos = { WINSIZEX / 2, WINSIZEY / 2 }, int dir = 1) { _vEnemy[index]->setPos(pos.x, pos.y); }
+	void setPostion(int index, POINTf pos = { WINSIZEX / 2, WINSIZEY / 2 }, int dir = 1) { _vEnemy[index]->setPosition(pos.x, pos.y); }
 
 	enemyManager() {}
 	~enemyManager() {}

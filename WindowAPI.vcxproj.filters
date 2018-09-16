@@ -72,9 +72,6 @@
     <Filter Include="Framework2D\애드온\체력바">
       <UniqueIdentifier>{413af328-8855-4598-a0a0-8dcf58fca46b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GameActors\kluexboss">
-      <UniqueIdentifier>{ca56992e-3350-4ecc-90c6-ed31a4382d87}</UniqueIdentifier>
-    </Filter>
     <Filter Include="GameActors\에너미">
       <UniqueIdentifier>{3ed4abcc-0819-4ea8-b79e-e3168e55b954}</UniqueIdentifier>
     </Filter>
@@ -89,6 +86,12 @@
     </Filter>
     <Filter Include="GameObjects\스테이지">
       <UniqueIdentifier>{9c18ca6f-3779-468f-b940-f9c0df458ec0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameActors\에너미\kluexboss">
+      <UniqueIdentifier>{ca56992e-3350-4ecc-90c6-ed31a4382d87}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameActors\에너미\Minions">
+      <UniqueIdentifier>{f655c497-a25a-4ec3-8c62-9933e9c7a6d1}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -189,13 +192,13 @@
       <Filter>GameScene</Filter>
     </ClInclude>
     <ClInclude Include="kluexboss.h">
-      <Filter>GameActors\kluexboss</Filter>
+      <Filter>GameActors\에너미\kluexboss</Filter>
     </ClInclude>
     <ClInclude Include="kluexbossPh1.h">
-      <Filter>GameActors\kluexboss</Filter>
+      <Filter>GameActors\에너미\kluexboss</Filter>
     </ClInclude>
     <ClInclude Include="kluexbossPh2.h">
-      <Filter>GameActors\kluexboss</Filter>
+      <Filter>GameActors\에너미\kluexboss</Filter>
     </ClInclude>
     <ClInclude Include="enemy.h">
       <Filter>GameActors\에너미</Filter>
@@ -226,6 +229,9 @@
     </ClInclude>
     <ClInclude Include="dungeonStage.h">
       <Filter>GameObjects\스테이지</Filter>
+    </ClInclude>
+    <ClInclude Include="fennix.h">
+      <Filter>GameActors\에너미\Minions</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -317,13 +323,13 @@
       <Filter>GameScene</Filter>
     </ClCompile>
     <ClCompile Include="kluexbossPh2.cpp">
-      <Filter>GameActors\kluexboss</Filter>
+      <Filter>GameActors\에너미\kluexboss</Filter>
     </ClCompile>
     <ClCompile Include="kluexbossPh1.cpp">
-      <Filter>GameActors\kluexboss</Filter>
+      <Filter>GameActors\에너미\kluexboss</Filter>
     </ClCompile>
     <ClCompile Include="kluexboss.cpp">
-      <Filter>GameActors\kluexboss</Filter>
+      <Filter>GameActors\에너미\kluexboss</Filter>
     </ClCompile>
     <ClCompile Include="enemy.cpp">
       <Filter>GameActors\에너미</Filter>
@@ -354,6 +360,9 @@
     </ClCompile>
     <ClCompile Include="dungeonStage.cpp">
       <Filter>GameObjects\스테이지</Filter>
+    </ClCompile>
+    <ClCompile Include="fennix.cpp">
+      <Filter>GameActors\에너미\Minions</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

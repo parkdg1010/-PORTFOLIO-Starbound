@@ -47,7 +47,7 @@ void startScene::update()
 	{
 		if (PtInRect(&_rcUi[0], _ptMouse))
 		{
-			_player->setPos(1600, 440);
+			_player->setPosition(1600, 440);
 			SCENEMANAGER->loadScene("¿Œ∞‘¿”");
 		}
 		if (PtInRect(&_rcUi[1], _ptMouse))
