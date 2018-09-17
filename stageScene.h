@@ -24,7 +24,7 @@ public:
 	virtual void render();
 	virtual void release();
 
-	void initMonster();
+	void createMonster();
 	
 	stageScene() {}
 	~stageScene() {}

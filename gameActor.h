@@ -12,7 +12,7 @@ public:
 	virtual void bltRender() {}		//isActive가 비활성 되도 불릿이 사라지지 않게 하기 위해 분리함
 	virtual void move() {}
 	virtual void collide();
-	virtual bool collideStage() { return false; }
+	virtual bool collideStage(int range) { return false; }
 	virtual bool collideObject(gameObject* gameObject = NULL);
 	virtual void damaged(gameObject* actor) {}
 

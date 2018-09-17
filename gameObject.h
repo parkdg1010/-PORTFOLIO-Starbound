@@ -30,7 +30,7 @@ protected:
 public:
 	virtual void move() {}
 	virtual void collide();
-	virtual bool collideStage() { return false; }
+	virtual bool collideStage(int range) { return false; }
 	virtual bool collideObject(gameObject* gameObject = NULL);
 	virtual void damaged(gameObject* actor) {}
 
@@ -43,7 +43,7 @@ public:
 	float getZ() { return _z; }
 	void setZ(float z) { _z = z; }
 
-	void setPosition(float x, float y) { _x = x, _y = y; }
+	void setPosition(float x, float y, int dir) { _x = x, _y = y; _dir = dir; }
 	void setPosition(POINTf pos) { _x = pos.x, _y = pos.y; }
 	void setPosition(POINTf pos, int dir) { _x = pos.x, _y = pos.y, _dir = dir; }
 

@@ -4,15 +4,7 @@
 #include "bullet.h"
 #include "enemy.h"
 #include "kluexboss.h"
-
-enum ENEMY_TYPE
-{
-	FENNIX,
-	SCAVERAN,
-	TOUMINGO,
-	TRICTUS,
-	VOLTIP
-};
+#include "fennix.h"
 
 class player;
 class enemyManager : public gameNode
@@ -39,7 +31,7 @@ public:
 
 	//에너미 추가
 	void addEnemy(enemy* enemy) { _vEnemy.push_back(enemy); }
-	void setPostion(int index, POINTf pos = { WINSIZEX / 2, WINSIZEY / 2 }, int dir = 1) { _vEnemy[index]->setPosition(pos.x, pos.y); }
+	void setPostion(int index, POINTf pos = { WINSIZEX / 2, WINSIZEY / 2 }, int dir = 1) { _vEnemy[index]->setPosition(pos.x, pos.y, dir); }
 
 	enemyManager() {}
 	~enemyManager() {}
@@ -49,5 +41,6 @@ class enemyFactory
 {
 public:
 	enemy * createEnemy(int type, POINTf pos = { WINSIZEX / 2, WINSIZEY / 2 }, int dir = 1);
+	enemy * createEnemy(int type, float posX = WINSIZEX / 2, float posY =  WINSIZEY / 2 , int dir = 1);
 };
 

@@ -21,7 +21,7 @@ void gameActor::release()
 
 void gameActor::collide()
 {
-	this->collideStage();
+	this->collideStage(_speed);
 	this->collideObject();
 }
 

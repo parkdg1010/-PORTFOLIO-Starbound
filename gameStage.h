@@ -23,6 +23,7 @@ protected:
 
 	player* _player;
 
+	Synthesize(vector<ACTOR_TYPE_POS>, _vEnemyPosition, EnemyPosition)
 	Synthesize(int, _stageNum, StageNum)
 
 public:

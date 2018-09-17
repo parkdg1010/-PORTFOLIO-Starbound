@@ -38,7 +38,7 @@ void gameObject::release()
 
 void gameObject::collide()
 {
-	this->collideStage();
+	this->collideStage(_speed);
 	this->collideObject();
 }
 

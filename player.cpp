@@ -35,7 +35,7 @@ void player::update()
 	}
 	else
 	{
-		setPosition(1600, 430);
+		setPosition(1600, 430, _dir);
 		_isActive = true;
 	}
 }

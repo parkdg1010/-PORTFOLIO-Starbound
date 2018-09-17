@@ -111,6 +111,8 @@ void loadingScene::loadingEffectImage()
 	_loading->loadImage("firefloorhazardImg", "Texture/projectiles/firefloorhazard.bmp", 1536, 48, true, MAGENTA);				//마그마올리기
 	_loading->loadFrameImage("iceeruptionImg", "Texture/projectiles/iceeruption.bmp", 768, 168, 4, 1);							//얼음기둥
 	_loading->loadFrameImage("energywaveImg", "Texture/projectiles/energywave.bmp", 576, 66, 3, 1);								//기운파도(불릿)
+
+	_loading->loadFrameImage("flameImg", "Texture/projectiles/flame_576x48_12x1.bmp", 576, 48, 12, 1);							//화염방사
 }
 
 void loadingScene::loadingEffect()
@@ -130,11 +132,15 @@ void loadingScene::loadingMapToolImage()
 	_loading->loadFrameImage("타일아이콘", "Texture/mapTool/icons/TileIcons_360x216x10x6.bmp", 360, 216, 10, 6);
 	_loading->loadFrameImage("오브젝트아이콘", "Texture/mapTool/icons/ObjectIcons_360x216_10x6.bmp", 360, 216, 10, 6);
 	_loading->loadFrameImage("아이템아이콘", "Texture/mapTool/icons/itemIcons_360x216_10x6.bmp", 360, 216, 10, 6);
+	_loading->loadFrameImage("액터아이콘", "Texture/mapTool/icons/actorIcons_360x216_10x6.bmp", 360, 216, 10, 6);
 
 	_loading->loadImage("큰월드", "Texture/maptool/ui/bigWorld_36x36.bmp", 36, 36, true, MAGENTA);
 	_loading->loadImage("중간월드", "Texture/maptool/ui/midWorld_36x36.bmp", 36, 36, true, MAGENTA);
 	_loading->loadImage("작은월드", "Texture/maptool/ui/smallWorld_36x36.bmp", 36, 36, true, MAGENTA);
 	_loading->loadImage("월드삭제", "Texture/maptool/ui/eraseWorld_36x36.bmp", 36, 36, true, MAGENTA);
+
+	//스포너
+	_loading->loadImage("FENNIX스포너", "Texture/spawner/fennixSpawner.bmp", 48, 86, true, MAGENTA);
 
 	//UI
 	_loading->loadImage("맵툴UI", "Texture/maptool/ui/CtrlInterface_503x486.bmp", 503, 486, true, MAGENTA);

@@ -12,6 +12,7 @@ HRESULT bullet::init(float radius, float speed, float damage, float range, const
 	_range = range;
 	_damage = damage;
 	_isActive = false;
+	_frameDelay = 7;
 
 	_x = _y = _fireX = _fireY = 0;
 	_angle = 0;
@@ -35,7 +36,7 @@ void bullet::update()
 
 	if (_image != NULL)
 	{
-		_count = (_count + 1) % 7;
+		_count = (_count + 1) % _frameDelay;
 		if (_count == 0) ++_index;
 		if (_index > _image->getMaxFrameX()) _index = 0;
 	}
@@ -61,6 +62,7 @@ void bullet::fire(float fireX, float fireY, float fireAngle, string soundKey)
 
 	setFireCenter(fireX, fireY);
 	_angle = fireAngle;
+	_index = 0;
 	_isActive = true;
 }
 

@@ -22,7 +22,7 @@ HRESULT stageScene::init()
 	_stage->loadStage();
 
 	_enemyManager->linkStage(_stage);
-	initMonster();
+	createMonster();
 	_enemyManager->init();
 
 	CAMERAMANAGER->init();
@@ -61,11 +61,20 @@ void stageScene::release()
 	SAFE_DELETE(_stage);
 }
 
-void stageScene::initMonster()
+void stageScene::createMonster()
 {
 	_kluexboss = new kluexboss;
 	POINTf pos;
 	pos = { 1000,520 };
 	_kluexboss->setPosition(pos, LEFT);
 	_enemyManager->addEnemy(_kluexboss);
+
+	vector<ACTOR_TYPE_POS> _vTemp = _stage->getEnemyPosition();
+
+	enemy* temp;
+	for (int i = 0; i < _vTemp.size(); ++i)
+	{
+		temp = _enemyFac->createEnemy(_vTemp[i].type, _vTemp[i].x, _vTemp[i].y);
+		_enemyManager->addEnemy(temp);
+	}
 }

@@ -1,14 +1,21 @@
 #pragma once
 #include "enemy.h"
-enum tagKLUEXSTATE
+namespace KLUEX_PH1_CONST
 {
-	BOSS_MAIN,
-	BOSS_FIRE,
-	BOSS_ICE,
-	BOSS_NONE
-};
+	const int WIDTH = 300;
+	const int HEIGHT = 280;
+	enum STATE
+	{
+		MAIN,
+		FIRE,
+		ICE,
+		NONE
+	};
+}
+
 class kluexbossPh1 : public enemy
 {
+private:
 	animation* _img[3];
 
 	//패턴변환
@@ -46,7 +53,7 @@ public:
 	virtual void bltRender();
 	virtual void move();
 	virtual void collide();
-	virtual bool collideStage() { return false; }
+	virtual bool collideStage(int range) { return false; }
 	virtual bool collideObject(gameObject* gameObject = NULL);
 	virtual void damaged(gameObject* actor);
 	virtual void drawUI();

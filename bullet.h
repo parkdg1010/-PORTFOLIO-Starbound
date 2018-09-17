@@ -8,6 +8,7 @@ protected:
 	//image* _pixelMap;	// 픽셀맵 받아오기 (게임오브젝트에 포함)
 	float _radius;		// 불릿 반지름
 	float _range;		// 불릿사거리
+	int _frameDelay;	// 프레임 딜레이
 
 	float _fireX, _fireY;
 public:
@@ -29,6 +30,7 @@ public:
 	//true면 충돌이고 false면 충돌아님, 이후의 행동(피해주기)과 비활성은 사용할 클래스에서 결정
 
 	//void setPixelMap(image* pixelMap) { _pixelMap = pixelMap; }
+	void setFrameDelay(int delay) { _frameDelay = delay; }
 
 	float getRange() { return _range; }
 

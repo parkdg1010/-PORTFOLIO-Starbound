@@ -5,7 +5,7 @@
 enum CTRL
 {
 	//CTRL_SAVE, CTRL_LOAD,
-	CTRL_SIZINGTAB, CTRL_TERRAINTAB, CTRL_ITEMTAB, CTRL_OBJECTTAB, CTRL_ENEMYTAB, CTRL_ERASER, CTRL_NONE
+	CTRL_SIZINGTAB, CTRL_TERRAINTAB, CTRL_ITEMTAB, CTRL_OBJECTTAB, CTRL_ACTORTAB, CTRL_ERASER, CTRL_NONE
 };
 
 //지형
@@ -19,11 +19,6 @@ enum TERRAIN
 enum TERRAIN_FRONTBACK
 {
 	FRONT, BACK
-};
-
-enum FLATFORM
-{
-	
 };
 
 //오브젝트
@@ -44,9 +39,20 @@ enum ITEM
 
 enum ACTOR
 {
+	//actor는 100의 자리로 저장
 	ACTOR_NONE,
-	ACTOR_ENEMY1,
-	ACTOR_NPC1
+	ACTOR_ENEMY,
+	ACTOR_NPC
+};
+
+enum ENEMY_TYPE
+{
+	//10,1의 자리로 저장
+	FENNIX,
+	SCAVERAN,
+	TOUMINGO,
+	TRICTUS,
+	VOLTIP
 };
 
 enum BACKGROUND_TOP
@@ -64,6 +70,8 @@ struct tagTile
 	TERRAIN terrain;
 	TERRAIN_FRONTBACK frontBack;
 	OBJECT object;
+	ACTOR actor;
+	ENEMY_TYPE enemy;
 	RECT rc;
 
 	int terrainFrameX;
@@ -90,10 +98,17 @@ struct tagCurrentTile
 {
 	TERRAIN terrainType;
 	TERRAIN_FRONTBACK frontBack;
-	FLATFORM flatformType;
 	OBJECT objectType;
 	ITEM itemType;
 	ACTOR actorType;
+	ENEMY_TYPE enemyType;
 
 	int frameX, frameY;
+};
+
+struct ACTOR_TYPE_POS
+{
+	int type;
+	float x;
+	float y;
 };

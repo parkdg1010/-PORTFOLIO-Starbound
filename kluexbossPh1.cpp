@@ -10,26 +10,26 @@ HRESULT kluexbossPh1::init()
 
 	_picL = IMAGEMANAGER->findImage("BIRDBOSS1");
 
-	_img[BOSS_MAIN] = new animation;
-	_img[BOSS_MAIN]->init(_picL->getWidth(), _picL->getHeight(), 13, 3);
-	_img[BOSS_MAIN]->setPlayFrame(0, 11, true);
-	_img[BOSS_MAIN]->setFPS(1);
+	_img[KLUEX_PH1_CONST::MAIN] = new animation;
+	_img[KLUEX_PH1_CONST::MAIN]->init(_picL->getWidth(), _picL->getHeight(), 13, 3);
+	_img[KLUEX_PH1_CONST::MAIN]->setPlayFrame(0, 11, true);
+	_img[KLUEX_PH1_CONST::MAIN]->setFPS(1);
 
-	_img[BOSS_FIRE] = new animation;
-	_img[BOSS_FIRE]->init(_picL->getWidth(), _picL->getHeight(), 13, 3);
-	_img[BOSS_FIRE]->setPlayFrame(13, 24, true);
-	_img[BOSS_FIRE]->setFPS(1);
+	_img[KLUEX_PH1_CONST::FIRE] = new animation;
+	_img[KLUEX_PH1_CONST::FIRE]->init(_picL->getWidth(), _picL->getHeight(), 13, 3);
+	_img[KLUEX_PH1_CONST::FIRE]->setPlayFrame(13, 24, true);
+	_img[KLUEX_PH1_CONST::FIRE]->setFPS(1);
 
-	_img[BOSS_ICE] = new animation;
-	_img[BOSS_ICE]->init(_picL->getWidth(), _picL->getHeight(), 13, 3);
-	_img[BOSS_ICE]->setPlayFrame(26, 37, true);
-	_img[BOSS_ICE]->setFPS(1);
+	_img[KLUEX_PH1_CONST::ICE] = new animation;
+	_img[KLUEX_PH1_CONST::ICE]->init(_picL->getWidth(), _picL->getHeight(), 13, 3);
+	_img[KLUEX_PH1_CONST::ICE]->setPlayFrame(26, 37, true);
+	_img[KLUEX_PH1_CONST::ICE]->setFPS(1);
+	//TODO : hitbox크기조정
+	_hitBox = RectMakeCenter(_x, _y+50, KLUEX_PH1_CONST::WIDTH, KLUEX_PH1_CONST::HEIGHT);
 
-	_hitBox = RectMakeCenter(_x, _y, _img[BOSS_MAIN]->getFrameWidth(), _img[BOSS_MAIN]->getFrameHeight());
-
-	_state = BOSS_MAIN;
+	_state = KLUEX_PH1_CONST::MAIN;
 	
-	_activeP = BOSS_NONE;
+	_activeP = KLUEX_PH1_CONST::NONE;
 
 	_vbullet = new vector<bullet>;
 	bullet blt;
@@ -65,8 +65,8 @@ HRESULT kluexbossPh1::init()
 	for (int i = 0; i < 8; ++i)
 	{
 		//업데이트에서 top만 크기바꾸면 된다.
-		_iceHitBox[i] = RectMake(_x - _iceblock->getFrameWidth() * 4+ _iceblock->getFrameWidth()*i,
-			0 ,_iceblock->getFrameWidth(), _y + _img[BOSS_MAIN]->getFrameHeight() * 0.5);
+		_iceHitBox[i] = RectMake(_x - _iceblock->getFrameWidth() * 4 + _iceblock->getFrameWidth()*i,
+			0 ,_iceblock->getFrameWidth(), _y + _img[KLUEX_PH1_CONST::MAIN]->getFrameHeight() * 0.5);
 		_iceActive[i] = false;
 	}
 	_iceStart = false;
@@ -78,23 +78,23 @@ void kluexbossPh1::update()
 {
 	switch (_activeP)
 	{
-	case BOSS_NONE:
+	case KLUEX_PH1_CONST::NONE:
 		//딜레이주고 랜덤으로 패턴바꾸기
 		DELAYCOUNT(_patternDelay, 60);
 		if (_patternDelay == 0)
-			_activeP = RND->getFromIntTo(1, 3);
-		_state = BOSS_MAIN;
+			_activeP = RND->getInt(3);
+		_state = KLUEX_PH1_CONST::MAIN;
 		break;
-	case BOSS_MAIN:
-		_state = BOSS_MAIN;
+	case KLUEX_PH1_CONST::MAIN:
+		_state = KLUEX_PH1_CONST::MAIN;
 		pattern1Update();
 		break;
-	case BOSS_FIRE: //TODO 상태가 너무 확바뀌는데 퀄 높일때 바꿔보자
-		_state = BOSS_FIRE;
+	case KLUEX_PH1_CONST::FIRE: //TODO 상태가 너무 확바뀌는데 퀄 높일때 바꿔보자
+		_state = KLUEX_PH1_CONST::FIRE;
 		pattern2Update();
 		break;
-	case BOSS_ICE:
-		_state = BOSS_ICE;
+	case KLUEX_PH1_CONST::ICE:
+		_state = KLUEX_PH1_CONST::ICE;
 		pattern3Update();
 	}
 
@@ -108,16 +108,16 @@ void kluexbossPh1::render()
 	
 	switch (_activeP)
 	{
-	case BOSS_NONE:
-		_state = BOSS_MAIN;
+	case KLUEX_PH1_CONST::NONE:
+		_state = KLUEX_PH1_CONST::MAIN;
 		break;
-	case BOSS_MAIN:
+	case KLUEX_PH1_CONST::MAIN:
 		pattern1Render();
 		break;
-	case BOSS_FIRE:
+	case KLUEX_PH1_CONST::FIRE:
 		pattern2Render();
 		break;
-	case BOSS_ICE:
+	case KLUEX_PH1_CONST::ICE:
 		pattern3Render();
 		break;
 	}
@@ -218,7 +218,7 @@ void kluexbossPh1::pattern1Update()
 			}
 			_plasmaCount = 0;
 			_p1FireCount = 0;
-			_activeP = BOSS_NONE;
+			_activeP = KLUEX_PH1_CONST::NONE;
 		}
 	}
 
@@ -251,9 +251,9 @@ void kluexbossPh1::pattern2Update()
 	{
 		//발판 올라오기 높이 업데이트
 		_boardY += 0.7f;
-		_flatBoardPixel->render(_mapPixel->getMemDC(), _x - 400, _y + _img[BOSS_MAIN]->getFrameHeight() * 0.5 - _boardY
+		_flatBoardPixel->render(_mapPixel->getMemDC(), _x - 400, _y + _img[KLUEX_PH1_CONST::MAIN]->getFrameHeight() * 0.5 - _boardY
 			, 0, 0, _flatBoard->getWidth(), _boardY);
-		_flatBoardPixel->render(_mapPixel->getMemDC(), _x + 400, _y + _img[BOSS_MAIN]->getFrameHeight() * 0.5 - _boardY
+		_flatBoardPixel->render(_mapPixel->getMemDC(), _x + 400, _y + _img[KLUEX_PH1_CONST::MAIN]->getFrameHeight() * 0.5 - _boardY
 			, 0, 0, _flatBoard->getWidth(), _boardY);
 	}
 	//발판 다 올라오면
@@ -273,14 +273,14 @@ void kluexbossPh1::pattern2Update()
 			if (_p2Duration == 0)
 			{
 				//발판픽셀 지우기
-				_flatBoardPixelErase->render(_mapPixel->getMemDC(), _x + 400, _y + _img[BOSS_MAIN]->getFrameHeight() * 0.5 - _flatBoard->getHeight()
-					, 0, 0, _flatBoard->getWidth(), _flatBoard->getHeight());
-				_flatBoardPixelErase->render(_mapPixel->getMemDC(), _x - 400, _y + _img[BOSS_MAIN]->getFrameHeight() * 0.5 - _flatBoard->getHeight()
-					, 0, 0, _flatBoard->getWidth(), _flatBoard->getHeight());
+				_flatBoardPixelErase->render(_mapPixel->getMemDC(), _x + 400, _y + _img[KLUEX_PH1_CONST::MAIN]->getFrameHeight() * 0.5
+					- _flatBoard->getHeight(), 0, 0, _flatBoard->getWidth(), _flatBoard->getHeight());
+				_flatBoardPixelErase->render(_mapPixel->getMemDC(), _x - 400, _y + _img[KLUEX_PH1_CONST::MAIN]->getFrameHeight() * 0.5
+					- _flatBoard->getHeight(), 0, 0, _flatBoard->getWidth(), _flatBoard->getHeight());
 				_magmaY = 0;
 				_boardY = 0;
 				_magmaLoopSPD = 0;
-				_activeP = BOSS_NONE;
+				_activeP = KLUEX_PH1_CONST::NONE;
 			}
 		}
 	}
@@ -289,10 +289,10 @@ void kluexbossPh1::pattern2Update()
 void kluexbossPh1::pattern2Render()
 {
 	//발판 올라오기 잘라서 렌더하기
-	_flatBoard->render(getMemDC(), _x - 400 - CAM->getX(), _y + _img[BOSS_MAIN]->getFrameHeight() * 0.5 - _boardY - CAM->getY()
+	_flatBoard->render(getMemDC(), _x - 400 - CAM->getX(), _y + _img[KLUEX_PH1_CONST::MAIN]->getFrameHeight() * 0.5 - _boardY - CAM->getY()
 		, 0, 0, _flatBoard->getWidth(), _boardY);
 
-	_flatBoard->render(getMemDC(), _x + 400 - CAM->getX(), _y + _img[BOSS_MAIN]->getFrameHeight() * 0.5 - _boardY - CAM->getY()
+	_flatBoard->render(getMemDC(), _x + 400 - CAM->getX(), _y + _img[KLUEX_PH1_CONST::MAIN]->getFrameHeight() * 0.5 - _boardY - CAM->getY()
 		, 0, 0, _flatBoard->getWidth(), _boardY);
 
 	if (_boardY >= _flatBoard->getHeight())
@@ -334,34 +334,34 @@ void kluexbossPh1::pattern3Update()
 		if (_iceActive[i])
 		{
 			if(_iceblock->getFrameX() == 0)
-				_iceHitBox[i].top = _y + _img[BOSS_MAIN]->getFrameHeight() * 0.5 - 31;
+				_iceHitBox[i].top = _y + _img[KLUEX_PH1_CONST::MAIN]->getFrameHeight() * 0.5 - 31;
 			if (_iceblock->getFrameX() == 1)
-				_iceHitBox[i].top = _y + _img[BOSS_MAIN]->getFrameHeight() * 0.5 - 58;
+				_iceHitBox[i].top = _y + _img[KLUEX_PH1_CONST::MAIN]->getFrameHeight() * 0.5 - 58;
 			if (_iceblock->getFrameX() == 2)
-				_iceHitBox[i].top = _y + _img[BOSS_MAIN]->getFrameHeight() * 0.5 - 124;
+				_iceHitBox[i].top = _y + _img[KLUEX_PH1_CONST::MAIN]->getFrameHeight() * 0.5 - 124;
 			if (_iceblock->getFrameX() == 3)
-				_iceHitBox[i].top = _y + _img[BOSS_MAIN]->getFrameHeight() * 0.5 - 168;
+				_iceHitBox[i].top = _y + _img[KLUEX_PH1_CONST::MAIN]->getFrameHeight() * 0.5 - 168;
 		}
 	}
 
 	if (_iceblock->getFrameX() == 3)
 	{
+		//TODO 데미지는 여기서 준다.
 		DELAYCOUNT(_p3Duration, 500);
 		if (_p3Duration == 0)
 		{
-			//TODO : 얼음꺠지는 이펙트 찾아서 넣기
+			//TODO : 얼음깨지는 이펙트 찾아서 넣기
 			_iceStart = false;
-			_activeP = BOSS_NONE;
+			_activeP = KLUEX_PH1_CONST::NONE;
 			for (int i = 0; i < 8; ++i)
 			{
 				_iceActive[i] = false;
 				_iceHitBox[i] = RectMake(_x - _iceblock->getFrameWidth() * 4 + _iceblock->getFrameWidth()*i,
-					0, _iceblock->getFrameWidth(), _y + _img[BOSS_MAIN]->getFrameHeight() * 0.5);
+					0, _iceblock->getFrameWidth(), _y + _img[KLUEX_PH1_CONST::MAIN]->getFrameHeight() * 0.5);
 				_iceblock->setFrameX(0);
 			}
 		}
 	}
-	//TODO isActive일때만 충돌렉트랑 충돌해서 데미지 받게
 }
 
 void kluexbossPh1::pattern3Render()
@@ -372,7 +372,7 @@ void kluexbossPh1::pattern3Render()
 		if (_iceActive[i])
 		{
 			_iceblock->frameRender(getMemDC(), _iceHitBox[i].left - CAM->getX(), 
-				_y + _img[BOSS_MAIN]->getFrameHeight() * 0.5 - _iceblock->getFrameHeight() - CAM->getY());
+				_y + _img[KLUEX_PH1_CONST::MAIN]->getFrameHeight() * 0.5 - _iceblock->getFrameHeight() - CAM->getY());
 		}
 	}
 }

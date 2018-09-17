@@ -10,19 +10,21 @@ private:
 	tagCurrentTile _currentTile;
 	CTRL _currentTab;
 
-	image* _ctrlPanel, *_saveButton, *_loadButton, *_minimizeButton, *_taskBar, *_worldButton, *_tilesButton, *_itemButton, *_objectButton, *_enemyButton;
-	RECT _rcCtrlPanel, _rcSave, _rcLoad, _rcMinimize, _rcTaskBar, _rcWorld, _rcTile, _rcItem, _rcObject, _rcEnemy, _rcErase;
+	image* _ctrlPanel, *_saveButton, *_loadButton, *_minimizeButton, *_taskBar;
+	image* _worldButton, *_tilesButton, *_itemButton, *_objectButton, *_actorButton;
+	RECT _rcCtrlPanel, _rcSave, _rcLoad, _rcMinimize, _rcTaskBar, _rcWorld, _rcTile, _rcItem, _rcObject, _rcActor, _rcErase;
 	float _ctrlPanelX, _ctrlPanelY;
 	bool _isMinimize, _isCtrlPanelMove;
 	POINT _ctrlPanelMove;
 	
 	int _saveCount;
 
-	image* _tileIcon, *_objectIcon, *_itemIcon;
+	image* _tileIcon, *_objectIcon, *_itemIcon, *_actorIcon;
 	vector<image*> _tiles;
 	image* _woodencrate1, *_treelights, *_ornatetorch;
 	image* _flatform;
 	image* _item;
+	image* _actorSpawner[60];
 	RECT _rcButton[60];
 	vector<tagTile*> _vItemBox;
 

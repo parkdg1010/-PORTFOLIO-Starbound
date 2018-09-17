@@ -128,6 +128,22 @@ void gameStage::loadStageBuffer()
 					_stage[i].rc.top - 10 - CAM->getY(), 1, 0);
 			}
 		}
+
+		//액터 타입,위치 넘겨주기
+		if (_stage[i].actor != ACTOR_NONE)
+		{
+			ACTOR_TYPE_POS temp;
+			if (_stage[i].actor == ACTOR_ENEMY)
+			{
+				//타일사이즈 절반씩 더해서 중앙맞춤
+				temp = { _stage[i].enemy, i % _tileX * TILESIZE + TILESIZE * 0.5f, i / _tileX * TILESIZE + TILESIZE * 0.5f };
+				_vEnemyPosition.push_back(temp);
+			}
+			else if (_stage[i].actor == ACTOR_NPC)
+			{
+
+			}
+		}
 	}
 }
 

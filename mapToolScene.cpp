@@ -190,13 +190,14 @@ void mapToolScene::initImage()
 	_tilesButton = IMAGEMANAGER->findImage("지형태그");
 	_itemButton = IMAGEMANAGER->findImage("아이템태그");
 	_objectButton = IMAGEMANAGER->findImage("오브젝트태그");
-	_enemyButton = IMAGEMANAGER->findImage("에너미태그");
+	_actorButton = IMAGEMANAGER->findImage("에너미태그");
 	_drag = IMAGEMANAGER->findImage("드래그");
 
 	//샘플
 	_tileIcon = IMAGEMANAGER->findImage("타일아이콘");
 	_objectIcon = IMAGEMANAGER->findImage("오브젝트아이콘");
 	_itemIcon = IMAGEMANAGER->findImage("아이템아이콘");
+	_actorIcon = IMAGEMANAGER->findImage("액터아이콘");
 
 	//TODO : 타일추가
 	//타일
@@ -221,6 +222,9 @@ void mapToolScene::initImage()
 
 	//아이템
 	_item = IMAGEMANAGER->findImage("우주검");
+
+	//액터
+	_actorSpawner[FENNIX] = IMAGEMANAGER->findImage("FENNIX스포너");
 
 	//배경
 	_backGroundTop[0] = IMAGEMANAGER->findImage("배경Top0");
@@ -406,9 +410,14 @@ void mapToolScene::setMap()
 						//TODO : 오브젝트 프레임변경
 					}
 				}
-				if (_currentTab == CTRL_ENEMYTAB)
+				if (_currentTab == CTRL_ACTORTAB)
 				{
 					//TODO : spawner마크를 깔아주고 좌표만 저장해서 인게임에 넘겨주자
+					if (PtInRect(&_stage[i * _tileX + j].rc, mouse))
+					{
+						_stage[i * _tileX + j].actor = _currentTile.actorType;
+						_stage[i* _tileX + j].enemy = _currentTile.enemyType;
+					}
 				}
 				if (_currentTab == CTRL_ERASER)
 				{
@@ -417,6 +426,7 @@ void mapToolScene::setMap()
 						_stage[i * _tileX + j].object = OBJECT_NONE;
 						_stage[i * _tileX + j].terrain = TR_NONE;
 						_stage[i * _tileX + j].frontBack = FRONT;
+						_stage[i * _tileX + j].actor = ACTOR_NONE;
 						_stage[i * _tileX + j].terrainFrameX = 0;
 						_stage[i * _tileX + j].terrainFrameY = 0;
 					}
@@ -600,7 +610,7 @@ void mapToolScene::ctrlPanelUpdate()
 	_rcTile = RectMakeCenter(_rcCtrlPanel.left + 124, _rcCtrlPanel.top + 114, 65, 38);
 	_rcItem = RectMakeCenter(_rcCtrlPanel.left + 192, _rcCtrlPanel.top + 114, 65, 38);
 	_rcObject = RectMakeCenter(_rcCtrlPanel.left + 259, _rcCtrlPanel.top + 114, 65, 38);
-	_rcEnemy = RectMakeCenter(_rcCtrlPanel.left + 327, _rcCtrlPanel.top + 114, 65, 38);
+	_rcActor = RectMakeCenter(_rcCtrlPanel.left + 327, _rcCtrlPanel.top + 114, 65, 38);
 	_rcErase = RectMakeCenter(_rcCtrlPanel.left + 452, _rcCtrlPanel.top + 113, 39, 39);
 	for (int i = 0; i < 60; ++i)
 	{
@@ -643,7 +653,7 @@ void mapToolScene::ctrlPanelRender()
 	_tilesButton->frameRender(getMemDC(), _rcTile.left, _rcTile.top);
 	_itemButton->frameRender(getMemDC(), _rcItem.left, _rcItem.top);
 	_objectButton->frameRender(getMemDC(), _rcObject.left, _rcObject.top);
-	_enemyButton->frameRender(getMemDC(), _rcEnemy.left, _rcEnemy.top);
+	_actorButton->frameRender(getMemDC(), _rcActor.left, _rcActor.top);
 	IMAGEMANAGER->render("빈패드", getMemDC(), _rcCtrlPanel.left + 9, _rcCtrlPanel.top + 9);
 	IMAGEMANAGER->frameRender("숫자", getMemDC(), _rcCtrlPanel.left + 10, _rcCtrlPanel.top + 10, _saveCount, 0);
 }
@@ -677,7 +687,7 @@ void mapToolScene::tabButtonSet()
 	_tilesButton->setFrameX(0);
 	_itemButton->setFrameX(0);
 	_objectButton->setFrameX(0);
-	_enemyButton->setFrameX(0);
+	_actorButton->setFrameX(0);
 }
 
 //샘플타일 렌더
@@ -713,11 +723,11 @@ void mapToolScene::tabChange()
 		tabButtonSet();
 		_objectButton->setFrameX(2);
 	}
-	if (PtInRect(&_rcEnemy, _ptMouse))
+	if (PtInRect(&_rcActor, _ptMouse))
 	{
-		_currentTab = CTRL_ENEMYTAB;
+		_currentTab = CTRL_ACTORTAB;
 		tabButtonSet();
-		_enemyButton->setFrameX(2);
+		_actorButton->setFrameX(2);
 	}
 	if (PtInRect(&_rcErase, _ptMouse))
 	{
@@ -798,15 +808,23 @@ void mapToolScene::tabTileSetup()
 			_objShape = 'x';
 		}
 	}
-	//에너미탭
-	else if (_currentTab == CTRL_ENEMYTAB)
+	//액터탭
+	else if (_currentTab == CTRL_ACTORTAB)
 	{
-
+		if (PtInRect(&_rcButton[0], _ptMouse))
+		{
+			_currentTile.actorType = ACTOR_ENEMY;
+			_currentTile.enemyType = FENNIX;
+			_currentTile.frameX = 0;
+			_currentTile.frameY = 0;
+		}
 	}
 	else if (_currentTab == CTRL_ERASER)
 	{
 		_currentTile.terrainType = TR_NONE;
 		_currentTile.objectType = OBJECT_NONE;
+		_currentTile.itemType = ITEM_NONE;
+		_currentTile.actorType = ACTOR_NONE;
 		_currentTile.frameX = 0;
 		_currentTile.frameY = 0;
 	}
@@ -901,6 +919,43 @@ void mapToolScene::stageRender()
 			}
 		}
 
+		for (int i = startY; i < endY; ++i)
+		{
+			for (int j = startX; j < endX; ++j)
+			{
+				if (_stage[i*_tileX + j].actor != ACTOR_NONE)
+				{
+					image* curRender = NULL;
+					switch (int(_stage[i * _tileX + j].actor))
+					{
+					case ACTOR_NONE:
+						break;
+					case ACTOR_ENEMY:
+						switch (int(_stage[i * _tileX + j].enemy))
+						{
+						case FENNIX:
+							curRender = _actorSpawner[FENNIX];
+							break;
+						case SCAVERAN:
+							break;
+						case TOUMINGO:
+							break;
+						case TRICTUS:
+							break;
+						case VOLTIP:
+							break;
+						}
+						break;
+					case ACTOR_NPC:
+						break;
+					}
+					if (curRender != NULL)
+						curRender->render(getMemDC(), _stage[i*_tileX + j].rc.left - 10 - CAM->getX(),
+							_stage[i*_tileX + j].rc.top - 54 - CAM->getY());
+				}
+			}
+		}
+
 		if (KEYMANAGER->isToggleKey('1'))
 		{
 			for (int i = startY; i < endY; ++i)
@@ -961,6 +1016,30 @@ void mapToolScene::curtileMouseRender()
 				curRender->frameRender(getMemDC(), _ptMouse.x + 10, _ptMouse.y + 10, _currentTile.frameX, _currentTile.frameY);
 		}
 	}
+	else if (_currentTab == CTRL_ACTORTAB)
+	{
+		if (_currentTile.actorType != ACTOR_NONE)
+		{
+			image* curRender = NULL;
+			switch (_currentTile.actorType)
+			{
+			case ACTOR_NONE:
+				break;
+			case ACTOR_ENEMY:
+				switch (_currentTile.enemyType)
+				{
+				case FENNIX:
+					curRender = _actorSpawner[FENNIX];
+					break;
+				}
+				break;
+			case ACTOR_NPC:
+				break;
+			}
+			if (curRender != NULL)
+				curRender->render(getMemDC(), _ptMouse.x + 10, _ptMouse.y + 10);
+		}
+	}
 }
 
 //샘플아이콘
@@ -1003,8 +1082,14 @@ void mapToolScene::curTabIconRender()
 			}
 		}
 	}
-	else if (_currentTab == CTRL_ENEMYTAB)
+	else if (_currentTab == CTRL_ACTORTAB)
 	{
-
+		for (int i = 0; i < 6; ++i)
+		{
+			for (int j = 0; j < 10; ++j)
+			{
+				sampleRender(_actorIcon, j, i);
+			}
+		}
 	}
 }

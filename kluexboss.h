@@ -6,6 +6,7 @@
 
 class kluexboss : public enemy
 {
+private:
 	enemy* _currentPhase;
 	enemy* _phase1;
 	enemy* _phase2;
@@ -19,7 +20,7 @@ public:
 	virtual void bltRender();
 	virtual void move();
 	virtual void collide();
-	virtual bool collideStage() { return false; }
+	virtual bool collideStage(int range) { return false; }
 	virtual bool collideObject(gameObject* gameObject = NULL);
 	virtual void damaged(gameObject* actor);
 	virtual void drawUI();
