@@ -200,9 +200,12 @@ void player::inputKey()
 
 	if (_weapon != NULL)
 	{
-		if (KEYMANAGER->isOnceKeyDown(VK_LBUTTON))
+		if (!_inventory->getIsActive())
 		{
-			_weapon->fire();
+			if (KEYMANAGER->isOnceKeyDown(VK_LBUTTON))
+			{
+				_weapon->fire();
+			}
 		}
 	}
 }

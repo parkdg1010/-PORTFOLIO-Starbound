@@ -240,7 +240,7 @@ void loadingScene::loadingPlayer()
 	_loading->loadFrameImage("invenTag_object", "Texture/ui/inventory/objectTag_260x38_4x1.bmp", 260, 38, 4, 1);
 	_loading->loadFrameImage("invenTag_tiles", "Texture/ui/inventory/tilesTag_260x38_4x1.bmp", 260, 38, 4, 1);
 	_loading->loadFrameImage("invenTag_weapon", "Texture/ui/inventory/weaponTag_260x38_4x1.bmp", 260, 38, 4, 1);
-	_loading->loadFrameImage("inven_esc", "Texture/ui/inventory/escBar_44x70_1x2.bmp", 44, 70, 1, 2);
+	_loading->loadFrameImage("inven_esc", "Texture/ui/inventory/escBar_35x56_1x2.bmp", 35, 56, 1, 2);
 
 	//Å×½ºÆ®
 	_loading->loadFrameImage("HAIR25", "Texture/character/floran/hair/25.bmp", 129, 258, 1, 2);
