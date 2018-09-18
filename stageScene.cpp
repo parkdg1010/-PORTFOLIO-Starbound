@@ -13,7 +13,8 @@ HRESULT stageScene::init()
 
 	_player = SAVEDATA->getPlayer();
 	_player->linkStage(_stage);
-	_player->setWeapon(_itemFac->createItem(ITEM_SPACESWORD, 1000, 20.f, 0.f, "", "우주검"));
+	_player->setWeapon(dynamic_cast<weapon*>(_itemFac->createItem
+		(ITEM_SHOTGUN01, 500, 1.f, 0.f, "", "샷건", "standardBullet", "muzzleflashImg"))); //TODO : 나중에 인벤토리로
 	_player->init();
 
 	_stage->linkPlayer(_player);

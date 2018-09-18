@@ -15,18 +15,8 @@ public:
 	virtual void render();
 	virtual void release();
 
+	virtual void setup() {}
+
 	gameItem() { gameObject::init(); }
 	~gameItem() {}
-};
-
-class itemFactory
-{
-public:
-	//아이템 기본
-	//이미지 변수로 초기화
-	gameItem* createItem(ITEM itemType = ITEM_NONE, int price = 0, float damage = 0, float armor = 0,
-		image* icon = NULL, image* img = NULL);
-	//이미지키값으로 초기화
-	gameItem* createItem(ITEM itemType = ITEM_NONE, int price = 0, float damage = 0, float armor = 0,
-		string icon = "", string img = "");
 };

@@ -22,6 +22,28 @@ HRESULT bullet::init(float radius, float speed, float damage, float range, const
 	return S_OK;
 }
 
+HRESULT bullet::init(float radius, float speed, float damage, float range, image* image)
+{
+	if (image != NULL) //문자열 비교함수 strcmp 
+		_image = image;
+	else
+		_image = NULL;
+
+	_radius = radius;
+	_speed = speed;
+	_range = range;
+	_damage = damage;
+	_isActive = false;
+	_frameDelay = 7;
+
+	_x = _y = _fireX = _fireY = 0;
+	_angle = 0;
+	_gravity = 0;
+	_count = _index = 0;
+
+	return S_OK;
+}
+
 void bullet::update()
 {
 	if (!_isActive) return;

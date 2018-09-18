@@ -113,11 +113,17 @@ void loadingScene::loadingEffectImage()
 	_loading->loadFrameImage("energywaveImg", "Texture/projectiles/energywave.bmp", 576, 66, 3, 1);								//기운파도(불릿)
 
 	_loading->loadFrameImage("flameImg", "Texture/projectiles/flame_576x48_12x1.bmp", 576, 48, 12, 1);							//화염방사
+
+	_loading->loadFrameImage("muzzleflashImg", "Texture/item/weapons/ranged/muzzleflash.bmp", 135, 90, 3, 2);					//머즐플래시
+
+	_loading->loadFrameImage("standardBullet", "Texture/item/weapons/ranged/standardbullet.bmp", 51, 9, 1, 1);					//기본불릿
 }
 
 void loadingScene::loadingEffect()
 {
 	EFFECTMANAGER->addEffect("JUMP_DUST", "JUMPDUSTImg", 0.05, 10);
+
+	EFFECTMANAGER->addEffect("muzzleflash", "muzzleflashImg", 0.4, 10);
 
 	EFFECTMANAGER->addEffect("kluex_Staff_Plasma", "kluexstaffplasmaImg", 0.05, 20);
 	EFFECTMANAGER->addEffect("red_Pulse_Cannon_Explosion", "redpulsecannonexplosionImg", 0.05, 20);
@@ -211,10 +217,12 @@ void loadingScene::loadingObjects()
 void loadingScene::loadingItem()
 {
 	_loading->loadImage("우주검", "Texture/item/weapons/melee/broadsword/astrosabredeluxe.bmp", 48, 204, true, MAGENTA);
+	_loading->loadFrameImage("샷건", "Texture/item/weapons/ranged/shotgun.bmp", 207, 96, 1,2);
 }
 
 void loadingScene::loadingPlayer()
 {
+	//플레이어
 	_loading->loadFrameImage("PLAYER_IDLE", "Texture/character/nuru/idle_84x256_1x2.bmp", 84, 256, 1, 2);
 	_loading->loadFrameImage("PLAYER_RUN", "Texture/character/nuru/walk,run_672x256_8x2.bmp", 672, 256, 8, 2);
 	_loading->loadFrameImage("PLAYER_JUMP", "Texture/character/nuru/jump_336x256_4x2.bmp", 336, 256, 4, 2);
@@ -226,6 +234,15 @@ void loadingScene::loadingPlayer()
 	_loading->loadFrameImage("noHand_PLAYER_JUMP", "Texture/character/nuru/noHand_jump_336x256_4x2.bmp", 336, 256, 4, 2);
 	_loading->loadFrameImage("noHand_PLAYER_FALL", "Texture/character/nuru/noHand_fall_368x256_4x2.bmp", 368, 256, 4, 2);
 
+	//인벤토리
+	_loading->loadImage("inventory_body", "Texture/ui/inventory/inventoryBody_407x465.bmp", 407, 465, true, MAGENTA);
+	_loading->loadFrameImage("invenTag_item", "Texture/ui/inventory/itemTag_260x38_4x1.bmp", 260, 38, 4, 1);
+	_loading->loadFrameImage("invenTag_object", "Texture/ui/inventory/objectTag_260x38_4x1.bmp", 260, 38, 4, 1);
+	_loading->loadFrameImage("invenTag_tiles", "Texture/ui/inventory/tilesTag_260x38_4x1.bmp", 260, 38, 4, 1);
+	_loading->loadFrameImage("invenTag_weapon", "Texture/ui/inventory/weaponTag_260x38_4x1.bmp", 260, 38, 4, 1);
+	_loading->loadFrameImage("inven_esc", "Texture/ui/inventory/escBar_44x70_1x2.bmp", 44, 70, 1, 2);
+
+	//테스트
 	_loading->loadFrameImage("HAIR25", "Texture/character/floran/hair/25.bmp", 129, 258, 1, 2);
 	_loading->loadFrameImage("FLORAN_IDLE", "Texture/character/floran/idle_129x258_1x2.bmp", 129, 258, 1, 2);
 	_loading->loadFrameImage("FLORAN_WALK", "Texture/character/floran/walk_1032x258_8x2.bmp", 1032, 258, 8, 2);

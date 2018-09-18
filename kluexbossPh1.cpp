@@ -31,12 +31,12 @@ HRESULT kluexbossPh1::init()
 	
 	_activeP = KLUEX_PH1_CONST::NONE;
 
-	_vbullet = new vector<bullet>;
+	_vBullet = new vector<bullet>;
 	bullet blt;
 	blt.init(12, 5, 5, WINSIZEX* WINSIZEY, "energycrystalImg");
 	for (int i = 0; i < 10; ++i)
 	{
-		_vbullet->push_back(blt);
+		_vBullet->push_back(blt);
 	}
 
 	bullet ball;
@@ -133,21 +133,21 @@ void kluexbossPh1::release()
 
 void kluexbossPh1::bltUpdate()
 {
-	for (int i = 0; i < _vbullet->size(); ++i)
+	for (int i = 0; i < _vBullet->size(); ++i)
 	{
-		_vbullet->at(i).update(); //벡터를 동적할당했을때 at을 통해 인덱스를 가져온다 at이 대괄호와 같은 의미로 사용
+		_vBullet->at(i).update(); //벡터를 동적할당했을때 at을 통해 인덱스를 가져온다 at이 대괄호와 같은 의미로 사용
 		if (_mapPixel != NULL)
 		{
-			_vbullet->at(i).collideMap(_mapPixel);
+			_vBullet->at(i).collideMap(_mapPixel);
 		}
 	}
 }
 
 void kluexbossPh1::bltRender()
 {
-	for (int i = 0; i < _vbullet->size(); ++i)
+	for (int i = 0; i < _vBullet->size(); ++i)
 	{
-		_vbullet->at(i).render(true); //벡터를 동적할당했을때 at을 통해 인덱스를 가져온다 at이 대괄호와 같은 의미로 사용
+		_vBullet->at(i).render(true); //벡터를 동적할당했을때 at을 통해 인덱스를 가져온다 at이 대괄호와 같은 의미로 사용
 	}
 }
 
@@ -196,14 +196,14 @@ void kluexbossPh1::pattern1Update()
 
 		if (_p1FireDelay == 0 && _p1FireCount < 20)
 		{
-			for (int i = 0; i < _vbullet->size(); ++i)
+			for (int i = 0; i < _vBullet->size(); ++i)
 			{
-				if (_vbullet->at(i).getIsActive()) continue;
+				if (_vBullet->at(i).getIsActive()) continue;
 
 				int temp = RND->getInt(5);
 
 				EFFECTMANAGER->play("red_Pulse_Cannon_Explosion", (int)_vPlasmaBall[temp].getX(), (int)_vPlasmaBall[temp].getY());
-				_vbullet->at(i).fire(_vPlasmaBall[temp].getX(), _vPlasmaBall[temp].getY(),
+				_vBullet->at(i).fire(_vPlasmaBall[temp].getX(), _vPlasmaBall[temp].getY(),
 					utl::getAnglePL(_vPlasmaBall[temp].getX(), _vPlasmaBall[temp].getY(), _player->getX(), _player->getY()));
 				++_p1FireCount;
 				break;

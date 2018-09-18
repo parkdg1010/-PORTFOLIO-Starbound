@@ -93,6 +93,12 @@
     <Filter Include="GameActors\에너미\Minions">
       <UniqueIdentifier>{f655c497-a25a-4ec3-8c62-9933e9c7a6d1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameObjects\아이템\무기\melee">
+      <UniqueIdentifier>{127fbe15-7f34-4e09-afc7-73a8bdaf296e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObjects\아이템\무기\ranged">
+      <UniqueIdentifier>{2e9c1838-b06c-4dc8-95e1-8f630fb2ac2c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="commonMacroFunction.h">
@@ -215,12 +221,6 @@
     <ClInclude Include="weapon.h">
       <Filter>GameObjects\아이템\무기</Filter>
     </ClInclude>
-    <ClInclude Include="rangedWeapon.h">
-      <Filter>GameObjects\아이템\무기</Filter>
-    </ClInclude>
-    <ClInclude Include="meleeWeapon.h">
-      <Filter>GameObjects\아이템\무기</Filter>
-    </ClInclude>
     <ClInclude Include="gameStage.h">
       <Filter>GameObjects\스테이지</Filter>
     </ClInclude>
@@ -232,6 +232,21 @@
     </ClInclude>
     <ClInclude Include="fennix.h">
       <Filter>GameActors\에너미\Minions</Filter>
+    </ClInclude>
+    <ClInclude Include="meleeWeapon.h">
+      <Filter>GameObjects\아이템\무기\melee</Filter>
+    </ClInclude>
+    <ClInclude Include="rangedWeapon.h">
+      <Filter>GameObjects\아이템\무기\ranged</Filter>
+    </ClInclude>
+    <ClInclude Include="shotgun01.h">
+      <Filter>GameObjects\아이템\무기\ranged</Filter>
+    </ClInclude>
+    <ClInclude Include="itemManager.h">
+      <Filter>GameObjects\아이템</Filter>
+    </ClInclude>
+    <ClInclude Include="inventory.h">
+      <Filter>GameObjects</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -346,12 +361,6 @@
     <ClCompile Include="weapon.cpp">
       <Filter>GameObjects\아이템\무기</Filter>
     </ClCompile>
-    <ClCompile Include="rangedWeapon.cpp">
-      <Filter>GameObjects\아이템\무기</Filter>
-    </ClCompile>
-    <ClCompile Include="meleeWeapon.cpp">
-      <Filter>GameObjects\아이템\무기</Filter>
-    </ClCompile>
     <ClCompile Include="gameStage.cpp">
       <Filter>GameObjects\스테이지</Filter>
     </ClCompile>
@@ -363,6 +372,21 @@
     </ClCompile>
     <ClCompile Include="fennix.cpp">
       <Filter>GameActors\에너미\Minions</Filter>
+    </ClCompile>
+    <ClCompile Include="meleeWeapon.cpp">
+      <Filter>GameObjects\아이템\무기\melee</Filter>
+    </ClCompile>
+    <ClCompile Include="rangedWeapon.cpp">
+      <Filter>GameObjects\아이템\무기\ranged</Filter>
+    </ClCompile>
+    <ClCompile Include="shotgun01.cpp">
+      <Filter>GameObjects\아이템\무기\ranged</Filter>
+    </ClCompile>
+    <ClCompile Include="itemManager.cpp">
+      <Filter>GameObjects\아이템</Filter>
+    </ClCompile>
+    <ClCompile Include="inventory.cpp">
+      <Filter>GameObjects</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

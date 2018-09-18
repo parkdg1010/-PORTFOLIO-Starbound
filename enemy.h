@@ -13,7 +13,7 @@ private:
 protected:
 	image* _picR;
 	image* _picL;
-	vector<bullet>* _vbullet;
+	vector<bullet>* _vBullet;
 	player* _player;
 public:
 	virtual void bltUpdate() {}

@@ -37,13 +37,13 @@ HRESULT fennix::init()
 	_imgL[FENNIX_CONST::FALL]->setPlayFrame(21, 22);
 	_imgL[FENNIX_CONST::SHOOT]->setPlayFrame(27, 30);
 
-	_vbullet = new vector<bullet>;
+	_vBullet = new vector<bullet>;
 	bullet blt;
 	blt.init(24, 2, 3, 400, "flameImg");
 	for (int i = 0; i < 30; ++i)
 	{
 		blt.setFrameDelay(28);
-		_vbullet->push_back(blt);
+		_vBullet->push_back(blt);
 	}
 
 	_fireDelay = 0;
@@ -153,12 +153,12 @@ void fennix::bltFire()
 		DELAYCOUNT(_fireDelay, 12);
 		if (_fireDelay == 0)
 		{
-			for (int i = 0; i < _vbullet->size(); ++i)
+			for (int i = 0; i < _vBullet->size(); ++i)
 			{
-				if (_vbullet->at(i).getIsActive()) continue;
+				if (_vBullet->at(i).getIsActive()) continue;
 
 				//EFFECTMANAGER->play("red_Pulse_Cannon_Explosion", (int)_vPlasmaBall[temp].getX(), (int)_vPlasmaBall[temp].getY());
-				_vbullet->at(i).fire(_x, _y, utl::getAnglePL(_x, _y, _player->getX(), _player->getY()));
+				_vBullet->at(i).fire(_x, _y, utl::getAnglePL(_x, _y, _player->getX(), _player->getY()));
 				break;
 			}
 		}
@@ -172,12 +172,12 @@ void fennix::bltFire()
 void fennix::bltUpdate()
 {
 	//È­¿°¹æ»ç
-	for (int i = 0; i < _vbullet->size(); ++i)
+	for (int i = 0; i < _vBullet->size(); ++i)
 	{
-		_vbullet->at(i).update();
+		_vBullet->at(i).update();
 		if (_mapPixel != NULL)
 		{
-			_vbullet->at(i).collideMap(_mapPixel);
+			_vBullet->at(i).collideMap(_mapPixel);
 		}
 	}
 }
@@ -185,9 +185,9 @@ void fennix::bltUpdate()
 void fennix::bltRender()
 {
 	//È­¿°¹æ»ç
-	for (int i = 0; i < _vbullet->size(); ++i)
+	for (int i = 0; i < _vBullet->size(); ++i)
 	{
-		_vbullet->at(i).render(true);
+		_vBullet->at(i).render(true);
 	}
 }
 

@@ -20,6 +20,9 @@ HRESULT player::init()
 
 	_longJumpValue = 0;
 
+	_inventory = new inventory;
+	_inventory->init();
+
 	return S_OK;
 }
 
@@ -32,12 +35,21 @@ void player::update()
 		inputKey();
 		move();
 		collide();
+
+		if (_weapon != NULL)
+		{
+			_weapon->setPosition(_x, _y+5, _dir);
+			_weapon->setAngle(_handAngle + PI*1.5);
+			_weapon->update();
+			_weapon->linkMapPixel(_stage->getPixelBuffer());
+		}
 	}
 	else
 	{
 		setPosition(1600, 430, _dir);
 		_isActive = true;
 	}
+	_inventory->update();
 }
 
 void player::render()
@@ -63,12 +75,13 @@ void player::render()
 		else
 		{
 			//팔 회전각도, 위치조정
-			float tempAngle = utl::getAngle(_x, _y, _ptMouse.x + CAM->getX(), _ptMouse.y + CAM->getY());
-			if ((PI*0.5 < tempAngle && tempAngle < PI) || -PI < tempAngle && tempAngle < -PI * 0.5)
+			//TODO : 무기타입마다 팔 각도가 다르다
+			_handAngle = utl::getAngle(_x, _y, _ptMouse.x + CAM->getX(), _ptMouse.y + CAM->getY());
+			if ((PI_2 < _handAngle && _handAngle < PI) || -PI < _handAngle && _handAngle < - PI_2)
 			{
-				tempAngle += PI * 0.5;
+				_handAngle += PI_2;
 			}
-			tempAngle -= (PI * 1.75);
+			_handAngle -= (PI * 1.75f);
 			POINT temp = { 0,0 };
 			switch (_state)
 			{
@@ -100,17 +113,24 @@ void player::render()
 				temp.y += 0;
 			}
 			
-			_hand[RIGHT]->rotateFrameRender(getMemDC(), _x + temp.x - 2 - CAM->getX(), _y + temp.y + 5 - CAM->getY(), 0, _dir, tempAngle);
+			_hand[RIGHT]->rotateFrameRender(getMemDC(), _x + temp.x - 2 - CAM->getX(), _y + temp.y + 5 - CAM->getY(), 0, _dir, _handAngle);
 			_nohandImg[_state]->frameRender(getMemDC(), _x - _nohandImg[_state]->getFrameWidth()*0.5 - CAM->getX(),
 				_y - _nohandImg[_state]->getFrameHeight() * 0.5 - CAM->getY(), _curFrameX, _curFrameY);
 			if(_dir == RIGHT)
-				_hand[LEFT]->rotateFrameRender(getMemDC(), _x + temp.x - CAM->getX(), _y + temp.y - CAM->getY(), 0, _dir, tempAngle);
+				_hand[LEFT]->rotateFrameRender(getMemDC(), _x + temp.x - CAM->getX(), _y + temp.y - CAM->getY(), 0, _dir, _handAngle);
 			else
-				_hand[LEFT]->rotateFrameRender(getMemDC(), _x + temp.x - CAM->getX(), _y + temp.y - CAM->getY(), 0, _dir, tempAngle);
+				_hand[LEFT]->rotateFrameRender(getMemDC(), _x + temp.x - CAM->getX(), _y + temp.y - CAM->getY(), 0, _dir, _handAngle);
 		}
 		//_hair->frameRender(getMemDC(), _x - _img[_state]->getFrameWidth()*0.5 - CAM->getX(), _y - _img[_state]->getFrameHeight() * 0.5 - CAM->getY(), 0, _curFrameY);
 		//textMake(getMemDC(), _x - CAM->getX(), _y - CAM->getY(), "X");
 		//textMake(getMemDC(), 100, 100, "중력", _gravity);
+
+		if (_weapon != NULL)
+		{
+			_weapon->render();
+		}
+
+		_inventory->render();
 	}
 }
 
@@ -167,6 +187,22 @@ void player::inputKey()
 		if (_state != JUMP && _state != FALL)
 		{
 			changeState(WALK);
+		}
+	}
+
+	if (KEYMANAGER->isOnceKeyDown('I'))
+	{
+		if (!_inventory->getIsActive())
+			_inventory->setIsActive(true);
+		else
+			_inventory->setIsActive(false);
+	}
+
+	if (_weapon != NULL)
+	{
+		if (KEYMANAGER->isOnceKeyDown(VK_LBUTTON))
+		{
+			_weapon->fire();
 		}
 	}
 }

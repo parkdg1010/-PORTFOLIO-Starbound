@@ -10,12 +10,13 @@
 #define MAGENTA		RGB(255,0,255)
 #define PI		    3.14159265358979323846f
 
-#define PI_2		PI/2
-#define PI_4		PI/4
-#define PI_8		PI/8
+#define PI_2		PI *0.5   //2·Î³ª´®
+#define PI_4		PI *0.25  //4·Î ³ª´®
+#define PI_8		PI *0.125 //8·Î ³ª´®
 
 //ADDED ¸ÅÅ©·Î ÇÔ¼ö
 #define DELAYCOUNT(count, delay) {count = (count +1) % delay;}
+#define RAD_TO_DEG(angle) angle *0.017453292519943295769f
 
 namespace MY_UTIL
 {

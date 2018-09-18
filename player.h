@@ -1,6 +1,6 @@
 #pragma once
 #include "gameActor.h"
-#include "gameItem.h"
+#include "inventory.h"
 
 namespace PLAYER_CONST
 {
@@ -31,19 +31,20 @@ private:
 	image* _hand[2];
 	//image* _hair;
 
-	//image* _weapon; //비어있으면 아무것도 안함 채워져있으면 손도 바꾸고 무기도 렌더
-
 	tagSKILL _skill[3];
 
-	//bool _onGround;						//땅에 닿기
 	int _keepWalk;						//계단 내려가기
 	float _longJumpValue;				//점프높이 제한
 
-	gameStage* _stage;
+	float _handAngle;					//손 각도
+
+	gameStage* _stage;					//스테이지 상호참조
+
+	inventory* _inventory;
 
 	Synthesize(int, _jumpCount, JumpCount)			//이단점프
 	Synthesize(float, _dashSpeed, DashSpeed)		//대쉬속도
-	Synthesize(gameItem*, _weapon, Weapon)			//무기
+	Synthesize(weapon*, _weapon, Weapon)			//무기 //비어있으면 아무것도 안함 채워져있으면 손도 바꾸고 무기도 렌더
 
 public:
 	virtual void move();

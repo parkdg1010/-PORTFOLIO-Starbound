@@ -1,9 +1,7 @@
 #pragma once
-#include "weapon.h"
-class meleeWeapon : public weapon
+#include "rangedWeapon.h"
+class shotgun01 : public rangedWeapon
 {
-protected:
-	image * _effect[3];
 public:
 	virtual HRESULT init(ITEM name = ITEM_NONE, int price = 0, float damage = 0, float armor = 0,
 		image* icon = NULL, image* img = NULL);
@@ -12,8 +10,9 @@ public:
 	virtual void release();
 
 	virtual void setup(image* effect1 = NULL, image* effect2 = NULL, image* effect3 = NULL);
+	virtual void fire();
 
-public:
-	meleeWeapon() { gameObject::init(); }
-	~meleeWeapon() {}
+	shotgun01() {}
+	~shotgun01() {}
 };
+

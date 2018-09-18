@@ -2,6 +2,7 @@
 #include "gameNode.h"
 #include "player.h"
 #include "enemyManager.h"
+#include "itemManager.h"
 #include "gameStage.h"
 #include "homeStage.h"
 #include "dungeonStage.h"

@@ -13,6 +13,7 @@ protected:
 	float _fireX, _fireY;
 public:
 	virtual HRESULT init(float radius, float speed, float damage, float range, const char* imageName = "없음");
+	virtual HRESULT init(float radius, float speed, float damage, float range, image* image = NULL);
 	//불릿반지름, 속도, 공격력, 사거리, 이미지키값 이미지키값을 안넣으면 Ellipse를 그려서 발사해준다.
 	virtual void update();
 	//액티브상태면 무브
