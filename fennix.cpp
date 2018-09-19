@@ -40,7 +40,7 @@ HRESULT fennix::init()
 	_vBullet = new vector<bullet>;
 	bullet blt;
 	blt.init(24, 2, 3, 400, "flameImg");
-	for (int i = 0; i < 30; ++i)
+	for (int i = 0; i < 20; ++i)
 	{
 		blt.setFrameDelay(28);
 		_vBullet->push_back(blt);
@@ -150,7 +150,7 @@ void fennix::bltFire()
 	//TODO : 불릿프레임 천천히 돌게하고, 발사딜레이 주기
 	if (_isFire)
 	{
-		DELAYCOUNT(_fireDelay, 12);
+		DELAYCOUNT(_fireDelay, 14);
 		if (_fireDelay == 0)
 		{
 			for (int i = 0; i < _vBullet->size(); ++i)

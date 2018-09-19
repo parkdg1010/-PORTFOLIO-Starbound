@@ -62,7 +62,6 @@ void mainGame::render() //이제 이미지매니저를 추가했고 gameNode를 수정해서 HDC매
 	//흰색 빈 비트맵(이것도 렌더에 그냥 둘것!!)
 	PatBlt(getMemDC(), 0, 0, WINSIZEX, WINSIZEY, BLACKNESS);
 //=============================================================
-
 	_isDebug = KEYMANAGER->isToggleKey(VK_F1); //모든 클래스 디버그모드 시작
 
 	//씬매니져 렌더
@@ -80,9 +79,7 @@ void mainGame::render() //이제 이미지매니저를 추가했고 gameNode를 수정해서 HDC매
 	//토글키는 디버깅용으로 많이 사용한다
 	if (_isDebug)
 	{
-		
 		TextOut(getMemDC(), 0, 60, "디버그 모드", strlen("디버그 모드"));
-
 	}
 
 //=============================================================	

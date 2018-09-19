@@ -8,10 +8,12 @@ HRESULT inventory::init()
 	_invenWindow = IMAGEMANAGER->findImage("inventory_body");
 
 	_invenTag[INVEN_ITEM] = IMAGEMANAGER->findImage("invenTag_item");
-	_invenTag[INVEN_TILES] = IMAGEMANAGER->findImage("invenTag_tiles"); 
+	_invenTag[INVEN_TILE] = IMAGEMANAGER->findImage("invenTag_tiles"); 
 	_invenTag[INVEN_OBJECT] = IMAGEMANAGER->findImage("invenTag_object");
 	_invenTag[INVEN_WEAPON] = IMAGEMANAGER->findImage("invenTag_weapon");
 	_invenEsc = IMAGEMANAGER->findImage("inven_esc");
+
+	_itemBorder = IMAGEMANAGER->findImage("inven_itemBorder");
 
 	_x = WINSIZEX * 0.8f;
 	_y = WINSIZEY * 0.5f;
@@ -46,6 +48,13 @@ void inventory::update()
 				_isCtrlPanelMove = false;
 			}
 		}
+
+		//TODO 오른쪽 클릭으로 아이템장착하기 넣자.
+		if (KEYMANAGER->isOnceKeyDown(VK_RBUTTON))
+		{
+			itemUse();
+			curItemOff();
+		}
 	}
 }
 
@@ -53,7 +62,14 @@ void inventory::render()
 {
 	if (_isActive)
 	{
+		//인벤토리 렌더
 		ctrlPanelRender();
+		//아이템 아이콘 렌더
+		curTabIconRender();
+		//장비템 렌더
+		equipItemRender();
+		//TODO 공격력, 방어력, 체력 렌더하기
+		//매개변수로 플레이어의 체력값을 받아다 체력바 렌더하자
 	}
 }
 
@@ -83,7 +99,7 @@ void inventory::ctrlPanelUpdate()
 	_rcClose = RectMakeCenter(_rcInventory.left + 370, _rcInventory.top + 18, 35, 28);
 	for (int i = 0; i < 40; ++i)
 	{
-		_rcButton[i] = RectMakeCenter(_rcInventory.left + 35 + 48 * (i % 8), _rcInventory.top + 171 + 48 * (i / 8), 40, 40);
+		_rcButton[i] = RectMakeCenter(_rcInventory.left + 35 + 48 * (i % 8), _rcInventory.top + 198 + 48 * (i / 8), 40, 40);
 	}
 }
 
@@ -114,7 +130,7 @@ void inventory::ctrlPanelRender()
 {
 	_invenWindow->render(getMemDC(), _rcInventory.left, _rcInventory.top);
 	_invenTag[INVEN_ITEM]->frameRender(getMemDC(), _rcItemTag.left, _rcItemTag.top);
-	_invenTag[INVEN_TILES]->frameRender(getMemDC(), _rcTilesTag.left, _rcTilesTag.top);
+	_invenTag[INVEN_TILE]->frameRender(getMemDC(), _rcTilesTag.left, _rcTilesTag.top);
 	_invenTag[INVEN_OBJECT]->frameRender(getMemDC(), _rcObjectTag.left, _rcObjectTag.top);
 	_invenTag[INVEN_WEAPON]->frameRender(getMemDC(), _rcWeaponTag.left, _rcWeaponTag.top);
 	_invenEsc->frameRender(getMemDC(), _rcClose.left, _rcClose.top);
@@ -138,9 +154,9 @@ void inventory::tabChange()
 	}
 	if (PtInRect(&_rcTilesTag, _ptMouse))
 	{
-		_currentTab = INVEN_TILES;
+		_currentTab = INVEN_TILE;
 		tabButtonSet();
-		_invenTag[INVEN_TILES]->setFrameX(2);
+		_invenTag[INVEN_TILE]->setFrameX(2);
 	}
 	if (PtInRect(&_rcObjectTag, _ptMouse))
 	{
@@ -161,12 +177,133 @@ void inventory::tabChange()
 	}
 }
 
-void inventory::iconRender(image * sample, int X, int Y)
+void inventory::iconRender(image * sample, int X, int Y, int rarity)
 {
-	sample->frameRender(getMemDC(), _rcButton[Y * 8 + X].left + 2, _rcButton[Y * 8 + X].top + 2);
+	_itemBorder->frameRender(getMemDC(), _rcButton[Y * 8 + X].left-2, _rcButton[Y * 8 + X].top-2, rarity, 0);
+	sample->render(getMemDC(), _rcButton[Y * 8 + X].left, _rcButton[Y * 8 + X].top);
 }
 
 void inventory::curTabIconRender()
 {
-	//TODO : 인벤토리창에 아이템 아이콘 띄워주기
+	if (_currentTab == INVEN_ITEM)
+	{
+		for (int i = 0; i < _vInventory[INVEN_ITEM].size(); ++i)
+		{
+			if (_vInventory[INVEN_ITEM][i] == NULL) continue;
+			iconRender(_vInventory[INVEN_ITEM][i]->getIcon(), i / 8, i % 8, _vInventory[INVEN_ITEM][i]->getRarity());
+		}
+	}
+	else if (_currentTab == INVEN_TILE)
+	{
+		for (int i = 0; i < _vInventory[INVEN_TILE].size(); ++i)
+		{
+			if (_vInventory[INVEN_TILE][i] == NULL) continue;
+			iconRender(_vInventory[INVEN_TILE][i]->getIcon(), i / 8, i % 8, _vInventory[INVEN_TILE][i]->getRarity());
+		}
+	}
+	else if (_currentTab == INVEN_OBJECT)
+	{
+		for (int i = 0; i < _vInventory[INVEN_OBJECT].size(); ++i)
+		{
+			if (_vInventory[INVEN_OBJECT][i] == NULL) continue;
+			iconRender(_vInventory[INVEN_OBJECT][i]->getIcon(), i / 8, i % 8, _vInventory[INVEN_OBJECT][i]->getRarity());
+		}
+	}
+	else if (_currentTab == INVEN_WEAPON)
+	{
+		for (int i = 0; i < _vInventory[INVEN_WEAPON].size(); ++i)
+		{
+			if (_vInventory[INVEN_WEAPON][i] == NULL) continue;
+			iconRender(_vInventory[INVEN_WEAPON][i]->getIcon(), i / 8, i % 8, _vInventory[INVEN_WEAPON][i]->getRarity());
+		}
+	}
+}
+
+void inventory::itemUse()
+{
+	if (_currentTab == INVEN_ITEM)
+	{
+		for (int i = 0; i < _vInventory[INVEN_ITEM].size(); ++i)
+		{
+			if (_vInventory[INVEN_ITEM][i] == NULL) continue;
+
+			if (PtInRect(&_rcButton[i], _ptMouse))
+			{
+				_vInventory[INVEN_ITEM][i]->use();
+				break;
+			}
+		}
+	}
+	else if (_currentTab == INVEN_TILE)
+	{
+		for (int i = 0; i < _vInventory[INVEN_TILE].size(); ++i)
+		{
+			if (_vInventory[INVEN_TILE][i] == NULL) continue;
+			
+		}
+	}
+	else if (_currentTab == INVEN_OBJECT)
+	{
+		for (int i = 0; i < _vInventory[INVEN_OBJECT].size(); ++i)
+		{
+			if (_vInventory[INVEN_OBJECT][i] == NULL) continue;
+			
+		}
+	}
+	else if (_currentTab == INVEN_WEAPON)
+	{
+		for (int i = 0; i < _vInventory[INVEN_WEAPON].size(); ++i)
+		{
+			if (_vInventory[INVEN_WEAPON][i] == NULL) continue;
+			
+			if (PtInRect(&_rcButton[i], _ptMouse))
+			{
+				itemSwap(_curWeapon, _vInventory[INVEN_WEAPON][i]);
+				break;
+			}
+		}
+	}
+}
+
+void inventory::curItemOff()
+{
+	if (_curWeapon != NULL)
+	{
+		if (PtInRect(&_rcCurWeapon, _ptMouse))
+		{
+			for (int i = 0; i < _vInventory[INVEN_WEAPON].size(); ++i)
+			{
+				if (_vInventory[INVEN_WEAPON][i] == NULL)
+				{
+					itemSwap(_vInventory[INVEN_WEAPON][i], _curWeapon);
+					break;
+				}
+			}
+		}
+	}
+	
+}
+
+void inventory::equipItemRender()
+{
+	if (_curWeapon != NULL)
+	{
+		_curWeapon->getIcon()->render(getMemDC(), _rcCurWeapon.left + _curWeapon->getIcon()->getWidth()*0.5 - 5, _rcCurWeapon.top + _curWeapon->getIcon()->getHeight()*0.5 - 10);
+	}
+	if (_curArmor != NULL)
+	{
+		_curArmor->getIcon()->render(getMemDC(), _rcCurArmor.left + _curArmor->getIcon()->getWidth()*0.5 - 5, _rcCurArmor.top + _curArmor->getIcon()->getHeight()*0.5 - 10);
+	}
+	if (_curBack != NULL)
+	{
+		_curBack->getIcon()->render(getMemDC(), _rcCurBack.left + _curBack->getIcon()->getWidth()*0.5 - 5, _rcCurBack.top + _curBack->getIcon()->getHeight()*0.5 - 10);
+	}
+}
+
+void inventory::itemSwap(gameItem* &a, gameItem* &b)
+{
+	gameItem* swap = NULL;
+	swap = a;
+	a = b;
+	b = swap;
 }

@@ -32,6 +32,7 @@ private:
 	//image* _hair;
 
 	tagSKILL _skill[3];
+	weapon* _weapon;
 
 	int _keepWalk;						//계단 내려가기
 	float _longJumpValue;				//점프높이 제한
@@ -40,11 +41,10 @@ private:
 
 	gameStage* _stage;					//스테이지 상호참조
 
-	inventory* _inventory;
-
+	Synthesize(inventory*, _inventory, Inventory)
 	Synthesize(int, _jumpCount, JumpCount)			//이단점프
 	Synthesize(float, _dashSpeed, DashSpeed)		//대쉬속도
-	Synthesize(weapon*, _weapon, Weapon)			//무기 //비어있으면 아무것도 안함 채워져있으면 손도 바꾸고 무기도 렌더
+	//Synthesize(weapon*, _weapon, Weapon)			//무기 //비어있으면 아무것도 안함 채워져있으면 손도 바꾸고 무기도 렌더
 
 public:
 	virtual void move();

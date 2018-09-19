@@ -15,6 +15,10 @@ void gameStage::update()
 
 void gameStage::render()
 {
+	HBRUSH myBrush = CreateSolidBrush(RGB(135, 206, 235));
+	RECT rc = { 0,0,WINSIZEX,WINSIZEY };
+	FillRect(getMemDC(), &rc, myBrush);
+
 	stageRender();
 	if(_isDebug)
 		_pixelBuffer->render(getMemDC(), CAM->getSX(), CAM->getSY(), CAM->getSourX(), CAM->getSourY(), WINSIZEX, WINSIZEY);
@@ -207,7 +211,7 @@ void gameStage::stageRender()
 		//스테이지 랜더
 		_stageBuffer->render(getMemDC(), CAM->getSX(), CAM->getSY(), CAM->getSourX(), CAM->getSourY(), WINSIZEX, WINSIZEY); //카메라 쉐이크할 이미지에 CAM->getSX(), CAM->getSY()
 
-		int startX = (CAM->getX()) / TILESIZE - 2;
+		/*int startX = (CAM->getX()) / TILESIZE - 2;
 		int startY = (CAM->getY()) / TILESIZE - 2;
 		int endX = (CAM->getX() + WINSIZEX) / TILESIZE + 2;
 		int endY = (CAM->getY() + WINSIZEY) / TILESIZE + 2;
@@ -230,7 +234,7 @@ void gameStage::stageRender()
 				}
 			}
 			SelectObject(getMemDC(), oldBrush);
-		}
+		}*/
 	}
 }
 

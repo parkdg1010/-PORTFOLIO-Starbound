@@ -57,6 +57,8 @@ void shotgun01::setup(image * effect1, image * effect2, image * effect3)
 
 	_fireX = _x;
 	_fireY = _y;
+
+	_rarity = 2;
 }
 
 void shotgun01::fire()

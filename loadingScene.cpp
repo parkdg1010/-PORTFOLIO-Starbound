@@ -216,8 +216,9 @@ void loadingScene::loadingObjects()
 
 void loadingScene::loadingItem()
 {
-	_loading->loadImage("우주검", "Texture/item/weapons/melee/broadsword/astrosabredeluxe.bmp", 48, 204, true, MAGENTA);
+	_loading->loadFrameImage("우주검", "Texture/item/weapons/melee/broadsword/astrosabredeluxe_205x96_1x2.bmp", 205, 96, 1, 2);
 	_loading->loadFrameImage("샷건", "Texture/item/weapons/ranged/shotgun.bmp", 207, 96, 1,2);
+	_loading->loadImage("샷건아이콘", "Texture/item/weapons/ranged/shotgunIcon.bmp", 40, 40, true, MAGENTA);
 }
 
 void loadingScene::loadingPlayer()
@@ -241,6 +242,7 @@ void loadingScene::loadingPlayer()
 	_loading->loadFrameImage("invenTag_tiles", "Texture/ui/inventory/tilesTag_260x38_4x1.bmp", 260, 38, 4, 1);
 	_loading->loadFrameImage("invenTag_weapon", "Texture/ui/inventory/weaponTag_260x38_4x1.bmp", 260, 38, 4, 1);
 	_loading->loadFrameImage("inven_esc", "Texture/ui/inventory/escBar_35x56_1x2.bmp", 35, 56, 1, 2);
+	_loading->loadFrameImage("inven_itemBorder", "Texture/ui/inventory/itemborder_225x45_5x1.bmp", 225, 45, 5, 1);
 
 	//테스트
 	_loading->loadFrameImage("HAIR25", "Texture/character/floran/hair/25.bmp", 129, 258, 1, 2);

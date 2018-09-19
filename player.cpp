@@ -50,6 +50,7 @@ void player::update()
 		_isActive = true;
 	}
 	_inventory->update();
+	_weapon = dynamic_cast<weapon*>(_inventory->getCurWeapon());
 }
 
 void player::render()

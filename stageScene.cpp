@@ -10,17 +10,16 @@ HRESULT stageScene::init()
 	_enemyManager = new enemyManager;
 
 	_stage->init();
+	_stage->loadStage();
 
 	_player = SAVEDATA->getPlayer();
 	_player->linkStage(_stage);
-	_player->setWeapon(dynamic_cast<weapon*>(_itemFac->createItem
-		(ITEM_SHOTGUN01, 500, 1.f, 0.f, "", "샷건", "standardBullet", "muzzleflashImg"))); //TODO : 나중에 인벤토리로
 	_player->init();
+	_player->getInventory()->addWeaponInven(_itemFac->createItem
+	(ITEM_SHOTGUN01, 500, 1.f, 0.f, "샷건아이콘", "샷건", "standardBullet", "muzzleflashImg"));
 
 	_stage->linkPlayer(_player);
 	_enemyManager->linkPlayer(_player);
-
-	_stage->loadStage();
 
 	_enemyManager->linkStage(_stage);
 	createMonster();

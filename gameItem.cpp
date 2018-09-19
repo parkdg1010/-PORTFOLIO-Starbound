@@ -2,7 +2,7 @@
 #include "gameItem.h"
 
 HRESULT gameItem::init(ITEM name, int price, float damage, float armor,
-	image * icon, image * img)
+	image * icon, image * img, int rarity)
 {
 	switch (name)
 	{
@@ -23,6 +23,8 @@ HRESULT gameItem::init(ITEM name, int price, float damage, float armor,
 
 	_icon = icon;
 	_img = img;
+
+	_rarity = rarity;
 
 	return S_OK;
 }
