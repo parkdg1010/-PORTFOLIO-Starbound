@@ -12,11 +12,15 @@ HRESULT inventory::init()
 	_invenTag[INVEN_OBJECT] = IMAGEMANAGER->findImage("invenTag_object");
 	_invenTag[INVEN_WEAPON] = IMAGEMANAGER->findImage("invenTag_weapon");
 	_invenEsc = IMAGEMANAGER->findImage("inven_esc");
+	_number = IMAGEMANAGER->findImage("숫자");
 
 	_itemBorder = IMAGEMANAGER->findImage("inven_itemBorder");
 
 	_x = WINSIZEX * 0.8f;
 	_y = WINSIZEY * 0.5f;
+
+	_hpBar = new progressBar;
+	_hpBar->init("Texture/ui/inventory/invenHealth", "", -100, -100, 83, 13);
 
 	return S_OK;
 }
@@ -55,6 +59,8 @@ void inventory::update()
 			itemUse();
 			curItemOff();
 		}
+
+		_hpBar->update();
 	}
 }
 
@@ -62,6 +68,7 @@ void inventory::render()
 {
 	if (_isActive)
 	{
+		_uiDC = UIMANAGER->getUIDC();
 		//인벤토리 렌더
 		ctrlPanelRender();
 		//아이템 아이콘 렌더
@@ -70,6 +77,7 @@ void inventory::render()
 		equipItemRender();
 		//TODO 공격력, 방어력, 체력 렌더하기
 		//매개변수로 플레이어의 체력값을 받아다 체력바 렌더하자
+		_hpBar->render(_uiDC);
 	}
 }
 
@@ -97,6 +105,7 @@ void inventory::ctrlPanelUpdate()
 	_rcWeaponTag = RectMakeCenter(_rcInventory.left + 260, _rcInventory.top + 140, 65, 38);
 	_rcErase = RectMakeCenter(_rcInventory.left + 357, _rcInventory.top + 140, 39, 39);
 	_rcClose = RectMakeCenter(_rcInventory.left + 370, _rcInventory.top + 18, 35, 28);
+	_hpBar->setPosition(_rcInventory.left + 307, _rcInventory.top + 88);
 	for (int i = 0; i < 40; ++i)
 	{
 		_rcButton[i] = RectMakeCenter(_rcInventory.left + 35 + 48 * (i % 8), _rcInventory.top + 198 + 48 * (i / 8), 40, 40);
@@ -128,12 +137,12 @@ void inventory::ctrlPanelMove()
 
 void inventory::ctrlPanelRender()
 {
-	_invenWindow->render(getMemDC(), _rcInventory.left, _rcInventory.top);
-	_invenTag[INVEN_ITEM]->frameRender(getMemDC(), _rcItemTag.left, _rcItemTag.top);
-	_invenTag[INVEN_TILE]->frameRender(getMemDC(), _rcTilesTag.left, _rcTilesTag.top);
-	_invenTag[INVEN_OBJECT]->frameRender(getMemDC(), _rcObjectTag.left, _rcObjectTag.top);
-	_invenTag[INVEN_WEAPON]->frameRender(getMemDC(), _rcWeaponTag.left, _rcWeaponTag.top);
-	_invenEsc->frameRender(getMemDC(), _rcClose.left, _rcClose.top);
+	_invenWindow->render(_uiDC, _rcInventory.left, _rcInventory.top);
+	_invenTag[INVEN_ITEM]->frameRender(_uiDC, _rcItemTag.left, _rcItemTag.top);
+	_invenTag[INVEN_TILE]->frameRender(_uiDC, _rcTilesTag.left, _rcTilesTag.top);
+	_invenTag[INVEN_OBJECT]->frameRender(_uiDC, _rcObjectTag.left, _rcObjectTag.top);
+	_invenTag[INVEN_WEAPON]->frameRender(_uiDC, _rcWeaponTag.left, _rcWeaponTag.top);
+	_invenEsc->frameRender(_uiDC, _rcClose.left, _rcClose.top);
 }
 
 void inventory::tabButtonSet()
@@ -179,8 +188,8 @@ void inventory::tabChange()
 
 void inventory::iconRender(image * sample, int X, int Y, int rarity)
 {
-	_itemBorder->frameRender(getMemDC(), _rcButton[Y * 8 + X].left-2, _rcButton[Y * 8 + X].top-2, rarity, 0);
-	sample->render(getMemDC(), _rcButton[Y * 8 + X].left, _rcButton[Y * 8 + X].top);
+	_itemBorder->frameRender(_uiDC, _rcButton[Y * 8 + X].left-2, _rcButton[Y * 8 + X].top-2, rarity, 0);
+	sample->render(_uiDC, _rcButton[Y * 8 + X].left, _rcButton[Y * 8 + X].top);
 }
 
 void inventory::curTabIconRender()
@@ -281,22 +290,23 @@ void inventory::curItemOff()
 			}
 		}
 	}
-	
 }
 
 void inventory::equipItemRender()
 {
 	if (_curWeapon != NULL)
 	{
-		_curWeapon->getIcon()->render(getMemDC(), _rcCurWeapon.left + _curWeapon->getIcon()->getWidth()*0.5 - 5, _rcCurWeapon.top + _curWeapon->getIcon()->getHeight()*0.5 - 10);
+		_curWeapon->getIcon()->render(_uiDC, _rcCurWeapon.left + _curWeapon->getIcon()->getWidth()*0.5 - 5, _rcCurWeapon.top + _curWeapon->getIcon()->getHeight()*0.5 - 10);
+		_number->frameRender(_uiDC, _rcInventory.left + 355, _rcInventory.top + 43, 0, 0);
+		_number->frameRender(_uiDC, _rcInventory.left + 343, _rcInventory.top + 43, (int)_curWeapon->getDamage() % 10, 0);
 	}
 	if (_curArmor != NULL)
 	{
-		_curArmor->getIcon()->render(getMemDC(), _rcCurArmor.left + _curArmor->getIcon()->getWidth()*0.5 - 5, _rcCurArmor.top + _curArmor->getIcon()->getHeight()*0.5 - 10);
+		_curArmor->getIcon()->render(_uiDC, _rcCurArmor.left + _curArmor->getIcon()->getWidth()*0.5 - 5, _rcCurArmor.top + _curArmor->getIcon()->getHeight()*0.5 - 10);
 	}
 	if (_curBack != NULL)
 	{
-		_curBack->getIcon()->render(getMemDC(), _rcCurBack.left + _curBack->getIcon()->getWidth()*0.5 - 5, _rcCurBack.top + _curBack->getIcon()->getHeight()*0.5 - 10);
+		_curBack->getIcon()->render(_uiDC, _rcCurBack.left + _curBack->getIcon()->getWidth()*0.5 - 5, _rcCurBack.top + _curBack->getIcon()->getHeight()*0.5 - 10);
 	}
 }
 

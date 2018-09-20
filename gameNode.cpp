@@ -28,8 +28,8 @@ HRESULT gameNode::init(bool managerInit)
 		SOUNDMANAGER->init();				//사운드매니져 초기화
 		EFFECTMANAGER->init();				//이펙트매니져 초기화
 		CAMERAMANAGER->init();				//카메라매니져 초기화
-		//RENDERMANAGER->init();				//랜더매니져 초기화
-		//UIMANAGER->init();					//ui매니져 초기화
+		//RENDERMANAGER->init();			//랜더매니져 초기화
+		UIMANAGER->init();					//ui매니져 초기화
 	}
 
 	return S_OK;
@@ -76,8 +76,8 @@ void gameNode::release()
 		EFFECTMANAGER->releaseSingleton();
 		CAMERAMANAGER->release();
 		CAMERAMANAGER->releaseSingleton();
-		//UIMANAGER->release();
-		//UIMANAGER->releaseSingleton();
+		UIMANAGER->release();
+		UIMANAGER->releaseSingleton();
 		//RENDERMANAGER->release();
 		//RENDERMANAGER->releaseSingleton();
 	}

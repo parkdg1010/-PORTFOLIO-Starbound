@@ -2,9 +2,7 @@
 #include "UIManager.h"
 #include "progressBar.h"
 
-
-
-HRESULT UIManager::init(void)
+HRESULT UIManager::init()
 {
 	////image
 	//IMAGEMANAGER->addImage("VOLUME_BACK", "Texture/UI/volumeProgressBack_673x81.bmp", 673, 81, true, RGB(255, 0, 255));
@@ -12,19 +10,17 @@ HRESULT UIManager::init(void)
 	//IMAGEMANAGER->addImage("VOLUME_SETTING", "Texture/UI/volumeSetting_800x368.bmp", 800, 368, true, RGB(255, 0, 255));
 	//IMAGEMANAGER->addImage("BACK_TO_MENU", "Texture/Text/backtoMenu_456x63.bmp", 456, 63, true, RGB(255, 0, 255));
 
+	_uiDC = new image;
+	_uiDC->init(WINSIZEX, WINSIZEY, true, RGB(255, 0, 255));
 
+	_uiType = 0;
+	_isDrawUI = false;
+	_isBlockingUI = false;
+	// flickering
+	_count = 0;
+	_alpha = 200;
 
-	//_uiDC = new image;
-	//_uiDC->init(WINSIZEX, WINSIZEY, true, RGB(255, 0, 255));
-
-	//_uiType = 0;
-	//_isDrawUI = false;
-	//_isBlockingUI = false;
-	//// flickering
-	//_count = 0;
-	//_alpha = 200;
-
-	//_sceneChanging = _startingScene = false;
+	_sceneChanging = _startingScene = false;
 
 	///////////// volume UI
 	//_backToMenu = IMAGEMANAGER->findImage("BACK_TO_MENU");
@@ -48,8 +44,8 @@ HRESULT UIManager::init(void)
 
 void UIManager::release(void)
 {
-	//_uiDC->release();
-	//SAFE_DELETE(_uiDC);
+	_uiDC->release();
+	SAFE_DELETE(_uiDC);
 }
 
 void UIManager::update()
@@ -73,15 +69,13 @@ void UIManager::update()
 
 void UIManager::render(HDC hdc)
 {
-	/*_uiDC->render(hdc);
+	_uiDC->render(hdc);
 
-
-	if (_sceneChanging)
+	/*if (_sceneChanging)
 	{
 		_count = 0;
 
 		sceneChange(hdc);
-
 	}
 	else if (_startingScene)
 	{
@@ -203,11 +197,10 @@ void UIManager::startingNewScene(int x, int y)
 
 void UIManager::clear()
 {
-	/*HBRUSH brush = CreateSolidBrush(RGB(255, 0, 255));
+	HBRUSH brush = CreateSolidBrush(RGB(255, 0, 255));
 	SelectObject(_uiDC->getMemDC(), brush);
 	Rectangle(_uiDC->getMemDC(), RectMake(0, 0, WINSIZEX, WINSIZEY));
-	DeleteObject(brush);*/
-	
+	DeleteObject(brush);
 }
 
 void UIManager::drawVolumeSetting()

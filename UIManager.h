@@ -4,8 +4,7 @@
 
 class progressBar;
 
-class UIManager :
-	public singletonBase<UIManager>
+class UIManager : public singletonBase<UIManager>
 {
 private:
 	image * _magenta;

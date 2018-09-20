@@ -42,7 +42,7 @@ void mainGame::update()
 {
 	gameNode::update();
 
-	//UIMANAGER->clear();
+	UIMANAGER->clear();
 
 	//씬매니져 업데이트
 	SCENEMANAGER->update();
@@ -70,15 +70,14 @@ void mainGame::render() //이제 이미지매니저를 추가했고 gameNode를 수정해서 HDC매
 	//이펙트매니져 렌더
 	EFFECTMANAGER->render();
 
-	//UIMANAGER->render(getMemDC());
+	UIMANAGER->render(getMemDC());
 	if(cursor != NULL) cursor->frameRender(getMemDC(), _ptMouse.x, _ptMouse.y, cursorFrameX, cursorFrameY);
-
-	//타임매니져 렌더
-	TIMEMANAGER->render(getMemDC());
 
 	//토글키는 디버깅용으로 많이 사용한다
 	if (_isDebug)
 	{
+		//타임매니져 렌더
+		TIMEMANAGER->render(getMemDC());
 		TextOut(getMemDC(), 0, 60, "디버그 모드", strlen("디버그 모드"));
 	}
 

@@ -100,7 +100,8 @@ void loadingScene::loadingSound()
 
 void loadingScene::loadingEffectImage()
 {
-	_loading->loadFrameImage("JUMPDUSTImg", "Texture/character/dust2/jumpDust_64x32_2x1.bmp", 64, 32, 2, 1);
+	_loading->loadFrameImage("JUMPDUSTImg", "Texture/character/dust2/jumpDust_64x32_2x1.bmp", 64, 32, 2, 1);					//점프 먼지
+	_loading->loadFrameImage("PLAYERDEAthImg", "Texture/character/playerdeath_1806x129_14x1.bmp", 1806, 129, 14, 1);			//플레이어 죽음
 
 	_loading->loadFrameImage("kluexstaffplasmaImg", "Texture/projectiles/kluexstaffplasma.bmp", 432, 51, 8, 1);					//기운수정 조준판
 	_loading->loadFrameImage("redpulsecannonexplosionImg", "Texture/projectiles/redpulsecannonexplosion.bmp", 468, 117, 4, 1);	//기운수정 쏠떄
@@ -121,15 +122,16 @@ void loadingScene::loadingEffectImage()
 
 void loadingScene::loadingEffect()
 {
-	EFFECTMANAGER->addEffect("JUMP_DUST", "JUMPDUSTImg", 0.05, 10);
+	EFFECTMANAGER->addEffect("JUMP_DUST", "JUMPDUSTImg", 0.05f, 10);
+	EFFECTMANAGER->addEffect("PLAYER_DEATH", "PLAYERDEAthImg", 0.3f, 1);
 
-	EFFECTMANAGER->addEffect("muzzleflash", "muzzleflashImg", 0.4, 10);
+	EFFECTMANAGER->addEffect("muzzleflash", "muzzleflashImg", 0.4f, 10);
 
-	EFFECTMANAGER->addEffect("kluex_Staff_Plasma", "kluexstaffplasmaImg", 0.05, 20);
+	EFFECTMANAGER->addEffect("kluex_Staff_Plasma", "kluexstaffplasmaImg", 0.05f, 20);
 	EFFECTMANAGER->addEffect("red_Pulse_Cannon_Explosion", "redpulsecannonexplosionImg", 0.05, 20);
-	EFFECTMANAGER->addEffect("energy_Crystal", "energycrystalImg", 0.05, 20);
-	EFFECTMANAGER->addEffect("ice_Eruption", "iceeruptionImg", 0.05, 10);
-	EFFECTMANAGER->addEffect("energy_Wave", "energywaveImg", 0.05, 10);
+	EFFECTMANAGER->addEffect("energy_Crystal", "energycrystalImg", 0.05f, 20);
+	EFFECTMANAGER->addEffect("ice_Eruption", "iceeruptionImg", 0.05f, 10);
+	EFFECTMANAGER->addEffect("energy_Wave", "energywaveImg", 0.05f, 10);
 }
 
 void loadingScene::loadingMapToolImage()
@@ -243,6 +245,9 @@ void loadingScene::loadingPlayer()
 	_loading->loadFrameImage("invenTag_weapon", "Texture/ui/inventory/weaponTag_260x38_4x1.bmp", 260, 38, 4, 1);
 	_loading->loadFrameImage("inven_esc", "Texture/ui/inventory/escBar_35x56_1x2.bmp", 35, 56, 1, 2);
 	_loading->loadFrameImage("inven_itemBorder", "Texture/ui/inventory/itemborder_225x45_5x1.bmp", 225, 45, 5, 1);
+
+	//화면UI
+	_loading->loadImage("portraitUI", "Texture/character/NURU_playerbar.bmp", 210, 78, true, MAGENTA);
 
 	//테스트
 	_loading->loadFrameImage("HAIR25", "Texture/character/floran/hair/25.bmp", 129, 258, 1, 2);

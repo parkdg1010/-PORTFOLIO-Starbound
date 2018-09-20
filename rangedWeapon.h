@@ -16,6 +16,7 @@ public:
 
 	virtual void setup(image* effect1 = NULL, image* effect2 = NULL, image* effect3 = NULL);
 	virtual void fire() {};
+	vector<bullet>* getVBullet() { return _vBullet; }
 
 public:
 	rangedWeapon() { gameObject::init(); _vBullet = NULL; }

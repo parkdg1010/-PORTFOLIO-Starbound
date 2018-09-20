@@ -1,11 +1,11 @@
 #include "stdafx.h"
 #include "shotgun01.h"
+#include "enemyManager.h";
 
 HRESULT shotgun01::init(ITEM name, int price, float damage, float armor,
 	image* icon, image* img)
 {
 	weapon::init(name, price, damage, armor, icon, img);
-
 	return S_OK;
 }
 
@@ -16,9 +16,30 @@ void shotgun01::update()
 		for (int i = 0; i < _vBullet->size(); ++i)
 		{
 			_vBullet->at(i).update();
-			if (_mapPixel != NULL)
+			if (_vBullet->at(i).getIsActive())
 			{
-				_vBullet->at(i).collideMap(_mapPixel);
+				if (_mapPixel != NULL)
+				{
+					_vBullet->at(i).collideMap(_mapPixel);
+				}
+			}
+		}
+
+		if (_enemyManager != NULL)
+		{
+			vector<enemy*> em = _enemyManager->getEnemy();
+			RECT temp;
+			for (int i = 0; i < _vBullet->size(); ++i)
+			{
+				for (int j = 0; j < em.size(); ++j)
+				{
+					if (_vBullet->at(i).collideActor(em[j]))
+					{
+						EFFECTMANAGER->play("", _vBullet->at(i).getX(), _vBullet->at(i).getY());
+						em[j]->damaged(&_vBullet->at(i));
+						_vBullet->at(i).setIsActive(false);
+					}
+				}
 			}
 		}
 	}
@@ -50,6 +71,7 @@ void shotgun01::setup(image * effect1, image * effect2, image * effect3)
 	_vBullet = new vector<bullet>;
 	bullet blt;
 	blt.init(1.5f, 15, _damage, 800, _effect[0]);
+	cout << _damage;
 	for (int i = 0; i < 15; ++i)
 	{
 		_vBullet->push_back(blt);

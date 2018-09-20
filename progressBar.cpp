@@ -30,25 +30,33 @@ HRESULT progressBar::init(const char * frontImageKey, const char * backImageKey,
 	return S_OK;
 }
 
-void progressBar::release(void)
+void progressBar::release()
 {
 }
 
-void progressBar::update(void)
+void progressBar::update()
 {
-	_rcProgress = RectMake(_x, _y, _progressBarBack->getWidth(), _progressBarBack->getHeight());
+	if(_progressBarBack != NULL)
+		_rcProgress = RectMake(_x, _y, _progressBarBack->getWidth(), _progressBarBack->getHeight());
+	else
+		_rcProgress = RectMake(_x, _y, _progressBarFront->getWidth(), _progressBarFront->getHeight());
 }
 
-void progressBar::render(void)
+void progressBar::render(HDC hdc)
 {
 	//렌더링 되는 순서에 의해서 렌더가 되니까 피통부터 렌더 시킨다
-	_progressBarBack->render(getMemDC(), _rcProgress.left, _y);
+	if(_progressBarBack != NULL)
+		_progressBarBack->render(hdc, _rcProgress.left, _y);
 	//앞에 보여지는 체력바 이미지
-	_progressBarFront->render(getMemDC(), _rcProgress.left, _y,
-		0, 0, _width, _progressBarFront->getHeight());
+	if(_progressBarFront != NULL)
+		_progressBarFront->render(hdc, _rcProgress.left, _y,
+			0, 0, _width, _progressBarFront->getHeight());
 }
 
 void progressBar::setGauge(float currentHp, float maxHp)
 {
-	_width = (currentHp / maxHp) * _progressBarBack->getWidth();
+	if(_progressBarBack != NULL)
+		_width = (currentHp / maxHp) * _progressBarBack->getWidth();
+	else
+		_width = (currentHp / maxHp) * _progressBarFront->getWidth();
 }

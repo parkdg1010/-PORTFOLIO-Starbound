@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "player.h"
 #include "gameStage.h"
+#include "enemyManager.h"
 
 HRESULT player::init()
 {
@@ -9,6 +10,8 @@ HRESULT player::init()
 	_oldX = _oldY = 0;
 
 	_speed = 5.f;
+	_hp = PLAYER_CONST::MAX_HP;
+	_energy = PLAYER_CONST::MAX_ENERGY;
 
 	_jumpCount = 0;
 
@@ -20,8 +23,17 @@ HRESULT player::init()
 
 	_longJumpValue = 0;
 
+	_invincibleCount = 0;
+	_invincible = false;
+
 	_inventory = new inventory;
 	_inventory->init();
+
+	_hpBar = new progressBar;
+	_hpBar->init("Texture/character/hpbar", "", 61, 31, 123, 16);
+
+	_energyBar = new progressBar;
+	_energyBar->init("Texture/character/energybar", "", 61, 49, 123, 16);
 
 	return S_OK;
 }
@@ -36,12 +48,23 @@ void player::update()
 		move();
 		collide();
 
+		_hpBar->setGauge(_hp, PLAYER_CONST::MAX_HP);
+		_hpBar->update();
+
+		_energyBar->setGauge(_energy, PLAYER_CONST::MAX_ENERGY);
+		_energyBar->update();
+
+		_inventory->getInvenHP()->setGauge(_hp, PLAYER_CONST::MAX_HP);
+		_inventory->update();
+
+		_weapon = dynamic_cast<weapon*>(_inventory->getCurWeapon());
 		if (_weapon != NULL)
 		{
 			_weapon->setPosition(_x, _y+5, _dir);
 			_weapon->setAngle(_handAngle + PI*1.5);
 			_weapon->update();
 			_weapon->linkMapPixel(_stage->getPixelBuffer());
+			_weapon->linkEnemyManager(_enemyManager);
 		}
 	}
 	else
@@ -49,8 +72,6 @@ void player::update()
 		setPosition(1600, 430, _dir);
 		_isActive = true;
 	}
-	_inventory->update();
-	_weapon = dynamic_cast<weapon*>(_inventory->getCurWeapon());
 }
 
 void player::render()
@@ -131,7 +152,7 @@ void player::render()
 			_weapon->render();
 		}
 
-		_inventory->render();
+		drawUI();
 	}
 }
 
@@ -409,7 +430,7 @@ bool player::collideStage(int range)
 	return false;
 }
 
-bool player::collideObject(gameObject * gameObject)
+bool player::collideObject(gameObject * gObject)
 {
 	return false;
 }
@@ -417,6 +438,30 @@ bool player::collideObject(gameObject * gameObject)
 void player::damaged(gameObject * actor)
 {
 	_hp -= actor->getDamage();
+	//TODO : 데미지받을때 깜빡임, 무적시간 넣기
+	if (_hp <= 0)
+	{
+		_hp = 0;
+		EFFECTMANAGER->play("PLAYER_DEATH", _x, _y);
+		//TODO : 씬전환해서 우주선으로 가버리자
+		_isActive = false;
+		_hp = 200;
+	}
+}
+
+void player::damaged(float damage)
+{
+	DELAYCOUNT(_invincibleCount, 10);
+	_hp -= damage;
+	//TODO : 데미지받을때 깜빡임, 무적시간 넣기
+	if (_hp < 0)
+	{
+		_hp = 0;
+		EFFECTMANAGER->play("PLAYER_DEATH", _x, _y);
+		//TODO : 씬전환해서 우주선으로 가버리자
+		_isActive = false;
+		_hp = 200;
+	}
 }
 
 void player::changeState(STATE state)
@@ -443,6 +488,11 @@ void player::direction()
 
 void player::drawUI()
 {
+	HDC uiDC = UIMANAGER->getUIDC();
+	_inventory->render();
+	_portraitUI->render(uiDC);
+	_hpBar->render(uiDC);
+	_energyBar->render(uiDC);
 }
 
 void player::initImage()
@@ -464,4 +514,6 @@ void player::initImage()
 	_nohandImg[FALL] = IMAGEMANAGER->findImage("noHand_PLAYER_FALL");
 	_nohandImg[CLIMB] = IMAGEMANAGER->findImage("");
 	_nohandImg[DUCK] = IMAGEMANAGER->findImage("");
+
+	_portraitUI = IMAGEMANAGER->findImage("portraitUI");
 }

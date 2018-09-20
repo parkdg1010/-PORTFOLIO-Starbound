@@ -147,7 +147,7 @@ void loading::render(void)
 
 	_background->frameRender(getMemDC(), WINSIZEX -250, WINSIZEY - 150);
 	//로딩바 클래스 렌더
-	_loadingBar->render();
+	_loadingBar->render(getMemDC());
 
 	//로딩 퍼센트 이미지 렌더
 	//이미지 currentframeX를 이용해서 0~9까지 표현하면 되겠다.

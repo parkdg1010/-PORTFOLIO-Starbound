@@ -175,9 +175,22 @@ void fennix::bltUpdate()
 	for (int i = 0; i < _vBullet->size(); ++i)
 	{
 		_vBullet->at(i).update();
-		if (_mapPixel != NULL)
+		if (_vBullet->at(i).getIsActive())
 		{
-			_vBullet->at(i).collideMap(_mapPixel);
+			if (_mapPixel != NULL)
+			{
+				_vBullet->at(i).collideMap(_mapPixel);
+			}
+		}
+	}
+
+	for (int i = 0; i < _vBullet->size(); ++i)
+	{
+		if (_vBullet->at(i).collideActor(_player))
+		{
+			EFFECTMANAGER->play("", _vBullet->at(i).getX(), _vBullet->at(i).getY());
+			_player->damaged(&_vBullet->at(i));
+			_vBullet->at(i).setIsActive(false);
 		}
 	}
 }
@@ -363,9 +376,15 @@ bool fennix::collideObject(gameObject * gameObject)
 
 void fennix::damaged(gameObject * actor)
 {
+	_hp -= actor->getDamage();
+	if (_hp <= 0)
+	{
+		_hp = 0;
+		_isActive = false;
+	}
 }
 
 void fennix::updateHitbox()
 {
-	_hitBox = RectMakeCenter((int)_x, (int)_y, _picL->getFrameWidth(), _picL->getFrameHeight());
+	_hitBox = RectMakeCenter((int)_x, (int)_y, FENNIX_CONST::WIDTH, FENNIX_CONST::HEIGHT);
 }

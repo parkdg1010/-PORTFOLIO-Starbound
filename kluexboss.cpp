@@ -25,6 +25,8 @@ HRESULT kluexboss::init()
 
 void kluexboss::update()
 {
+	_hitBox = _currentPhase->getHitBox();
+	_isActive = _currentPhase->getIsActive();
 	_currentPhase->update();
 }
 

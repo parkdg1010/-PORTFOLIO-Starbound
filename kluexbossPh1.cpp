@@ -34,7 +34,7 @@ HRESULT kluexbossPh1::init()
 	_vBullet = new vector<bullet>;
 	bullet blt;
 	blt.init(12, 5, 5, WINSIZEX* WINSIZEY, "energycrystalImg");
-	for (int i = 0; i < 10; ++i)
+	for (int i = 0; i < 20; ++i)
 	{
 		_vBullet->push_back(blt);
 	}
@@ -136,9 +136,24 @@ void kluexbossPh1::bltUpdate()
 	for (int i = 0; i < _vBullet->size(); ++i)
 	{
 		_vBullet->at(i).update(); //벡터를 동적할당했을때 at을 통해 인덱스를 가져온다 at이 대괄호와 같은 의미로 사용
-		if (_mapPixel != NULL)
+		
+		if (_vBullet->at(i).getIsActive())
 		{
-			_vBullet->at(i).collideMap(_mapPixel);
+			if (_mapPixel != NULL)
+			{
+				_vBullet->at(i).collideMap(_mapPixel);
+			}
+		}
+	}
+
+	for (int i = 0; i < _vBullet->size(); ++i)
+	{
+		if (_vBullet->at(i).collideActor(_player))
+		{
+			EFFECTMANAGER->play("", _vBullet->at(i).getX(), _vBullet->at(i).getY());
+			_player->damaged(&_vBullet->at(i));
+			_vBullet->at(i).setIsActive(false);
+			break;
 		}
 	}
 }
@@ -166,10 +181,19 @@ bool kluexbossPh1::collideObject(gameObject * gameObject)
 
 void kluexbossPh1::damaged(gameObject * actor)
 {
+	_hp -= actor->getDamage();
+	cout << _hp << endl;
+	if (_hp <= 0)
+	{
+		_hp = 0;
+		//TODO 죽으면 이펙트 or 페이즈2
+		_isActive = false;
+	}
 }
 
 void kluexbossPh1::drawUI()
 {
+	//체력바
 }
 
 void kluexbossPh1::pattern1Update()
@@ -270,6 +294,14 @@ void kluexbossPh1::pattern2Update()
 		{
 			_magmaLoopSPD += 2; //루프렌더
 			DELAYCOUNT(_p2Duration, 500); //TODO : 더늘려도 될듯
+			//데미지주기
+			RECT temp;
+			if (IntersectRect(&temp, &_magmaHitBox, &_player->getHitBox()))
+			{
+				//CHECK 데미지조정
+				_player->damaged(1.f);
+			}
+
 			if (_p2Duration == 0)
 			{
 				//발판픽셀 지우기
@@ -346,7 +378,20 @@ void kluexbossPh1::pattern3Update()
 
 	if (_iceblock->getFrameX() == 3)
 	{
-		//TODO 데미지는 여기서 준다.
+		//데미지는 여기서 준다.
+		RECT temp;
+		for (int i = 0; i < 8; ++i)
+		{
+			if (_iceActive[i])
+			{
+				if (IntersectRect(&temp, &_iceHitBox[i], &_player->getHitBox()))
+				{
+					//CHECK 데미지조정
+					_player->damaged(3.f);
+					break;
+				}
+			}
+		}
 		DELAYCOUNT(_p3Duration, 500);
 		if (_p3Duration == 0)
 		{

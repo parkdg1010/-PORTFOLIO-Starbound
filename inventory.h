@@ -1,5 +1,6 @@
 #pragma once
 #include "gameObject.h"
+#include "progressBar.h"
 #include "gameItem.h"
 #include "weapon.h"
 #include "meleeWeapon.h"
@@ -17,10 +18,13 @@ enum INVENTAB
 class inventory : public gameObject
 {
 private:
+	HDC _uiDC;
+	progressBar* _hpBar;		//인벤체력바
 	image* _invenWindow;
 	image* _invenTag[4];
 	image* _invenEsc;
 	image* _itemBorder;
+	image* _number;
 
 	INVENTAB _currentTab;
 
@@ -53,6 +57,8 @@ public:
 	void equipItemRender();						//장착한 아이템 렌더
 
 	void itemSwap(gameItem* &a, gameItem* &b);
+
+	progressBar* getInvenHP() { return _hpBar; }
 
 	vector<gameItem*> getItemInven() { return _vInventory[INVEN_ITEM]; }
 	vector<gameItem*> getTileInven() { return _vInventory[INVEN_TILE]; }

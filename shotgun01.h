@@ -1,5 +1,6 @@
 #pragma once
 #include "rangedWeapon.h"
+
 class shotgun01 : public rangedWeapon
 {
 public:
