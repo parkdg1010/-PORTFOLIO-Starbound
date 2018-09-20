@@ -297,8 +297,9 @@ void inventory::equipItemRender()
 	if (_curWeapon != NULL)
 	{
 		_curWeapon->getIcon()->render(_uiDC, _rcCurWeapon.left + _curWeapon->getIcon()->getWidth()*0.5 - 5, _rcCurWeapon.top + _curWeapon->getIcon()->getHeight()*0.5 - 10);
-		_number->frameRender(_uiDC, _rcInventory.left + 355, _rcInventory.top + 43, 0, 0);
-		_number->frameRender(_uiDC, _rcInventory.left + 343, _rcInventory.top + 43, (int)_curWeapon->getDamage() % 10, 0);
+		_number->frameRender(_uiDC, _rcInventory.left + 355, _rcInventory.top + 43, 0, 0); //0으로 고정시킴
+		_number->frameRender(_uiDC, _rcInventory.left + 343, _rcInventory.top + 43, (int)_curWeapon->getDamage() % 10, 0); //1의자리
+		_number->frameRender(_uiDC, _rcInventory.left + 331, _rcInventory.top + 43, (int)_curWeapon->getDamage() / 10, 0); //10의자리
 	}
 	if (_curArmor != NULL)
 	{

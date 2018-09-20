@@ -248,6 +248,9 @@
     <ClInclude Include="inventory.h">
       <Filter>GameObjects</Filter>
     </ClInclude>
+    <ClInclude Include="spaceSword.h">
+      <Filter>GameObjects\아이템\무기\melee</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -387,6 +390,9 @@
     </ClCompile>
     <ClCompile Include="inventory.cpp">
       <Filter>GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="spaceSword.cpp">
+      <Filter>GameObjects\아이템\무기\melee</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

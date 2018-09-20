@@ -16,7 +16,9 @@ HRESULT stageScene::init()
 	_player->linkStage(_stage);
 	_player->init();
 	_player->getInventory()->addWeaponInven(_itemFac->createItem
-	(ITEM_SHOTGUN01, 500, 500.f, 0.f, "샷건아이콘", "샷건", "standardBullet", "muzzleflashImg"));
+	(ITEM_SHOTGUN01, 500, 10.f, 0.f, "샷건아이콘", "샷건", "standardBullet", "muzzleflashImg"));
+	_player->getInventory()->addWeaponInven(_itemFac->createItem
+	(ITEM_SPACESWORD, 1500, 500.f, 0.f, "우주검아이콘", "우주검", "standardBullet", "muzzleflashImg"));
 	_player->linkEnemyManager(_enemyManager);
 
 	_stage->linkPlayer(_player);

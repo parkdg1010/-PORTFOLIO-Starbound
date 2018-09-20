@@ -15,7 +15,7 @@ public:
 	virtual void release();
 
 	virtual void setup(image* effect1 = NULL, image* effect2 = NULL, image* effect3 = NULL);
-	virtual void fire() {};
+	virtual void attack() {};
 
 	void linkEnemyManager(enemyManager* em) { _enemyManager = em; }
 

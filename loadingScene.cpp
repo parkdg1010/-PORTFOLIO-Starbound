@@ -118,6 +118,10 @@ void loadingScene::loadingEffectImage()
 	_loading->loadFrameImage("muzzleflashImg", "Texture/item/weapons/ranged/muzzleflash.bmp", 135, 90, 3, 2);					//머즐플래시
 
 	_loading->loadFrameImage("standardBullet", "Texture/item/weapons/ranged/standardbullet.bmp", 51, 9, 1, 1);					//기본불릿
+
+	_loading->loadFrameImage("tearswoosh1Img", "Texture/item/weapons/melee/broadsword/tearswoosh1.bmp", 610, 123, 3, 1);		//칼공격1번
+	_loading->loadFrameImage("tearswoosh2Img", "Texture/item/weapons/melee/broadsword/tearswoosh2.bmp", 303, 48, 3, 1);			//칼공격2번
+	_loading->loadFrameImage("tearswoosh3Img", "Texture/item/weapons/melee/broadsword/tearswoosh3.bmp", 344, 28, 3, 1);			//칼공격3번
 }
 
 void loadingScene::loadingEffect()
@@ -221,6 +225,7 @@ void loadingScene::loadingItem()
 	_loading->loadFrameImage("우주검", "Texture/item/weapons/melee/broadsword/astrosabredeluxe_205x96_1x2.bmp", 205, 96, 1, 2);
 	_loading->loadFrameImage("샷건", "Texture/item/weapons/ranged/shotgun.bmp", 207, 96, 1,2);
 	_loading->loadImage("샷건아이콘", "Texture/item/weapons/ranged/shotgunIcon.bmp", 40, 40, true, MAGENTA);
+	_loading->loadImage("우주검아이콘", "Texture/item/weapons/melee/broadsword/astrosabredeluxeIcon.bmp", 40, 40, true, MAGENTA);
 }
 
 void loadingScene::loadingPlayer()

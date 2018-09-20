@@ -66,6 +66,15 @@ void player::update()
 			_weapon->linkMapPixel(_stage->getPixelBuffer());
 			_weapon->linkEnemyManager(_enemyManager);
 		}
+
+		if (_invincible)
+		{
+			DELAYCOUNT(_invincibleCount, 20);
+			if (_invincibleCount == 0)
+			{
+				_invincible = false;
+			}
+		}
 	}
 	else
 	{
@@ -226,7 +235,7 @@ void player::inputKey()
 		{
 			if (KEYMANAGER->isOnceKeyDown(VK_LBUTTON))
 			{
-				_weapon->fire();
+				_weapon->attack();
 			}
 		}
 	}
@@ -437,7 +446,11 @@ bool player::collideObject(gameObject * gObject)
 
 void player::damaged(gameObject * actor)
 {
-	_hp -= actor->getDamage();
+	if (!_invincible)
+	{
+		_hp -= actor->getDamage();
+		_invincible = true;
+	}
 	//TODO : 데미지받을때 깜빡임, 무적시간 넣기
 	if (_hp <= 0)
 	{
@@ -451,8 +464,11 @@ void player::damaged(gameObject * actor)
 
 void player::damaged(float damage)
 {
-	DELAYCOUNT(_invincibleCount, 10);
-	_hp -= damage;
+	if (!_invincible)
+	{
+		_hp -= damage;
+		_invincible = true;
+	}
 	//TODO : 데미지받을때 깜빡임, 무적시간 넣기
 	if (_hp < 0)
 	{

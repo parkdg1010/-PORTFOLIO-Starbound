@@ -83,7 +83,7 @@ void shotgun01::setup(image * effect1, image * effect2, image * effect3)
 	_rarity = 2;
 }
 
-void shotgun01::fire()
+void shotgun01::attack()
 {
 	_fireX = _x + _img->getFrameWidth() * 0.5f * cosf(_angle);
 	_fireY = _y + _img->getFrameWidth() * 0.5f * -sinf(_angle);

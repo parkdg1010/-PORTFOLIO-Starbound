@@ -44,7 +44,7 @@ private:
 	float _longJumpValue;				//점프높이 제한
 
 	int _invincibleCount;				//무적시간
-	int _invincible;					//무적임	//0이면 무적 1면 무적시간 2이면 무적끝으로 하자
+	bool _invincible;					//무적시간
 
 	float _handAngle;					//손 각도
 
