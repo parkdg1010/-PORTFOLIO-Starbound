@@ -2,33 +2,31 @@
 #include "itemManager.h"
 
 //아이템 팩토리
-gameItem* itemFactory::createItem(ITEM itemName, int price, float damage, float armor,
+gameItem* itemFactory::createItem(CATEGORY tag, string name, int rarity, int price, float damage, float armor,
 	image* icon, image * img, image* effect1, image* effect2, image* effect3)
 {
 	gameItem* item = NULL;
 
-	switch (itemName)
+	switch (tag)
 	{
-	case ITEM_NONE:
+	case TAG_USEABLE:
 		item = new gameItem;
-		item->init(itemName, price, damage, armor, icon, img);
+		item->init(tag, name, rarity, price, damage, armor, icon, img);
 		break;
-	case ITEM_SPACESWORD:
-		item = new meleeWeapon;
-		item->init(itemName, price, damage, armor, icon, img);
-		dynamic_cast<meleeWeapon*>(item)->setup(effect1, effect2, effect3);
+	case TAG_MELEEWEAPON:
+		item = new spaceSword;
+		dynamic_cast<spaceSword*>(item)->init(tag, name, rarity, price, damage, armor, icon, img, effect1, effect2, effect3);
 		break;
-	case ITEM_SHOTGUN01:
+	case TAG_RANGEDWEAPON:
 		item = new shotgun01;
-		item->init(itemName, price, damage, armor, icon, img);	//setup에서 데미지받기위해 그전에 init
-		dynamic_cast<shotgun01*>(item)->setup(effect1, effect2, effect3);
+		dynamic_cast<shotgun01*>(item)->init(tag, name, rarity, price, damage, armor, icon, img, effect1, effect2, effect3);
 		break;
 	}
 
 	return item;
 }
 
-gameItem* itemFactory::createItem(ITEM itemName, int price, float damage, float armor, string icon, string img,
+gameItem* itemFactory::createItem(CATEGORY tag, string name, int rarity, int price, float damage, float armor, string icon, string img,
 	string effect1, string effect2, string effect3)
 {
 	gameItem* item = NULL;
@@ -39,21 +37,19 @@ gameItem* itemFactory::createItem(ITEM itemName, int price, float damage, float 
 	image* _effect2 = IMAGEMANAGER->findImage(effect2);
 	image* _effect3 = IMAGEMANAGER->findImage(effect3);
 
-	switch (itemName)
+	switch (tag)
 	{
-	case ITEM_NONE:
+	case TAG_USEABLE:
 		item = new gameItem;
-		item->init(itemName, price, damage, armor, _icon, _img);
+		item->init(tag, name, rarity, price, damage, armor, _icon, _img);
 		break;
-	case ITEM_SPACESWORD:
-		item = new meleeWeapon;
-		item->init(itemName, price, damage, armor, _icon, _img);
-		dynamic_cast<meleeWeapon*>(item)->setup(_effect1, _effect2, _effect3);
+	case TAG_MELEEWEAPON:
+		item = new spaceSword;
+		dynamic_cast<spaceSword*>(item)->init(tag, name, rarity, price, damage, armor, _icon, _img, _effect1, _effect2, _effect3);
 		break;
-	case ITEM_SHOTGUN01:
+	case TAG_RANGEDWEAPON:
 		item = new shotgun01;
-		item->init(itemName, price, damage, armor, _icon, _img);
-		dynamic_cast<shotgun01*>(item)->setup(_effect1, _effect2, _effect3);
+		dynamic_cast<shotgun01*>(item)->init(tag, name, rarity, price, damage, armor, _icon, _img, _effect1, _effect2, _effect3);
 		break;
 	}
 

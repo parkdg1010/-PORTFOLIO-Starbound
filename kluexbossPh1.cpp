@@ -182,10 +182,14 @@ bool kluexbossPh1::collideObject(gameObject * gameObject)
 void kluexbossPh1::damaged(gameObject * actor)
 {
 	_hp -= actor->getDamage();
-	cout << _hp << endl;
 	if (_hp <= 0)
 	{
 		_hp = 0;
+		//발판픽셀 지우기, 픽셀버퍼에 렌더하는거라 남아버림
+		_flatBoardPixelErase->render(_mapPixel->getMemDC(), _x + 400, _y + _img[KLUEX_PH1_CONST::MAIN]->getFrameHeight() * 0.5
+			- _flatBoard->getHeight(), 0, 0, _flatBoard->getWidth(), _flatBoard->getHeight());
+		_flatBoardPixelErase->render(_mapPixel->getMemDC(), _x - 400, _y + _img[KLUEX_PH1_CONST::MAIN]->getFrameHeight() * 0.5
+			- _flatBoard->getHeight(), 0, 0, _flatBoard->getWidth(), _flatBoard->getHeight());
 		//TODO 죽으면 이펙트 or 페이즈2
 		_isActive = false;
 	}

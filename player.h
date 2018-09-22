@@ -43,8 +43,9 @@ private:
 	int _keepWalk;						//계단 내려가기
 	float _longJumpValue;				//점프높이 제한
 
-	int _invincibleCount;				//무적시간
-	bool _invincible;					//무적시간
+	int _damagedCount;				//무적시간
+	bool _isDamaged;				//무적시간
+	int _damagedAlpha;
 
 	float _handAngle;					//손 각도
 

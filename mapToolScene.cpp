@@ -763,7 +763,7 @@ void mapToolScene::tabTileSetup()
 	{
 		if (PtInRect(&_rcButton[0], _ptMouse))
 		{
-			_currentTile.itemType = ITEM_SPACESWORD;
+			_currentTile.itemType = TAG_MELEEWEAPON;
 		}
 	}
 	//ø¿∫Í¡ß∆Æ≈«
@@ -823,7 +823,7 @@ void mapToolScene::tabTileSetup()
 	{
 		_currentTile.terrainType = TR_NONE;
 		_currentTile.objectType = OBJECT_NONE;
-		_currentTile.itemType = ITEM_NONE;
+		_currentTile.itemType = TAG_NONE;
 		_currentTile.actorType = ACTOR_NONE;
 		_currentTile.frameX = 0;
 		_currentTile.frameY = 0;
@@ -979,12 +979,12 @@ void mapToolScene::curtileMouseRender()
 	}
 	else if (_currentTab == CTRL_ITEMTAB)
 	{
-		if (_currentTile.itemType != ITEM_NONE)
+		if (_currentTile.itemType != TAG_NONE)
 		{
 			image* curRender = NULL;
 			switch (_currentTile.itemType)
 			{
-			case ITEM_SPACESWORD:
+			case TAG_MELEEWEAPON:
 				curRender = _item;
 				break;
 			}

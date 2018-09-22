@@ -68,6 +68,9 @@ void loadingScene::loadingImage()
 	_loading->loadImage("배경Bot2", "Texture/object/background/bot/back2.bmp", 512, 512);
 	_loading->loadImage("배경Bot3", "Texture/object/background/bot/back3.bmp", 512, 512);
 
+	_loading->loadImage("함선", "Texture/ships/ship.bmp", 3960, 1280, true, MAGENTA);
+	_loading->loadImage("함선픽셀", "Texture/ships/shipPixel.bmp", 3960, 1280, true, MAGENTA);
+
 	//오브젝트
 	loadingObjects();
 
@@ -119,9 +122,9 @@ void loadingScene::loadingEffectImage()
 
 	_loading->loadFrameImage("standardBullet", "Texture/item/weapons/ranged/standardbullet.bmp", 51, 9, 1, 1);					//기본불릿
 
-	_loading->loadFrameImage("tearswoosh1Img", "Texture/item/weapons/melee/broadsword/tearswoosh1.bmp", 610, 123, 3, 1);		//칼공격1번
-	_loading->loadFrameImage("tearswoosh2Img", "Texture/item/weapons/melee/broadsword/tearswoosh2.bmp", 303, 48, 3, 1);			//칼공격2번
-	_loading->loadFrameImage("tearswoosh3Img", "Texture/item/weapons/melee/broadsword/tearswoosh3.bmp", 344, 28, 3, 1);			//칼공격3번
+	_loading->loadFrameImage("tearswoosh1Img", "Texture/item/weapons/melee/broadsword/tearswoosh1_732x295_3x2.bmp", 732, 295, 3, 2);	//칼공격1번
+	_loading->loadFrameImage("tearswoosh2Img", "Texture/item/weapons/melee/broadsword/tearswoosh2_363x116_3x2.bmp", 363, 116, 3, 2);	//칼공격2번
+	_loading->loadFrameImage("tearswoosh3Img", "Texture/item/weapons/melee/broadsword/tearswoosh3_412x68_3x2.bmp", 412, 68, 3, 2);		//칼공격3번
 }
 
 void loadingScene::loadingEffect()
@@ -136,6 +139,9 @@ void loadingScene::loadingEffect()
 	EFFECTMANAGER->addEffect("energy_Crystal", "energycrystalImg", 0.05f, 20);
 	EFFECTMANAGER->addEffect("ice_Eruption", "iceeruptionImg", 0.05f, 10);
 	EFFECTMANAGER->addEffect("energy_Wave", "energywaveImg", 0.05f, 10);
+
+	EFFECTMANAGER->addEffect("tearswoosh2", "tearswoosh2Img", 0.05f, 1);
+	EFFECTMANAGER->addEffect("tearswoosh3", "tearswoosh3Img", 0.05f, 1);
 }
 
 void loadingScene::loadingMapToolImage()
@@ -222,7 +228,7 @@ void loadingScene::loadingObjects()
 
 void loadingScene::loadingItem()
 {
-	_loading->loadFrameImage("우주검", "Texture/item/weapons/melee/broadsword/astrosabredeluxe_205x96_1x2.bmp", 205, 96, 1, 2);
+	_loading->loadFrameImage("우주검", "Texture/item/weapons/melee/broadsword/astrosabredeluxe_330x116_1x2.bmp", 330, 116, 1, 2);
 	_loading->loadFrameImage("샷건", "Texture/item/weapons/ranged/shotgun.bmp", 207, 96, 1,2);
 	_loading->loadImage("샷건아이콘", "Texture/item/weapons/ranged/shotgunIcon.bmp", 40, 40, true, MAGENTA);
 	_loading->loadImage("우주검아이콘", "Texture/item/weapons/melee/broadsword/astrosabredeluxeIcon.bmp", 40, 40, true, MAGENTA);

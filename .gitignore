@@ -9,3 +9,5 @@ Debug/
 Texture/enemy/monsters/boss/kluexbossstatue/kluexbossstatue_4719x1089_13x3.bmp
 *.projectile
 *.lua
+Texture/ships/shipPixel.bmp
+Texture/ships/ship.bmp

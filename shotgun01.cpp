@@ -1,11 +1,20 @@
 #include "stdafx.h"
 #include "shotgun01.h"
 #include "enemyManager.h";
-
-HRESULT shotgun01::init(ITEM name, int price, float damage, float armor,
-	image* icon, image* img)
+HRESULT shotgun01::init(CATEGORY tag, string name, int rarity, int price, float damage, float armor, image * icon, image * img, image * effect1, image * effect2, image * effect3)
 {
-	weapon::init(name, price, damage, armor, icon, img);
+	rangedWeapon::init(tag, name, rarity, price, damage, armor, icon, img, effect1, effect2, effect3);
+	_vBullet = new vector<bullet>;
+	bullet blt;
+	blt.init(1.5f, 15, _damage, 800, _effect[0]);
+	for (int i = 0; i < 15; ++i)
+	{
+		_vBullet->push_back(blt);
+	}
+
+	_fireX = _x;
+	_fireY = _y;
+
 	return S_OK;
 }
 
@@ -59,28 +68,6 @@ void shotgun01::render()
 
 void shotgun01::release()
 {
-}
-
-//effect1Àº ºÒ¸´, effect2´Â ¸ÓÁñÇÃ·¡½Ã
-void shotgun01::setup(image * effect1, image * effect2, image * effect3)
-{
-	if (effect1 != NULL) _effect[0] = effect1;
-	if (effect2 != NULL) _effect[1] = effect2;
-	if (effect3 != NULL) _effect[2] = effect3;
-
-	_vBullet = new vector<bullet>;
-	bullet blt;
-	blt.init(1.5f, 15, _damage, 800, _effect[0]);
-	cout << _damage;
-	for (int i = 0; i < 15; ++i)
-	{
-		_vBullet->push_back(blt);
-	}
-
-	_fireX = _x;
-	_fireY = _y;
-
-	_rarity = 2;
 }
 
 void shotgun01::attack()

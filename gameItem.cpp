@@ -1,21 +1,12 @@
 #include "stdafx.h"
 #include "gameItem.h"
 
-HRESULT gameItem::init(ITEM name, int price, float damage, float armor,
-	image * icon, image * img, int rarity)
+HRESULT gameItem::init(CATEGORY tag, string name, int rarity, int price, float damage, float armor,
+	image * icon, image * img)
 {
-	switch (name)
-	{
-	case ITEM_NONE:
-		_name = "";
-		break;
-	case ITEM_SPACESWORD:
-		_name = "ASTRO SABRE DELUXE";
-		break;
-	case ITEM_SHOTGUN01:
-		_name = "SHOT GUN";
-		break;
-	}
+	_category = tag;
+
+	_name = name;
 	_price = price;
 
 	_damage = damage;

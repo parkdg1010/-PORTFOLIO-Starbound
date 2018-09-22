@@ -6,6 +6,7 @@
 #include "meleeWeapon.h"
 #include "rangedWeapon.h"
 #include "shotgun01.h"
+#include "spaceSword.h"
 enum INVENTAB
 {
 	INVEN_ITEM,

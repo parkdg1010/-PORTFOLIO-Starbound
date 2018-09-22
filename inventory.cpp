@@ -185,13 +185,13 @@ void inventory::tabChange()
 		tabButtonSet();
 	}
 }
-
+//æ∆¿Ãƒ‹ ∑ª¥ı
 void inventory::iconRender(image * sample, int X, int Y, int rarity)
 {
 	_itemBorder->frameRender(_uiDC, _rcButton[Y * 8 + X].left-2, _rcButton[Y * 8 + X].top-2, rarity, 0);
 	sample->render(_uiDC, _rcButton[Y * 8 + X].left, _rcButton[Y * 8 + X].top);
 }
-
+//æ∆¿Ãƒ‹ ∑ª¥ı
 void inventory::curTabIconRender()
 {
 	if (_currentTab == INVEN_ITEM)
@@ -199,7 +199,7 @@ void inventory::curTabIconRender()
 		for (int i = 0; i < _vInventory[INVEN_ITEM].size(); ++i)
 		{
 			if (_vInventory[INVEN_ITEM][i] == NULL) continue;
-			iconRender(_vInventory[INVEN_ITEM][i]->getIcon(), i / 8, i % 8, _vInventory[INVEN_ITEM][i]->getRarity());
+			iconRender(_vInventory[INVEN_ITEM][i]->getIcon(), i % 8, i / 8, _vInventory[INVEN_ITEM][i]->getRarity());
 		}
 	}
 	else if (_currentTab == INVEN_TILE)
@@ -207,7 +207,7 @@ void inventory::curTabIconRender()
 		for (int i = 0; i < _vInventory[INVEN_TILE].size(); ++i)
 		{
 			if (_vInventory[INVEN_TILE][i] == NULL) continue;
-			iconRender(_vInventory[INVEN_TILE][i]->getIcon(), i / 8, i % 8, _vInventory[INVEN_TILE][i]->getRarity());
+			iconRender(_vInventory[INVEN_TILE][i]->getIcon(), i % 8, i / 8, _vInventory[INVEN_TILE][i]->getRarity());
 		}
 	}
 	else if (_currentTab == INVEN_OBJECT)
@@ -215,7 +215,7 @@ void inventory::curTabIconRender()
 		for (int i = 0; i < _vInventory[INVEN_OBJECT].size(); ++i)
 		{
 			if (_vInventory[INVEN_OBJECT][i] == NULL) continue;
-			iconRender(_vInventory[INVEN_OBJECT][i]->getIcon(), i / 8, i % 8, _vInventory[INVEN_OBJECT][i]->getRarity());
+			iconRender(_vInventory[INVEN_OBJECT][i]->getIcon(), i % 8, i / 8, _vInventory[INVEN_OBJECT][i]->getRarity());
 		}
 	}
 	else if (_currentTab == INVEN_WEAPON)
@@ -223,7 +223,7 @@ void inventory::curTabIconRender()
 		for (int i = 0; i < _vInventory[INVEN_WEAPON].size(); ++i)
 		{
 			if (_vInventory[INVEN_WEAPON][i] == NULL) continue;
-			iconRender(_vInventory[INVEN_WEAPON][i]->getIcon(), i / 8, i % 8, _vInventory[INVEN_WEAPON][i]->getRarity());
+			iconRender(_vInventory[INVEN_WEAPON][i]->getIcon(), i % 8, i / 8, _vInventory[INVEN_WEAPON][i]->getRarity());
 		}
 	}
 }

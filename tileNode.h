@@ -31,11 +31,19 @@ enum OBJECT
 	OBJECT_FF_WOOD
 };
 
-enum ITEM
+//enum ITEM
+//{
+//	ITEM_NONE,
+//	ITEM_SPACESWORD,
+//	ITEM_SHOTGUN01
+//};
+
+enum CATEGORY
 {
-	ITEM_NONE,
-	ITEM_SPACESWORD,
-	ITEM_SHOTGUN01
+	TAG_NONE,
+	TAG_USEABLE,
+	TAG_MELEEWEAPON,
+	TAG_RANGEDWEAPON
 };
 
 enum ACTOR
@@ -100,7 +108,7 @@ struct tagCurrentTile
 	TERRAIN terrainType;
 	TERRAIN_FRONTBACK frontBack;
 	OBJECT objectType;
-	ITEM itemType;
+	CATEGORY itemType;
 	ACTOR actorType;
 	ENEMY_TYPE enemyType;
 

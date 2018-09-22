@@ -15,10 +15,10 @@ HRESULT stageScene::init()
 	_player = SAVEDATA->getPlayer();
 	_player->linkStage(_stage);
 	_player->init();
-	_player->getInventory()->addWeaponInven(_itemFac->createItem
-	(ITEM_SHOTGUN01, 500, 10.f, 0.f, "샷건아이콘", "샷건", "standardBullet", "muzzleflashImg"));
-	_player->getInventory()->addWeaponInven(_itemFac->createItem
-	(ITEM_SPACESWORD, 1500, 500.f, 0.f, "우주검아이콘", "우주검", "standardBullet", "muzzleflashImg"));
+	_player->getInventory()->addWeaponInven(_itemFac->createItem(TAG_RANGEDWEAPON, "shotgun", 2, 500, 10.f, 0.f, 
+		"샷건아이콘", "샷건", "standardBullet", "muzzleflashImg"));
+	_player->getInventory()->addWeaponInven(_itemFac->createItem(TAG_MELEEWEAPON, "astrosabredeluxe", 4, 1500, 300.f, 0.f, 
+		"우주검아이콘", "우주검", "tearswoosh1Img", "tearswoosh2Img", "tearswoosh3Img"));
 	_player->linkEnemyManager(_enemyManager);
 
 	_stage->linkPlayer(_player);
