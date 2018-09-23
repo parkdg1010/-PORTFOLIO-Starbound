@@ -56,6 +56,7 @@ private:
 	Synthesize(int, _jumpCount, JumpCount)			//이단점프
 	Synthesize(float, _dashSpeed, DashSpeed)		//대쉬속도
 	Synthesize(float, _energy, Energy)				//기력
+	Synthesize(float, _gravityAccel, GravityAccel)	//중력가속도
 
 public:
 	virtual void move();
@@ -82,7 +83,7 @@ public:
 	void linkStage(gameStage* stage) { _stage = stage; }
 	void linkEnemyManager(enemyManager* EM) { _enemyManager = EM; }
 
-	player() { gameObject::init(); _weapon = NULL; }
+	player() { gameObject::init(); _weapon = NULL; _stage = NULL; }
 	~player() {}
 };
 

@@ -64,7 +64,8 @@ void player::update()
 			_weapon->setPosition(_x, _y+5, _dir);
 			_weapon->setAngle(_handAngle + PI*1.5f);
 			_weapon->update();
-			_weapon->linkMapPixel(_stage->getPixelBuffer());
+			if (_stage != NULL)	_weapon->linkMapPixel(_stage->getPixelBuffer());
+			else _weapon->linkMapPixel(_mapPixel);
 			_weapon->linkEnemyManager(_enemyManager);
 		}
 
@@ -309,7 +310,7 @@ void player::move()
 	}
 
 	_y += _gravity; //걸을떄 0이 안들어감 계속 충돌
-	_gravity += 0.29f; //24, 29, 32 세가지로 나누자
+	_gravity += _gravityAccel;	//24, 29, 32 세가지로 나누자
 
 	if (_axisY == UP)
 	{
@@ -371,81 +372,63 @@ bool player::collideStage(int range)
 	COLORREF color;
 	int r, g, b;
 
-	//맵밖으로 못나가게
-	if (_x - PLAYER_CONST::WIDTH * 0.5f < 0)
+	if (_stage != NULL)
 	{
-		_x = PLAYER_CONST::WIDTH * 0.5f;
-	}
-
-	if (_x + PLAYER_CONST::WIDTH * 0.5f > _stage->getTileX() * TILESIZE)
-	{
-		_x = _stage->getTileX() * TILESIZE - PLAYER_CONST::WIDTH * 0.5f;
-	}
-
-	if (_y - PLAYER_CONST::HEIGHT * 0.5f < 0)
-	{
-		_y = PLAYER_CONST::HEIGHT * 0.5f;
-	}
-
-	if (_y + PLAYER_CONST::HEIGHT * 0.5f > _stage->getTileY() * TILESIZE)
-	{
-		_y = _stage->getTileY() * TILESIZE - PLAYER_CONST::HEIGHT * 0.5f;
-	}
-
-	//_speed값 만큼 벽을 뚫고 나갔을 경우 뚫고나간 현재 위치(x,y,에서 보정한 값)에서 
-	// 벽 반대쪽으로 _speed값만을 벽방향으로 1픽셀(i값)씩 검사하면 된다.
-
-	//위쪽 검사
-	for (int i = _y - PLAYER_CONST::HEIGHT * 0.5f + range; i >= _y - PLAYER_CONST::HEIGHT * 0.5f; --i)
-	{
-		color = GetPixel(_stage->getPixelBuffer()->getMemDC(), _x, i);
-		r = GetRValue(color);
-		g = GetGValue(color);
-		b = GetBValue(color);
-
-		if (r == 0 && g == 0 && b == 255)
+		//맵밖으로 못나가게
+		if (_x - PLAYER_CONST::WIDTH * 0.5f < 0)
 		{
-			_y = i + PLAYER_CONST::HEIGHT * 0.5f;
-			updateHitbox();
-			upCollision = true;
-			break;
+			_x = PLAYER_CONST::WIDTH * 0.5f;
 		}
-	}
 
-	//아래쪽 검사
-	//WALK상태 FALL상태에 대해 처리해야함
-	if (_state == WALK) _keepWalk = 15;
-	else _keepWalk = 0;
-
-	for (int i = _y + PLAYER_CONST::HEIGHT * 0.5f - range; i <= _y + PLAYER_CONST::HEIGHT * 0.5f + _keepWalk; i++)
-	{
-		color = GetPixel(_stage->getPixelBuffer()->getMemDC(), _x, i);
-		r = GetRValue(color);
-		g = GetGValue(color);
-		b = GetBValue(color);
-
-		//타일
-		if (r == 0 && g == 0 && b == 255)
+		if (_x + PLAYER_CONST::WIDTH * 0.5f > _stage->getTileX() * TILESIZE)
 		{
-			_y = i - PLAYER_CONST::HEIGHT * 0.5f;
-			updateHitbox();
-			_gravity = 0;
-			if (_state == FALL)
-				changeState(IDLE);
-			_axisY = NONE;
-			_longJumpValue = 0;
-			_jumpCount = 0;
-			break;
+			_x = _stage->getTileX() * TILESIZE - PLAYER_CONST::WIDTH * 0.5f;
 		}
-		//발판
-		else if (r == 0 && g == 255 && b == 0)
+
+		if (_y - PLAYER_CONST::HEIGHT * 0.5f < 0)
 		{
-			if (_axisY == DOWN && _state == FALL)
+			_y = PLAYER_CONST::HEIGHT * 0.5f;
+		}
+
+		if (_y + PLAYER_CONST::HEIGHT * 0.5f > _stage->getTileY() * TILESIZE)
+		{
+			_y = _stage->getTileY() * TILESIZE - PLAYER_CONST::HEIGHT * 0.5f;
+		}
+
+		//_speed값 만큼 벽을 뚫고 나갔을 경우 뚫고나간 현재 위치(x,y,에서 보정한 값)에서 
+		// 벽 반대쪽으로 _speed값만을 벽방향으로 1픽셀(i값)씩 검사하면 된다.
+
+		//위쪽 검사
+		for (int i = _y - PLAYER_CONST::HEIGHT * 0.5f + range; i >= _y - PLAYER_CONST::HEIGHT * 0.5f; --i)
+		{
+			color = GetPixel(_stage->getPixelBuffer()->getMemDC(), _x, i);
+			r = GetRValue(color);
+			g = GetGValue(color);
+			b = GetBValue(color);
+
+			if (r == 0 && g == 0 && b == 255)
 			{
-				_longJumpValue = 8;
-				_jumpCount = 1;
+				_y = i + PLAYER_CONST::HEIGHT * 0.5f;
+				updateHitbox();
+				upCollision = true;
+				break;
 			}
-			else
+		}
+
+		//아래쪽 검사
+		//WALK상태 FALL상태에 대해 처리해야함
+		if (_state == WALK) _keepWalk = 15;
+		else _keepWalk = 0;
+
+		for (int i = _y + PLAYER_CONST::HEIGHT * 0.5f - range; i <= _y + PLAYER_CONST::HEIGHT * 0.5f + _keepWalk; i++)
+		{
+			color = GetPixel(_stage->getPixelBuffer()->getMemDC(), _x, i);
+			r = GetRValue(color);
+			g = GetGValue(color);
+			b = GetBValue(color);
+
+			//타일
+			if (r == 0 && g == 0 && b == 255)
 			{
 				_y = i - PLAYER_CONST::HEIGHT * 0.5f;
 				updateHitbox();
@@ -457,41 +440,160 @@ bool player::collideStage(int range)
 				_jumpCount = 0;
 				break;
 			}
+			//발판
+			else if (r == 0 && g == 255 && b == 0)
+			{
+				if (_axisY == DOWN && _state == FALL)
+				{
+					_longJumpValue = 8;
+					_jumpCount = 1;
+				}
+				else
+				{
+					_y = i - PLAYER_CONST::HEIGHT * 0.5f;
+					updateHitbox();
+					_gravity = 0;
+					if (_state == FALL)
+						changeState(IDLE);
+					_axisY = NONE;
+					_longJumpValue = 0;
+					_jumpCount = 0;
+					break;
+				}
+			}
 		}
-	}
 
-	//왼쪽 검사
-	for (int i = _x - PLAYER_CONST::WIDTH * 0.5f + range; i >= _x - PLAYER_CONST::WIDTH * 0.5f; --i)
-	{
-		color = GetPixel(_stage->getPixelBuffer()->getMemDC(), i, _y);
-		r = GetRValue(color);
-		g = GetGValue(color);
-		b = GetBValue(color);
-
-		if (r == 0 && g == 0 && b == 255)
+		//왼쪽 검사
+		for (int i = _x - PLAYER_CONST::WIDTH * 0.5f + range; i >= _x - PLAYER_CONST::WIDTH * 0.5f; --i)
 		{
-			_x = i + PLAYER_CONST::WIDTH * 0.5f;
-			updateHitbox();
-			break;
+			color = GetPixel(_stage->getPixelBuffer()->getMemDC(), i, _y);
+			r = GetRValue(color);
+			g = GetGValue(color);
+			b = GetBValue(color);
+
+			if (r == 0 && g == 0 && b == 255)
+			{
+				_x = i + PLAYER_CONST::WIDTH * 0.5f;
+				updateHitbox();
+				break;
+			}
 		}
-	}
 
-	//오른쪽 검사
-	for (int i = _x + PLAYER_CONST::WIDTH * 0.5f - range; i <= _x + PLAYER_CONST::WIDTH * 0.5f; ++i)
-	{
-		color = GetPixel(_stage->getPixelBuffer()->getMemDC(), i, _y);
-		r = GetRValue(color);
-		g = GetGValue(color);
-		b = GetBValue(color);
-
-		if (r == 0 && g == 0 && b == 255)
+		//오른쪽 검사
+		for (int i = _x + PLAYER_CONST::WIDTH * 0.5f - range; i <= _x + PLAYER_CONST::WIDTH * 0.5f; ++i)
 		{
-			_x = i - PLAYER_CONST::WIDTH * 0.5f;
-			updateHitbox();
-			break;
+			color = GetPixel(_stage->getPixelBuffer()->getMemDC(), i, _y);
+			r = GetRValue(color);
+			g = GetGValue(color);
+			b = GetBValue(color);
+
+			if (r == 0 && g == 0 && b == 255)
+			{
+				_x = i - PLAYER_CONST::WIDTH * 0.5f;
+				updateHitbox();
+				break;
+			}
 		}
 	}
+	else if (_mapPixel != NULL)
+	{
+		//위쪽 검사
+		for (int i = _y - PLAYER_CONST::HEIGHT * 0.5f + range; i >= _y - PLAYER_CONST::HEIGHT * 0.5f; --i)
+		{
+			color = GetPixel(_mapPixel->getMemDC(), _x, i);
+			r = GetRValue(color);
+			g = GetGValue(color);
+			b = GetBValue(color);
 
+			if (r == 0 && g == 0 && b == 255)
+			{
+				_y = i + PLAYER_CONST::HEIGHT * 0.5f;
+				updateHitbox();
+				upCollision = true;
+				break;
+			}
+		}
+
+		//아래쪽 검사
+		//WALK상태 FALL상태에 대해 처리해야함
+		if (_state == WALK) _keepWalk = 15;
+		else _keepWalk = 0;
+
+		for (int i = _y + PLAYER_CONST::HEIGHT * 0.5f - range; i <= _y + PLAYER_CONST::HEIGHT * 0.5f + _keepWalk; i++)
+		{
+			color = GetPixel(_mapPixel->getMemDC(), _x, i);
+			r = GetRValue(color);
+			g = GetGValue(color);
+			b = GetBValue(color);
+
+			//타일
+			if (r == 0 && g == 0 && b == 255)
+			{
+				_y = i - PLAYER_CONST::HEIGHT * 0.5f;
+				updateHitbox();
+				_gravity = 0;
+				if (_state == FALL)
+					changeState(IDLE);
+				_axisY = NONE;
+				_longJumpValue = 0;
+				_jumpCount = 0;
+				break;
+			}
+			//발판
+			else if (r == 0 && g == 255 && b == 0)
+			{
+				if (_axisY == DOWN && _state == FALL)
+				{
+					_longJumpValue = 8;
+					_jumpCount = 1;
+				}
+				else
+				{
+					_y = i - PLAYER_CONST::HEIGHT * 0.5f;
+					updateHitbox();
+					_gravity = 0;
+					if (_state == FALL)
+						changeState(IDLE);
+					_axisY = NONE;
+					_longJumpValue = 0;
+					_jumpCount = 0;
+					break;
+				}
+			}
+		}
+
+		//왼쪽 검사
+		for (int i = _x - PLAYER_CONST::WIDTH * 0.5f + range; i >= _x - PLAYER_CONST::WIDTH * 0.5f; --i)
+		{
+			color = GetPixel(_mapPixel->getMemDC(), i, _y);
+			r = GetRValue(color);
+			g = GetGValue(color);
+			b = GetBValue(color);
+
+			if (r == 0 && g == 0 && b == 255)
+			{
+				_x = i + PLAYER_CONST::WIDTH * 0.5f;
+				updateHitbox();
+				break;
+			}
+		}
+
+		//오른쪽 검사
+		for (int i = _x + PLAYER_CONST::WIDTH * 0.5f - range; i <= _x + PLAYER_CONST::WIDTH * 0.5f; ++i)
+		{
+			color = GetPixel(_mapPixel->getMemDC(), i, _y);
+			r = GetRValue(color);
+			g = GetGValue(color);
+			b = GetBValue(color);
+
+			if (r == 0 && g == 0 && b == 255)
+			{
+				_x = i - PLAYER_CONST::WIDTH * 0.5f;
+				updateHitbox();
+				break;
+			}
+		}
+	}
 	return false;
 }
 

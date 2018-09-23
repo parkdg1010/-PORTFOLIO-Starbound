@@ -187,6 +187,7 @@
     <ClInclude Include="shotgun01.h" />
     <ClInclude Include="singletonBase.h" />
     <ClInclude Include="soundManager.h" />
+    <ClInclude Include="spaceShipScene.h" />
     <ClInclude Include="spaceSword.h" />
     <ClInclude Include="startScene.h" />
     <ClInclude Include="stdafx.h" />
@@ -236,6 +237,7 @@
     <ClCompile Include="sceneManager.cpp" />
     <ClCompile Include="shotgun01.cpp" />
     <ClCompile Include="soundManager.cpp" />
+    <ClCompile Include="spaceShipScene.cpp" />
     <ClCompile Include="spaceSword.cpp" />
     <ClCompile Include="startScene.cpp" />
     <ClCompile Include="stdafx.cpp">

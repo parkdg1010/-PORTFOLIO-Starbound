@@ -13,6 +13,7 @@ HRESULT stageScene::init()
 	_stage->loadStage();
 
 	_player = SAVEDATA->getPlayer();
+	_player->setGravityAccel(0.29f);
 	_player->linkStage(_stage);
 	_player->init();
 	_player->getInventory()->addWeaponInven(_itemFac->createItem(TAG_RANGEDWEAPON, "shotgun", 2, 500, 10.f, 0.f, 

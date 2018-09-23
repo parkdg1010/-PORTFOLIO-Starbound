@@ -251,6 +251,9 @@
     <ClInclude Include="spaceSword.h">
       <Filter>GameObjects\아이템\무기\melee</Filter>
     </ClInclude>
+    <ClInclude Include="spaceShipScene.h">
+      <Filter>GameScene</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -393,6 +396,9 @@
     </ClCompile>
     <ClCompile Include="spaceSword.cpp">
       <Filter>GameObjects\아이템\무기\melee</Filter>
+    </ClCompile>
+    <ClCompile Include="spaceShipScene.cpp">
+      <Filter>GameScene</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

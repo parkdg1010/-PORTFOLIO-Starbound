@@ -68,8 +68,10 @@ void loadingScene::loadingImage()
 	_loading->loadImage("배경Bot2", "Texture/object/background/bot/back2.bmp", 512, 512);
 	_loading->loadImage("배경Bot3", "Texture/object/background/bot/back3.bmp", 512, 512);
 
-	_loading->loadImage("함선", "Texture/ships/ship.bmp", 3960, 1280, true, MAGENTA);
-	_loading->loadImage("함선픽셀", "Texture/ships/shipPixel.bmp", 3960, 1280, true, MAGENTA);
+	_loading->loadImage("우주선", "Texture/ships/ship.bmp", 4752, 1536, true, MAGENTA);
+	_loading->loadImage("우주선픽셀", "Texture/ships/shipPixel.bmp", 4752, 1536, true, MAGENTA);
+	_loading->loadImage("우주선배경", "Texture/ships/shipBack.bmp", 2731, 1536);
+	_loading->loadImage("텔레포터", "Texture/ships/hylotlteleporter.bmp", 192, 240, true, MAGENTA);
 
 	//오브젝트
 	loadingObjects();
