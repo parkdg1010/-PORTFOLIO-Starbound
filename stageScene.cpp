@@ -16,10 +16,12 @@ HRESULT stageScene::init()
 	_player->setGravityAccel(0.29f);
 	_player->linkStage(_stage);
 	_player->init();
-	_player->getInventory()->addWeaponInven(_itemFac->createItem(TAG_RANGEDWEAPON, "shotgun", 2, 500, 10.f, 0.f, 
-		"샷건아이콘", "샷건", "standardBullet", "muzzleflashImg"));
-	_player->getInventory()->addWeaponInven(_itemFac->createItem(TAG_MELEEWEAPON, "astrosabredeluxe", 4, 1500, 300.f, 0.f, 
-		"우주검아이콘", "우주검", "tearswoosh1Img", "tearswoosh2Img", "tearswoosh3Img"));
+	_player->getInventory()->addWeaponInven(_itemFac->createItem(TAG_RANGEDWEAPON, "shotgun", 2, 500, 8.f, 0.f,
+		"샷건아이콘", "샷건", "standardBullet", "muzzleflashImg", "bulletEffectImg"));
+	_player->getInventory()->addWeaponInven(_itemFac->createItem(TAG_PLASMAGUN, "plasmagun", 4, 1500, 30.f, 0.f,
+		"플라즈마건아이콘", "플라즈마건", "plasmaBullet", "plasmaflashImg", "plasmaEffectImg"));
+	//_player->getInventory()->addWeaponInven(_itemFac->createItem(TAG_MELEEWEAPON, "astrosabredeluxe", 4, 1500, 300.f, 0.f, 
+	//	"우주검아이콘", "우주검", "tearswoosh1Img", "tearswoosh2Img", "tearswoosh3Img"));
 	_player->linkEnemyManager(_enemyManager);
 
 	_stage->linkPlayer(_player);
@@ -28,7 +30,6 @@ HRESULT stageScene::init()
 	_enemyManager->linkStage(_stage);
 	createMonster();
 	_enemyManager->init();
-
 
 	CAMERAMANAGER->init();
 	CAMERAMANAGER->setRange(_stage->getTileX() * TILESIZE, _stage->getTileY() * TILESIZE);

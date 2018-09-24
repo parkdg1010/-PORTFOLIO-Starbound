@@ -122,8 +122,7 @@ void player::render()
 		}
 		else
 		{
-			//팔 회전각도, 위치조정
-			//TODO : 무기타입마다 팔 각도가 다르다
+			//팔 회전각도, 위치조정, 무기타입마다 팔 각도가 다르다
 			if (_weapon->getCategory() == TAG_RANGEDWEAPON)
 			{
 				_handAngle = utl::getAngle(_x, _y, _ptMouse.x + CAM->getX(), _ptMouse.y + CAM->getY());

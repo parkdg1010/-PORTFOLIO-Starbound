@@ -1,5 +1,6 @@
 #pragma once
 #include "enemy.h"
+
 class kluexbossPh2 : public enemy
 {
 private:

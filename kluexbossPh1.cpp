@@ -6,7 +6,7 @@ HRESULT kluexbossPh1::init()
 {
 	enemy::init();
 
-	_hp = 2000;
+	_hp = KLUEX_PH1_CONST::MAX_HP;
 
 	_picL = IMAGEMANAGER->findImage("BIRDBOSS1");
 

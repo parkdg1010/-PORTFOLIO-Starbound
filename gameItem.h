@@ -18,8 +18,6 @@ public:
 	virtual void render();
 	virtual void release();
 
-	virtual void setup() {}
-
 	virtual void use() {}	//아이템 사용
 
 	gameItem() { gameObject::init(); }

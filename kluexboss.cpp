@@ -18,6 +18,9 @@ HRESULT kluexboss::init()
 	_phase2->linkMapPixel(_mapPixel);
 	_phase2->init();
 
+	_hpBar = new progressBar;
+	_hpBar->init("Texture/enemy/monsters/boss/bosshealthFront", "Texture/enemy/monsters/boss/bosshealthBack", WINSIZEX*0.36f, WINSIZEY*0.8f, 480, 39);
+
 	_currentPhase = _phase1;
 
 	return S_OK;
@@ -28,11 +31,14 @@ void kluexboss::update()
 	_hitBox = _currentPhase->getHitBox();
 	_isActive = _currentPhase->getIsActive();
 	_currentPhase->update();
+	_hpBar->update();
+	_hpBar->setGauge(_currentPhase->getHp(), KLUEX_PH1_CONST::MAX_HP);
 }
 
 void kluexboss::render()
 {
 	_currentPhase->render();
+	_hpBar->render(UIMANAGER->getUIDC());
 }
 
 void kluexboss::release()

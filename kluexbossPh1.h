@@ -4,6 +4,7 @@ namespace KLUEX_PH1_CONST
 {
 	const int WIDTH = 300;
 	const int HEIGHT = 280;
+	const int MAX_HP = 2000;
 	enum STATE
 	{
 		MAIN,

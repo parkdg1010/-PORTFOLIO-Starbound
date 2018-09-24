@@ -47,10 +47,10 @@ void startScene::update()
 	{
 		if (PtInRect(&_rcUi[0], _ptMouse))
 		{
-			//_player->setPosition(1600, 440, LEFT);
-			//SCENEMANAGER->loadScene("인게임");
-			_player->setPosition(3350, 750, RIGHT);
-			SCENEMANAGER->loadScene("우주선");
+			_player->setPosition(1600, 440, LEFT);
+			SCENEMANAGER->loadScene("인게임");
+			/*_player->setPosition(3350, 750, RIGHT);
+			SCENEMANAGER->loadScene("우주선");*/
 		}
 		if (PtInRect(&_rcUi[1], _ptMouse))
 		{

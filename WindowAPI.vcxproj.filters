@@ -254,6 +254,12 @@
     <ClInclude Include="spaceShipScene.h">
       <Filter>GameScene</Filter>
     </ClInclude>
+    <ClInclude Include="plasmagun.h">
+      <Filter>GameObjects\아이템\무기\ranged</Filter>
+    </ClInclude>
+    <ClInclude Include="warpUI.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -399,6 +405,12 @@
     </ClCompile>
     <ClCompile Include="spaceShipScene.cpp">
       <Filter>GameScene</Filter>
+    </ClCompile>
+    <ClCompile Include="plasmagun.cpp">
+      <Filter>GameObjects\아이템\무기\ranged</Filter>
+    </ClCompile>
+    <ClCompile Include="warpUI.cpp">
+      <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

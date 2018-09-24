@@ -68,10 +68,16 @@ void loadingScene::loadingImage()
 	_loading->loadImage("배경Bot2", "Texture/object/background/bot/back2.bmp", 512, 512);
 	_loading->loadImage("배경Bot3", "Texture/object/background/bot/back3.bmp", 512, 512);
 
+	//우주선
 	_loading->loadImage("우주선", "Texture/ships/ship.bmp", 4752, 1536, true, MAGENTA);
 	_loading->loadImage("우주선픽셀", "Texture/ships/shipPixel.bmp", 4752, 1536, true, MAGENTA);
 	_loading->loadImage("우주선배경", "Texture/ships/shipBack.bmp", 2731, 1536);
 	_loading->loadImage("텔레포터", "Texture/ships/hylotlteleporter.bmp", 192, 240, true, MAGENTA);
+	_loading->loadImage("워프UI", "Texture/ships/warpUI/warpUI.bmp", 372, 334, true, MAGENTA);
+	_loading->loadImage("워프버튼", "Texture/ships/warpUI/warpButton.bmp", 94, 56, true, MAGENTA);
+	_loading->loadImage("워프_우주선", "Texture/ships/warpUI/warpentry_ship.bmp", 340, 80, true, MAGENTA);
+	_loading->loadImage("워프_집", "Texture/ships/warpUI/warpentry_home.bmp", 340, 80, true, MAGENTA);
+	_loading->loadImage("워프_던전", "Texture/ships/warpUI/warpentry_dungeon.bmp", 340, 80, true, MAGENTA);
 
 	//오브젝트
 	loadingObjects();
@@ -120,9 +126,13 @@ void loadingScene::loadingEffectImage()
 
 	_loading->loadFrameImage("flameImg", "Texture/projectiles/flame_576x48_12x1.bmp", 576, 48, 12, 1);							//화염방사
 
-	_loading->loadFrameImage("muzzleflashImg", "Texture/item/weapons/ranged/muzzleflash.bmp", 135, 90, 3, 2);					//머즐플래시
+	_loading->loadFrameImage("muzzleflashImg", "Texture/item/weapons/ranged/muzzleflash_135x90_3x2.bmp", 135, 90, 3, 2);		//머즐플래시
+	_loading->loadFrameImage("plasmaflashImg", "Texture/item/weapons/ranged/plasmaflash_120x64_3x2.bmp", 120, 64, 3, 2);		//플라즈마플래시
 
 	_loading->loadFrameImage("standardBullet", "Texture/item/weapons/ranged/standardbullet.bmp", 51, 9, 1, 1);					//기본불릿
+	_loading->loadFrameImage("bulletEffectImg", "Texture/item/weapons/ranged/bulletEffect_161x25_7x1.bmp", 161, 25, 7, 1);		//불릿이펙트
+	_loading->loadFrameImage("plasmaBullet", "Texture/item/weapons/ranged/plasma_288x44_4x1.bmp", 288, 44, 4, 1);				//플라즈마불릿
+	_loading->loadFrameImage("plasmaEffectImg", "Texture/item/weapons/ranged/plasmaEffect_78x39_2x1.bmp", 78, 39, 2, 1);		//플라즈마이펙트
 
 	_loading->loadFrameImage("tearswoosh1Img", "Texture/item/weapons/melee/broadsword/tearswoosh1_732x295_3x2.bmp", 732, 295, 3, 2);	//칼공격1번
 	_loading->loadFrameImage("tearswoosh2Img", "Texture/item/weapons/melee/broadsword/tearswoosh2_363x116_3x2.bmp", 363, 116, 3, 2);	//칼공격2번
@@ -135,6 +145,10 @@ void loadingScene::loadingEffect()
 	EFFECTMANAGER->addEffect("PLAYER_DEATH", "PLAYERDEAthImg", 0.3f, 1);
 
 	EFFECTMANAGER->addEffect("muzzleflash", "muzzleflashImg", 0.4f, 10);
+	EFFECTMANAGER->addEffect("bulletEffect", "bulletEffectImg", 1.4f, 15);
+
+	EFFECTMANAGER->addEffect("plasmaflash", "plasmaflashImg", 0.4f, 10);
+	EFFECTMANAGER->addEffect("plasmaEffect", "plasmaEffectImg", 1.0f, 15);
 
 	EFFECTMANAGER->addEffect("kluex_Staff_Plasma", "kluexstaffplasmaImg", 0.05f, 20);
 	EFFECTMANAGER->addEffect("red_Pulse_Cannon_Explosion", "redpulsecannonexplosionImg", 0.05, 20);
@@ -231,9 +245,13 @@ void loadingScene::loadingObjects()
 void loadingScene::loadingItem()
 {
 	_loading->loadFrameImage("우주검", "Texture/item/weapons/melee/broadsword/astrosabredeluxe_330x116_1x2.bmp", 330, 116, 1, 2);
-	_loading->loadFrameImage("샷건", "Texture/item/weapons/ranged/shotgun.bmp", 207, 96, 1,2);
-	_loading->loadImage("샷건아이콘", "Texture/item/weapons/ranged/shotgunIcon.bmp", 40, 40, true, MAGENTA);
 	_loading->loadImage("우주검아이콘", "Texture/item/weapons/melee/broadsword/astrosabredeluxeIcon.bmp", 40, 40, true, MAGENTA);
+
+	_loading->loadFrameImage("샷건", "Texture/item/weapons/ranged/shotgun_207x96_2x1.bmp", 207, 96, 1,2);
+	_loading->loadImage("샷건아이콘", "Texture/item/weapons/ranged/shotgunIcon.bmp", 40, 40, true, MAGENTA);
+
+	_loading->loadFrameImage("플라즈마건", "Texture/item/weapons/ranged/plasmarifle_207x96_2x1.bmp", 207, 96, 1, 2);
+	_loading->loadImage("플라즈마건아이콘", "Texture/item/weapons/ranged/plasmarifleIcon.bmp", 40, 40, true, MAGENTA);
 }
 
 void loadingScene::loadingPlayer()
