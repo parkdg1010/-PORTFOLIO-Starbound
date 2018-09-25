@@ -99,6 +99,9 @@
     <Filter Include="GameObjects\아이템\무기\ranged">
       <UniqueIdentifier>{2e9c1838-b06c-4dc8-95e1-8f630fb2ac2c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameObjects\gameUI">
+      <UniqueIdentifier>{993abb87-feff-487a-a220-d94884ddbf69}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="commonMacroFunction.h">
@@ -245,9 +248,6 @@
     <ClInclude Include="itemManager.h">
       <Filter>GameObjects\아이템</Filter>
     </ClInclude>
-    <ClInclude Include="inventory.h">
-      <Filter>GameObjects</Filter>
-    </ClInclude>
     <ClInclude Include="spaceSword.h">
       <Filter>GameObjects\아이템\무기\melee</Filter>
     </ClInclude>
@@ -258,7 +258,10 @@
       <Filter>GameObjects\아이템\무기\ranged</Filter>
     </ClInclude>
     <ClInclude Include="warpUI.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>GameObjects\gameUI</Filter>
+    </ClInclude>
+    <ClInclude Include="inventory.h">
+      <Filter>GameObjects\gameUI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -397,9 +400,6 @@
     <ClCompile Include="itemManager.cpp">
       <Filter>GameObjects\아이템</Filter>
     </ClCompile>
-    <ClCompile Include="inventory.cpp">
-      <Filter>GameObjects</Filter>
-    </ClCompile>
     <ClCompile Include="spaceSword.cpp">
       <Filter>GameObjects\아이템\무기\melee</Filter>
     </ClCompile>
@@ -410,7 +410,10 @@
       <Filter>GameObjects\아이템\무기\ranged</Filter>
     </ClCompile>
     <ClCompile Include="warpUI.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>GameObjects\gameUI</Filter>
+    </ClCompile>
+    <ClCompile Include="inventory.cpp">
+      <Filter>GameObjects\gameUI</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

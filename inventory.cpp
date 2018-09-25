@@ -22,6 +22,8 @@ HRESULT inventory::init()
 	_hpBar = new progressBar;
 	_hpBar->init("Texture/ui/inventory/invenHealth", "", -100, -100, 83, 13);
 
+	_uiDC = UIMANAGER->getUIDC();
+
 	return S_OK;
 }
 
@@ -68,7 +70,6 @@ void inventory::render()
 {
 	if (_isActive)
 	{
-		_uiDC = UIMANAGER->getUIDC();
 		//인벤토리 렌더
 		ctrlPanelRender();
 		//아이템 아이콘 렌더

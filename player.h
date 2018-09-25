@@ -52,7 +52,8 @@ private:
 	gameStage* _stage;					//스테이지 상호참조
 	enemyManager* _enemyManager;		//에너미매니저 상호참조
 
-	Synthesize(inventory*, _inventory, Inventory)
+	Synthesize(inventory*, _inventory, Inventory)	//인벤토리
+	Synthesize()
 	Synthesize(int, _jumpCount, JumpCount)			//이단점프
 	Synthesize(float, _dashSpeed, DashSpeed)		//대쉬속도
 	Synthesize(float, _energy, Energy)				//기력
