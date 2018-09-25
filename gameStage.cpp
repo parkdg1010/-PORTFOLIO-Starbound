@@ -109,14 +109,14 @@ void gameStage::loadStageBuffer()
 		if (_stage[i].terrain != TR_NONE)
 		{
 			_tiles[_stage[i].terrain + _stage[i].frontBack]->frameRender(_stageBuffer->getMemDC(),
-				_stage[i].rc.left - 10 - CAM->getX(),
-				_stage[i].rc.top - 10 - CAM->getY(),
+				_stage[i].rc.left - 10,
+				_stage[i].rc.top - 10,
 				_stage[i].terrainFrameX,
 				_stage[i].terrainFrameY);
 			if (_stage[i].frontBack == FRONT)
 			{
-				_pixelTiles->frameRender(_pixelBuffer->getMemDC(), _stage[i].rc.left - 10 - CAM->getX(),
-					_stage[i].rc.top - 10 - CAM->getY(), 0, 0);
+				_pixelTiles->frameRender(_pixelBuffer->getMemDC(), _stage[i].rc.left - 10,
+					_stage[i].rc.top - 10, 0, 0);
 			}
 		}
 		//발판 픽셀버퍼만들기
@@ -125,14 +125,14 @@ void gameStage::loadStageBuffer()
 			//계단은 대각선으로
 			if (_stage[i].objFrameX) // 0만 아니면 계단임
 			{
-				_pixelTiles->frameRender(_pixelBuffer->getMemDC(), _stage[i].rc.left - 10 - CAM->getX(),
-					_stage[i].rc.top - 10 - CAM->getY(), 2, 0);
+				_pixelTiles->frameRender(_pixelBuffer->getMemDC(), _stage[i].rc.left - 10,
+					_stage[i].rc.top - 10, 2, 0);
 			}
 			//발판은 일자로
 			else
 			{
-				_pixelTiles->frameRender(_pixelBuffer->getMemDC(), _stage[i].rc.left - 10 - CAM->getX(),
-					_stage[i].rc.top - 10 - CAM->getY(), 1, 0);
+				_pixelTiles->frameRender(_pixelBuffer->getMemDC(), _stage[i].rc.left - 10,
+					_stage[i].rc.top - 10, 1, 0);
 			}
 		}
 
