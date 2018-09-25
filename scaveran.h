@@ -1,0 +1,50 @@
+#pragma once
+#include "enemy.h"
+
+namespace SCAVERAN_CONST
+{
+	//TODO 재조정
+	const int WIDTH = 113;
+	const int HEIGHT = 54;
+	enum STATE
+	{
+		IDLE,
+		IDLE_BOBUP,
+		IDLE_BOBSIDE,
+		IDLE_BOBDOWN,
+		MOVE,
+		HURT
+	};
+}
+
+class scaveran : public enemy
+{
+	animation* _imgR[6];
+	animation* _imgL[6];
+
+	int _stateDelay;
+	RECT _searchingRc;	//찾으면 접근
+	bool _isSearch;
+
+	int _keepWalk;
+	int _wanderDelay;
+	int _wanderDirection;
+
+public:
+	virtual void move();
+	virtual void collide();
+	virtual bool collideStage(int range);
+	virtual bool collideObject(gameObject* gameObject = NULL);
+	virtual void damaged(gameObject* actor);
+
+	void updateHitbox();
+
+	virtual HRESULT init();
+	virtual void update();
+	virtual void render();
+	virtual void release();
+
+	scaveran() {}
+	~scaveran() {}
+};
+

@@ -175,6 +175,8 @@ void loadingScene::loadingMapToolImage()
 
 	//스포너
 	_loading->loadImage("FENNIX스포너", "Texture/spawner/fennixSpawner.bmp", 48, 86, true, MAGENTA);
+	_loading->loadImage("SCAVERAN스포너", "Texture/spawner/scaveranSpawner.bmp", 48, 86, true, MAGENTA);
+	_loading->loadImage("BOSS스포너", "Texture/spawner/kluexBossSpawner.bmp", 48, 86, true, MAGENTA);
 
 	//UI
 	_loading->loadImage("맵툴UI", "Texture/maptool/ui/CtrlInterface_503x486.bmp", 503, 486, true, MAGENTA);
@@ -294,4 +296,6 @@ void loadingScene::loadingMonster()
 	_loading->loadImage("BIRDBOSS1", "Texture/enemy/monsters/boss/kluexbossstatue/kluexbossstatue_4719x1089_13x3.bmp", 4719, 1089, true, MAGENTA);
 	_loading->loadImage("FENNIX_R", "Texture/enemy/monsters/walkers/fennix/fennix_R_960x288.bmp", 960, 288, true, MAGENTA);
 	_loading->loadImage("FENNIX_L", "Texture/enemy/monsters/walkers/fennix/fennix_L_960x288.bmp", 960, 288, true, MAGENTA);
+	_loading->loadImage("SCAVERAN_L", "Texture/enemy/monsters/walkers/fennix/scaveran_L_924x510.bmp", 924, 510, true, MAGENTA);
+	_loading->loadImage("SCAVERAN_R", "Texture/enemy/monsters/walkers/fennix/scaveran_R_924x510.bmp", 924, 510, true, MAGENTA);
 }

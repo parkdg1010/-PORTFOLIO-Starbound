@@ -225,6 +225,8 @@ void mapToolScene::initImage()
 
 	//액터
 	_actorSpawner[FENNIX] = IMAGEMANAGER->findImage("FENNIX스포너");
+	_actorSpawner[SCAVERAN] = IMAGEMANAGER->findImage("SCAVERAN스포너");
+	_actorSpawner[KLUEXBOSS] = IMAGEMANAGER->findImage("BOSS스포너");
 
 	//배경
 	_backGroundTop[0] = IMAGEMANAGER->findImage("배경Top0");
@@ -412,7 +414,7 @@ void mapToolScene::setMap()
 				}
 				if (_currentTab == CTRL_ACTORTAB)
 				{
-					//TODO : spawner마크를 깔아주고 좌표만 저장해서 인게임에 넘겨주자
+					//spawner마크를 깔아주고 좌표만 저장해서 인게임에 넘겨주자
 					if (PtInRect(&_stage[i * _tileX + j].rc, mouse))
 					{
 						_stage[i * _tileX + j].actor = _currentTile.actorType;
@@ -818,6 +820,20 @@ void mapToolScene::tabTileSetup()
 			_currentTile.frameX = 0;
 			_currentTile.frameY = 0;
 		}
+		if (PtInRect(&_rcButton[1], _ptMouse))
+		{
+			_currentTile.actorType = ACTOR_ENEMY;
+			_currentTile.enemyType = SCAVERAN;
+			_currentTile.frameX = 0;
+			_currentTile.frameY = 0;
+		}
+		if (PtInRect(&_rcButton[2], _ptMouse))
+		{
+			_currentTile.actorType = ACTOR_ENEMY;
+			_currentTile.enemyType = KLUEXBOSS;
+			_currentTile.frameX = 0;
+			_currentTile.frameY = 0;
+		}
 	}
 	else if (_currentTab == CTRL_ERASER)
 	{
@@ -937,12 +953,16 @@ void mapToolScene::stageRender()
 							curRender = _actorSpawner[FENNIX];
 							break;
 						case SCAVERAN:
+							curRender = _actorSpawner[SCAVERAN];
 							break;
 						case TOUMINGO:
 							break;
 						case TRICTUS:
 							break;
 						case VOLTIP:
+							break;
+						case KLUEXBOSS:
+							curRender = _actorSpawner[KLUEXBOSS];
 							break;
 						}
 						break;
@@ -1030,6 +1050,12 @@ void mapToolScene::curtileMouseRender()
 				{
 				case FENNIX:
 					curRender = _actorSpawner[FENNIX];
+					break;
+				case SCAVERAN:
+					curRender = _actorSpawner[SCAVERAN];
+					break;
+				case KLUEXBOSS:
+					curRender = _actorSpawner[KLUEXBOSS];
 					break;
 				}
 				break;

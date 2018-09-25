@@ -1,16 +1,26 @@
 #include "stdafx.h"
 #include "gameStage.h"
 #include "player.h"
+#include "enemyManager.h"
 
 HRESULT gameStage::init()
 {
 	initImage();
+
+	if (_enemyFac == NULL)
+		_enemyFac = new enemyFactory;
+
+	_treeLightsCount = _treeLightsIdx = _ornatetorchCount = _ornatetorchIdx = 0;
 
 	return S_OK;
 }
 
 void gameStage::update()
 {
+	DELAYCOUNT(_treeLightsCount, 15);
+	if (_treeLightsCount == 0)	_treeLightsIdx = RND->getInt(2);
+	DELAYCOUNT(_ornatetorchCount, 22);
+	if (_ornatetorchCount == 0) _ornatetorchIdx = RND->getInt(4);
 }
 
 void gameStage::render()
@@ -20,6 +30,8 @@ void gameStage::render()
 	FillRect(getMemDC(), &rc, myBrush);
 
 	stageRender();
+	stageObjectFrameRender();
+
 	if(_isDebug)
 		_pixelBuffer->render(getMemDC(), CAM->getSX(), CAM->getSY(), CAM->getSourX(), CAM->getSourY(), WINSIZEX, WINSIZEY);
 		// 화면의 sx,sy 좌표부터 그리기 시작해서 소스의 sourX, sourY점부터 WINSIZEX, WINSIZEY 범위만큼 그림
@@ -32,6 +44,8 @@ void gameStage::release()
 
 	_pixelBuffer->release();
 	SAFE_DELETE(_pixelBuffer);
+
+	SAFE_DELETE(_enemyFac);
 }
 
 void gameStage::saveStage()
@@ -139,12 +153,13 @@ void gameStage::loadStageBuffer()
 		//액터 타입,위치 넘겨주기
 		if (_stage[i].actor != ACTOR_NONE)
 		{
-			ACTOR_TYPE_POS temp;
+			POINTf pos;
 			if (_stage[i].actor == ACTOR_ENEMY)
 			{
 				//타일사이즈 절반씩 더해서 중앙맞춤
-				temp = { _stage[i].enemy, i % _tileX * TILESIZE + TILESIZE * 0.5f, i / _tileX * TILESIZE + TILESIZE * 0.5f };
-				_vEnemyPosition.push_back(temp);
+				pos = { i % _tileX * TILESIZE + TILESIZE * 0.5f, i / _tileX * TILESIZE + TILESIZE * 0.5f };
+				enemy* temp = _enemyFac->createEnemy(_stage[i].enemy, pos);
+				_enemyManager->addEnemy(temp);
 			}
 			else if (_stage[i].actor == ACTOR_NPC)
 			{
@@ -213,31 +228,54 @@ void gameStage::stageRender()
 
 		//스테이지 랜더
 		_stageBuffer->render(getMemDC(), CAM->getSX(), CAM->getSY(), CAM->getSourX(), CAM->getSourY(), WINSIZEX, WINSIZEY); //카메라 쉐이크할 이미지에 CAM->getSX(), CAM->getSY()
+	}
+}
 
-		/*int startX = (CAM->getX()) / TILESIZE - 2;
-		int startY = (CAM->getY()) / TILESIZE - 2;
-		int endX = (CAM->getX() + WINSIZEX) / TILESIZE + 2;
-		int endY = (CAM->getY() + WINSIZEY) / TILESIZE + 2;
+void gameStage::stageObjectFrameRender()
+{
+	int startX = (CAM->getX()) / TILESIZE - 2;
+	int startY = (CAM->getY()) / TILESIZE - 2;
+	int endX = (CAM->getX() + WINSIZEX) / TILESIZE + 2;
+	int endY = (CAM->getY() + WINSIZEY) / TILESIZE + 2;
 
-		if (startX < 0) startX = 0;
-		if (startY < 0) startY = 0;
-		if (endX >= _tileX) endX = _tileX;
-		if (endY >= _tileY) endY = _tileY;
+	if (startX < 0) startX = 0;
+	if (startY < 0) startY = 0;
+	if (endX >= _tileX) endX = _tileX;
+	if (endY >= _tileY) endY = _tileY;
 
-		if (KEYMANAGER->isToggleKey('1'))
+	for (int i = startY; i < endY; ++i)
+	{
+		for (int j = startX; j < endX; ++j)
 		{
-			HBRUSH myBrush = (HBRUSH)GetStockObject(NULL_BRUSH);
-			HBRUSH oldBrush = (HBRUSH)SelectObject(getMemDC(), myBrush);
-			for (int i = startY; i < endY; ++i)
+			image* curRender = NULL;
+			switch (_stage[i * _tileX + j].object)
 			{
-				for (int j = startX; j < endX; ++j)
-				{
-					Rectangle(getMemDC(), _stage[i*_tileX + j].rc.left - CAM->getX(), _stage[i*_tileX + j].rc.top - CAM->getY(),
-						_stage[i*_tileX + j].rc.right - CAM->getX(), _stage[i*_tileX + j].rc.bottom - CAM->getY());
-				}
+			case OBJECT_WOODENCRATE1:
+				curRender = _woodencrate1;
+				break;
+			case OBJECT_TREELIGHTS:
+				_treeLights->frameRender(getMemDC(),
+					_stage[i*_tileX + j].rc.left - 10 - CAM->getX(),
+					_stage[i*_tileX + j].rc.top - 10 - CAM->getY(), _treeLightsIdx, _stage[i*_tileX + j].objFrameY);
+				break;
+			case OBJECT_ORNATETORCH:
+				_ornatetorch->frameRender(getMemDC(),
+					_stage[i*_tileX + j].rc.left - 10 - CAM->getX(),
+					_stage[i*_tileX + j].rc.top - 10 - CAM->getY(), _ornatetorchIdx, _stage[i*_tileX + j].objFrameY);
+				break;
+			case OBJECT_FF_WOOD:
+				curRender = _flatform;
+				break;
+				//TODO : 오브젝트 렌더
+				//CHECK : 일일이 하는건 에바같은데 더 나은 방법을 생각해보자
 			}
-			SelectObject(getMemDC(), oldBrush);
-		}*/
+			if (curRender != NULL)
+				curRender->frameRender(getMemDC(),
+					_stage[i*_tileX + j].rc.left - 10 - CAM->getX(),
+					_stage[i*_tileX + j].rc.top - 10 - CAM->getY(),
+					_stage[i*_tileX + j].objFrameX,
+					_stage[i*_tileX + j].objFrameY);
+		}
 	}
 }
 

@@ -6,6 +6,8 @@ HRESULT kluexbossPh1::init()
 {
 	enemy::init();
 
+	_y -= 10; //맵툴로 찍으니 위치가 불안하길래 약간 올려놓았다.
+
 	_hp = KLUEX_PH1_CONST::MAX_HP;
 
 	_picL = IMAGEMANAGER->findImage("BIRDBOSS1");

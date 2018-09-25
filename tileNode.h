@@ -49,7 +49,6 @@ enum CATEGORY
 
 enum ACTOR
 {
-	//actor는 100의 자리로 저장
 	ACTOR_NONE,
 	ACTOR_ENEMY,
 	ACTOR_NPC
@@ -57,12 +56,12 @@ enum ACTOR
 
 enum ENEMY_TYPE
 {
-	//10,1의 자리로 저장
 	FENNIX,
 	SCAVERAN,
 	TOUMINGO,
 	TRICTUS,
-	VOLTIP
+	VOLTIP,
+	KLUEXBOSS
 };
 
 enum BACKGROUND_TOP
@@ -114,11 +113,4 @@ struct tagCurrentTile
 	ENEMY_TYPE enemyType;
 
 	int frameX, frameY;
-};
-
-struct ACTOR_TYPE_POS
-{
-	int type;
-	float x;
-	float y;
 };

@@ -106,12 +106,12 @@ void animation::setPlayFrame(int start, int end, bool reverse, bool loop)
 	_playList.clear();
 
 	//시작과 끝 프레임 구간이 같은경우 재생할 필요 없다
-	if (start == end)
+	/*if (start == end)
 	{
 		stop();
 		_playList.clear();
 		return;
-	}
+	}*/
 
 	//시작프레임이 종료프레임보다 큰경우
 	if (start > end)

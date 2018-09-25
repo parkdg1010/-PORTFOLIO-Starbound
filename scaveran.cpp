@@ -1,16 +1,16 @@
 #include "stdafx.h"
-#include "fennix.h"
+#include "scaveran.h"
 #include "player.h"
 
-HRESULT fennix::init()
+HRESULT scaveran::init()
 {
 	enemy::init();
 
-	_speed = 2;
-	_hp = 100;
+	_speed = 3;
+	_hp = 60;
 
-	_picR = IMAGEMANAGER->findImage("FENNIX_R");
-	_picL = IMAGEMANAGER->findImage("FENNIX_L");
+	_picR = IMAGEMANAGER->findImage("SCAVERAN_R");
+	_picL = IMAGEMANAGER->findImage("SCAVERAN_L");
 
 	for (int i = 0; i < 6; i++)
 	{
@@ -23,36 +23,26 @@ HRESULT fennix::init()
 		_imgL[i]->setFPS(1);
 	}
 
-	_imgR[FENNIX_CONST::IDLE]->setPlayFrame(1, 7);
-	_imgR[FENNIX_CONST::MOVE]->setPlayFrame(11,16);
-	_imgR[FENNIX_CONST::HURT]->setPlayFrame(9,9);
-	_imgR[FENNIX_CONST::JUMP]->setPlayFrame(18,19);
-	_imgR[FENNIX_CONST::FALL]->setPlayFrame(21,22);
-	_imgR[FENNIX_CONST::SHOOT]->setPlayFrame(27,30);
+	_imgR[SCAVERAN_CONST::IDLE]->setPlayFrame(1, 1);
+	_imgR[SCAVERAN_CONST::IDLE_BOBUP]->setPlayFrame(3, 5);
+	_imgR[SCAVERAN_CONST::IDLE_BOBSIDE]->setPlayFrame(8, 9);
+	_imgR[SCAVERAN_CONST::IDLE_BOBDOWN]->setPlayFrame(11, 13);
+	_imgR[SCAVERAN_CONST::MOVE]->setPlayFrame(29, 32);
+	_imgR[SCAVERAN_CONST::HURT]->setPlayFrame(34, 34);
 
-	_imgL[FENNIX_CONST::IDLE]->setPlayFrame(1, 7);
-	_imgL[FENNIX_CONST::MOVE]->setPlayFrame(11, 16);
-	_imgL[FENNIX_CONST::HURT]->setPlayFrame(9, 9);
-	_imgL[FENNIX_CONST::JUMP]->setPlayFrame(18, 19);
-	_imgL[FENNIX_CONST::FALL]->setPlayFrame(21, 22);
-	_imgL[FENNIX_CONST::SHOOT]->setPlayFrame(27, 30);
+	_imgL[SCAVERAN_CONST::IDLE]->setPlayFrame(1, 1);
+	_imgL[SCAVERAN_CONST::IDLE_BOBUP]->setPlayFrame(3, 5);
+	_imgL[SCAVERAN_CONST::IDLE_BOBSIDE]->setPlayFrame(8, 9);
+	_imgL[SCAVERAN_CONST::IDLE_BOBDOWN]->setPlayFrame(11, 13);
+	_imgL[SCAVERAN_CONST::MOVE]->setPlayFrame(29, 32);
+	_imgL[SCAVERAN_CONST::HURT]->setPlayFrame(34, 34);
 
-	_vBullet = new vector<bullet>;
-	bullet blt;
-	blt.init(24, 2, 3, 400, "flameImg");
-	for (int i = 0; i < 20; ++i)
-	{
-		blt.setFrameDelay(28);
-		_vBullet->push_back(blt);
-	}
-
-	_fireDelay = 0;
 	_wanderDelay = 0;
 
 	return S_OK;
 }
 
-void fennix::update()
+void scaveran::update()
 {
 	if (_isSearch)
 	{
@@ -68,7 +58,7 @@ void fennix::update()
 
 	switch (_state)
 	{
-	case FENNIX_CONST::IDLE:
+	case SCAVERAN_CONST::IDLE:
 		DELAYCOUNT(_stateDelay, 60);
 		if (_stateDelay == 0)
 		{
@@ -76,24 +66,24 @@ void fennix::update()
 		}
 		//평소엔 IDLE과 MOVE를 랜덤하게 오고감
 		break;
-	case FENNIX_CONST::HURT:
+	case SCAVERAN_CONST::HURT:
 		DELAYCOUNT(_stateDelay, 60);
 		if (_stateDelay == 0)
 		{
-			_state = FENNIX_CONST::MOVE;
+			_state = SCAVERAN_CONST::MOVE;
 		}
 		//데미지 받으면 이상태로 바꾸고 딜레이후 적절한 상태로 변경
 		break;
-	case FENNIX_CONST::MOVE:
+	case SCAVERAN_CONST::MOVE:
 		//평소엔 IDLE과 MOVE를 랜덤하게 오고감
 		//평소에는 랜덤한 방향으로 움직이다 플레이어가 가까이 다가오면 감지하고 일정거리까지 따라옴
-	case FENNIX_CONST::JUMP:
+	case SCAVERAN_CONST::JUMP:
 		//TODO 앞쪽 픽셀이 너무 높으면 점프함
-	case FENNIX_CONST::FALL:
+	case SCAVERAN_CONST::FALL:
 		move();
 		//허공에서 충돌 안되면 FALL상태
 		break;
-	case FENNIX_CONST::SHOOT:
+	case SCAVERAN_CONST::SHOOT:
 		bltFire();
 		//감지범위에 플레이어가 있으면 멈춰서서 화염방사
 		break;
@@ -127,7 +117,7 @@ void fennix::update()
 	}
 }
 
-void fennix::render()
+void scaveran::render()
 {
 	if (_dir == RIGHT)
 	{
@@ -141,7 +131,7 @@ void fennix::render()
 	}
 }
 
-void fennix::release()
+void scaveran::release()
 {
 	for (int i = 0; i < 6; ++i)
 	{
@@ -150,78 +140,14 @@ void fennix::release()
 	}
 }
 
-void fennix::bltFire()
+
+void scaveran::move()
 {
-	//TODO : 불릿프레임 천천히 돌게하고, 발사딜레이 주기
-	if (_isFire)
-	{
-		DELAYCOUNT(_fireDelay, 14);
-		if (_fireDelay == 0)
-		{
-			for (int i = 0; i < _vBullet->size(); ++i)
-			{
-				if (_vBullet->at(i).getIsActive()) continue;
-
-				//EFFECTMANAGER->play("red_Pulse_Cannon_Explosion", (int)_vPlasmaBall[temp].getX(), (int)_vPlasmaBall[temp].getY());
-				_vBullet->at(i).fire(_x, _y, utl::getAnglePL(_x, _y, _player->getX(), _player->getY()));
-				break;
-			}
-		}
-	}
-	else
-	{
-		_state = FENNIX_CONST::IDLE;
-	}
-}
-
-void fennix::bltUpdate()
-{
-	//화염방사
-	for (int i = 0; i < _vBullet->size(); ++i)
-	{
-		_vBullet->at(i).update();
-		if (_vBullet->at(i).getIsActive())
-		{
-			if (_mapPixel != NULL)
-			{
-				_vBullet->at(i).collideMap(_mapPixel);
-			}
-		}
-	}
-
-	for (int i = 0; i < _vBullet->size(); ++i)
-	{
-		if (_vBullet->at(i).collideActor(_player))
-		{
-			EFFECTMANAGER->play("", _vBullet->at(i).getX(), _vBullet->at(i).getY());
-			_player->damaged(&_vBullet->at(i));
-			_vBullet->at(i).setIsActive(false);
-		}
-	}
-}
-
-void fennix::bltRender()
-{
-	//화염방사
-	for (int i = 0; i < _vBullet->size(); ++i)
-	{
-		_vBullet->at(i).render(true);
-	}
-}
-
-void fennix::move()
-{
-	if (_isFire)
-	{
-		_state = FENNIX_CONST::SHOOT;
-		return;
-	}
-
 	_oldX = _x;
 	_oldY = _y;
 
 	//플레이어 감지
-	if(_isSearch)
+	if (_isSearch)
 	{
 		float moveAngle = utl::getAnglePL(_x, _y, _player->getX(), _player->getY());
 		_x += _speed * cosf(moveAngle);
@@ -238,13 +164,13 @@ void fennix::move()
 		}
 		if (_wanderDirection == 0) _dir = RIGHT;
 		else _dir = LEFT;
-		_x += (_speed-0.5f) * cosf(PI * _wanderDirection);
+		_x += (_speed - 0.5f) * cosf(PI * _wanderDirection);
 	}
 
 	_y += _gravity; //걸을떄 0이 안들어감 계속 충돌
 	_gravity += 0.29f; //24, 29, 32 세가지로 나누자
 
-	if (_state == FENNIX_CONST::JUMP)
+	if (_state == SCAVERAN_CONST::JUMP)
 	{
 		_y += _speed * -sinf(PI*0.5);
 		updateHitbox();
@@ -253,20 +179,20 @@ void fennix::move()
 	//_y가 +=_gravity해서 0.5f 더해진 만큼 여유를 주고 FALL검사
 	if (_y > _oldY + 0.32f) //이전보다 아래로 떨어져있으면
 	{
-		if (_state == FENNIX_CONST::JUMP)
+		if (_state == SCAVERAN_CONST::JUMP)
 			_gravity += -sinf(PI*0.5) * _speed; //중력값에서 점프거리를 빼서 자연스런 낙하
 
 		if (!_keepWalk)
-			_state = FENNIX_CONST::FALL;
+			_state = SCAVERAN_CONST::FALL;
 	}
 }
 
-void fennix::collide()
+void scaveran::collide()
 {
 	collideStage((int)_speed);
 }
 
-bool fennix::collideStage(int range)
+bool scaveran::collideStage(int range)
 {
 	updateHitbox();
 
@@ -275,31 +201,31 @@ bool fennix::collideStage(int range)
 	int r, g, b;
 
 	//맵밖으로 못나가게
-	if (_x - FENNIX_CONST::WIDTH * 0.5f < 0)
+	if (_x - SCAVERAN_CONST::WIDTH * 0.5f < 0)
 	{
-		_x = FENNIX_CONST::WIDTH * 0.5f;
+		_x = SCAVERAN_CONST::WIDTH * 0.5f;
 	}
 
-	if (_x + FENNIX_CONST::WIDTH * 0.5f > _mapPixel->getWidth())
+	if (_x + SCAVERAN_CONST::WIDTH * 0.5f > _mapPixel->getWidth())
 	{
-		_x = _mapPixel->getWidth() - FENNIX_CONST::WIDTH * 0.5f;
+		_x = _mapPixel->getWidth() - SCAVERAN_CONST::WIDTH * 0.5f;
 	}
 
-	if (_y - FENNIX_CONST::HEIGHT * 0.5f < 0)
+	if (_y - SCAVERAN_CONST::HEIGHT * 0.5f < 0)
 	{
-		_y = FENNIX_CONST::HEIGHT * 0.5f;
+		_y = SCAVERAN_CONST::HEIGHT * 0.5f;
 	}
 
-	if (_y + FENNIX_CONST::HEIGHT * 0.5 > _mapPixel->getHeight())
+	if (_y + SCAVERAN_CONST::HEIGHT * 0.5 > _mapPixel->getHeight())
 	{
-		_y = _mapPixel->getHeight() - FENNIX_CONST::HEIGHT * 0.5f;
+		_y = _mapPixel->getHeight() - SCAVERAN_CONST::HEIGHT * 0.5f;
 	}
 
 	//_speed값 만큼 벽을 뚫고 나갔을 경우 뚫고나간 현재 위치(x,y,에서 보정한 값)에서 
 	// 벽 반대쪽으로 _speed값만을 벽방향으로 1픽셀(i값)씩 검사하면 된다.
 
 	//위쪽 검사
-	for (int i = _y - FENNIX_CONST::HEIGHT * 0.5f + range; i >= _y - FENNIX_CONST::HEIGHT * 0.5f; --i)
+	for (int i = _y - SCAVERAN_CONST::HEIGHT * 0.5f + range; i >= _y - SCAVERAN_CONST::HEIGHT * 0.5f; --i)
 	{
 		color = GetPixel(_mapPixel->getMemDC(), (int)_x, i);
 		r = GetRValue(color);
@@ -308,7 +234,7 @@ bool fennix::collideStage(int range)
 
 		if (r == 0 && g == 0 && b == 255)
 		{
-			_y = i + FENNIX_CONST::HEIGHT * 0.5f;
+			_y = i + SCAVERAN_CONST::HEIGHT * 0.5f;
 			updateHitbox();
 			upCollision = true;
 			break;
@@ -317,10 +243,10 @@ bool fennix::collideStage(int range)
 
 	//아래쪽 검사
 	//WALK상태 FALL상태에 대해 처리해야함
-	if (_state == FENNIX_CONST::MOVE) _keepWalk = 15;
+	if (_state == SCAVERAN_CONST::MOVE) _keepWalk = 15;
 	else _keepWalk = 0;
 
-	for (int i = _y + FENNIX_CONST::HEIGHT * 0.5f - range; i <= _y + FENNIX_CONST::HEIGHT * 0.5f + _keepWalk; ++i)
+	for (int i = _y + SCAVERAN_CONST::HEIGHT * 0.5f - range; i <= _y + SCAVERAN_CONST::HEIGHT * 0.5f + _keepWalk; ++i)
 	{
 		color = GetPixel(_mapPixel->getMemDC(), (int)_x, i);
 		r = GetRValue(color);
@@ -330,17 +256,16 @@ bool fennix::collideStage(int range)
 		//타일
 		if (r == 0 && g == 0 && b == 255)
 		{
-			_y = i - FENNIX_CONST::HEIGHT * 0.5f;
+			_y = i - SCAVERAN_CONST::HEIGHT * 0.5f;
 			updateHitbox();
 			_gravity = 0;
-			if (_state == FENNIX_CONST::FALL) _state = FENNIX_CONST::IDLE;
-				//changeState(FENNIX_CONST::IDLE);
+			if (_state == SCAVERAN_CONST::FALL) _state = SCAVERAN_CONST::IDLE;
 			break;
 		}
 	}
 
 	//왼쪽 검사
-	for (int i = _x - FENNIX_CONST::WIDTH * 0.5f + range; i >= _x - FENNIX_CONST::WIDTH * 0.5f; --i)
+	for (int i = _x - SCAVERAN_CONST::WIDTH * 0.5f + range; i >= _x - SCAVERAN_CONST::WIDTH * 0.5f; --i)
 	{
 		color = GetPixel(_mapPixel->getMemDC(), i, (int)_y);
 		r = GetRValue(color);
@@ -349,14 +274,14 @@ bool fennix::collideStage(int range)
 
 		if (r == 0 && g == 0 && b == 255)
 		{
-			_x = i + FENNIX_CONST::WIDTH * 0.5f;
+			_x = i + SCAVERAN_CONST::WIDTH * 0.5f;
 			updateHitbox();
 			break;
 		}
 	}
 
 	//오른쪽 검사
-	for (int i = _x + FENNIX_CONST::WIDTH * 0.5f - range; i <= _x + FENNIX_CONST::WIDTH * 0.5f; ++i)
+	for (int i = _x + SCAVERAN_CONST::WIDTH * 0.5f - range; i <= _x + SCAVERAN_CONST::WIDTH * 0.5f; ++i)
 	{
 		color = GetPixel(_mapPixel->getMemDC(), i, (int)_y);
 		r = GetRValue(color);
@@ -365,7 +290,7 @@ bool fennix::collideStage(int range)
 
 		if (r == 0 && g == 0 && b == 255)
 		{
-			_x = i - FENNIX_CONST::WIDTH * 0.5f;
+			_x = i - SCAVERAN_CONST::WIDTH * 0.5f;
 			updateHitbox();
 			break;
 		}
@@ -374,15 +299,15 @@ bool fennix::collideStage(int range)
 	return false;
 }
 
-bool fennix::collideObject(gameObject * gameObject)
+bool scaveran::collideObject(gameObject * gameObject)
 {
 	return false;
 }
 
-void fennix::damaged(gameObject * actor)
+void scaveran::damaged(gameObject * actor)
 {
 	_hp -= actor->getDamage();
-	_state = FENNIX_CONST::HURT; //데미지 받으면 상태변경
+	_state = SCAVERAN_CONST::HURT; //데미지 받으면 상태변경
 	if (_hp <= 0)
 	{
 		_hp = 0;
@@ -390,7 +315,8 @@ void fennix::damaged(gameObject * actor)
 	}
 }
 
-void fennix::updateHitbox()
+void scaveran::updateHitbox()
 {
-	_hitBox = RectMakeCenter((int)_x, (int)_y, FENNIX_CONST::WIDTH, FENNIX_CONST::HEIGHT);
+	_hitBox = RectMakeCenter((int)_x, (int)_y, SCAVERAN_CONST::WIDTH, SCAVERAN_CONST::HEIGHT);
 }
+

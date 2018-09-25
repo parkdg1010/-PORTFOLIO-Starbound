@@ -320,9 +320,10 @@ void player::inputKey()
 		}
 	}
 
-	if (_isWarpOnline)
+	
+	if (KEYMANAGER->isOnceKeyDown('E'))
 	{
-		if (KEYMANAGER->isOnceKeyDown('E'))
+		if (_isWarpOnline)
 		{
 			if (!_warpUI->getIsActive())
 			{
@@ -332,12 +333,16 @@ void player::inputKey()
 			else
 				_warpUI->setIsActive(false);
 		}
+		else
+		{
+			_warpUI->setIsActive(false); //warpUI창을 연상태에서 몹을 만나도 닫을수 있게
+		}
 	}
 
 	if (_weapon != NULL)
 	{
-		//인벤토리가 닫혀있을때만 전투
-		if (!_inventory->getIsActive())
+		//인벤토리, 워프ui가 닫혀있어야 공격가능
+		if (!_inventory->getIsActive() && !_warpUI->getIsActive())
 		{
 			if (KEYMANAGER->isOnceKeyDown(VK_LBUTTON))
 			{
@@ -709,7 +714,7 @@ void player::updateHitbox()
 {
 	_hitBox = RectMakeCenter((int)_x, (int)_y, PLAYER_CONST::WIDTH, PLAYER_CONST::HEIGHT);
 
-	_rcWarpOnline = RectMakeCenter((int)_x, (int)_y, PLAYER_CONST::WIDTH * 3, PLAYER_CONST::HEIGHT * 3);
+	_rcWarpOnline = RectMakeCenter((int)_x, (int)_y, PLAYER_CONST::WIDTH * 13, PLAYER_CONST::HEIGHT * 3);
 }
 
 void player::direction()

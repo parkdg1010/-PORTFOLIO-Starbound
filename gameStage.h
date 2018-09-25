@@ -1,8 +1,10 @@
 #pragma once
 #include "gameNode.h"
 #include "tileNode.h"
+#include "enemyFactory.h"
 
 class player;
+class enemyManager;
 class gameStage : public gameNode
 {
 protected:
@@ -21,9 +23,12 @@ protected:
 	image* _stageBuffer;
 	image* _pixelBuffer;
 
-	player* _player;
+	int _treeLightsCount, _treeLightsIdx, _ornatetorchCount, _ornatetorchIdx; //프레임렌더 오브젝트
 
-	Synthesize(vector<ACTOR_TYPE_POS>, _vEnemyPosition, EnemyPosition)
+	player* _player;
+	enemyManager* _enemyManager;
+	enemyFactory* _enemyFac;
+
 	Synthesize(int, _stageNum, StageNum)
 
 public:
@@ -45,10 +50,12 @@ public:
 	void initImage();
 
 	void stageRender();
+	void stageObjectFrameRender();	//프레임렌더 오브젝트
 
 	void linkPlayer(player* p) { _player = p; }
+	void linkEnemyManager(enemyManager* em) { _enemyManager = em; }
 
-	gameStage() : _stageBuffer(NULL), _pixelBuffer(NULL) {}
+	gameStage() : _stageBuffer(NULL), _pixelBuffer(NULL), _enemyFac(NULL) {}
 	~gameStage() {}
 };
 

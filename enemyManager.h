@@ -1,12 +1,13 @@
 #pragma once
 #include "gameNode.h"
-#include "gameStage.h"
 #include "bullet.h"
 #include "enemy.h"
 #include "kluexboss.h"
 #include "fennix.h"
+#include "scaveran.h"
 
 class player;
+class gameStage;
 class enemyManager : public gameNode
 {
 private:
@@ -36,11 +37,3 @@ public:
 	enemyManager() {}
 	~enemyManager() {}
 };
-
-class enemyFactory
-{
-public:
-	enemy * createEnemy(int type, POINTf pos = { WINSIZEX / 2, WINSIZEY / 2 }, int dir = 1);
-	enemy * createEnemy(int type, float posX = WINSIZEX / 2, float posY =  WINSIZEY / 2 , int dir = 1);
-};
-

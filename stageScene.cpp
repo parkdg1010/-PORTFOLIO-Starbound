@@ -5,17 +5,18 @@ HRESULT stageScene::init()
 {
 	if(_itemFac == NULL)
 		_itemFac = new itemFactory;
-	if(_enemyFac == NULL)
-		_enemyFac = new enemyFactory;
 	if(_stage == NULL)
-		_stage = new dungeonStage;
+		_stage = new gameStage;
 	if(_enemyManager == NULL)
 		_enemyManager = new enemyManager;
 
+	_player = SAVEDATA->getPlayer();
+
+	_stage->linkEnemyManager(_enemyManager);
 	_stage->init();
+	_stage->setStageNum(_player->getStageNum());
 	_stage->loadStage();
 
-	_player = SAVEDATA->getPlayer();
 	_player->setGravityAccel(0.29f);
 	_player->init();
 	_player->linkStage(_stage);
@@ -31,7 +32,6 @@ HRESULT stageScene::init()
 	_enemyManager->linkPlayer(_player);
 
 	_enemyManager->linkStage(_stage);
-	createMonster();
 	_enemyManager->init();
 
 	CAMERAMANAGER->init();
@@ -61,29 +61,10 @@ void stageScene::release()
 	SAVEDATA->setPlayer(_player);
 
 	SAFE_DELETE(_itemFac);
-	SAFE_DELETE(_enemyFac);
 
 	_enemyManager->release();
 	SAFE_DELETE(_enemyManager);
 
 	_stage->release();
 	SAFE_DELETE(_stage);
-}
-
-void stageScene::createMonster()
-{
-	_kluexboss = new kluexboss;
-	POINTf pos;
-	pos = { 1000,520 };
-	_kluexboss->setPosition(pos, LEFT);
-	_enemyManager->addEnemy(_kluexboss);
-
-	vector<ACTOR_TYPE_POS> _vTemp = _stage->getEnemyPosition();
-
-	enemy* temp;
-	for (int i = 0; i < _vTemp.size(); ++i)
-	{
-		temp = _enemyFac->createEnemy(_vTemp[i].type, _vTemp[i].x, _vTemp[i].y);
-		_enemyManager->addEnemy(temp);
-	}
 }

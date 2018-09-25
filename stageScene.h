@@ -4,8 +4,6 @@
 #include "enemyManager.h"
 #include "itemManager.h"
 #include "gameStage.h"
-#include "homeStage.h"
-#include "dungeonStage.h"
 
 class stageScene : public gameNode
 {
@@ -14,7 +12,6 @@ class stageScene : public gameNode
 	gameStage* _stage;
 
 	enemyManager* _enemyManager;
-	enemyFactory* _enemyFac;
 
 	kluexboss* _kluexboss;
 
@@ -24,9 +21,7 @@ public:
 	virtual void update();
 	virtual void render();
 	virtual void release();
-
-	void createMonster();
 	
-	stageScene() { _itemFac = NULL; _enemyFac = NULL; _stage = NULL; _enemyManager = NULL; }
+	stageScene() { _itemFac = NULL; _stage = NULL; _enemyManager = NULL; }
 	~stageScene() {}
 };

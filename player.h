@@ -62,6 +62,7 @@ private:
 	Synthesize(float, _dashSpeed, DashSpeed)		//대쉬속도
 	Synthesize(float, _energy, Energy)				//기력
 	Synthesize(float, _gravityAccel, GravityAccel)	//중력가속도
+	Synthesize(int, _stageNum, StageNum)			//스테이지 넘버
 
 public:
 	virtual void move();

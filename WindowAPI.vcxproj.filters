@@ -90,9 +90,6 @@
     <Filter Include="GameActors\에너미\kluexboss">
       <UniqueIdentifier>{ca56992e-3350-4ecc-90c6-ed31a4382d87}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GameActors\에너미\Minions">
-      <UniqueIdentifier>{f655c497-a25a-4ec3-8c62-9933e9c7a6d1}</UniqueIdentifier>
-    </Filter>
     <Filter Include="GameObjects\아이템\무기\melee">
       <UniqueIdentifier>{127fbe15-7f34-4e09-afc7-73a8bdaf296e}</UniqueIdentifier>
     </Filter>
@@ -101,6 +98,9 @@
     </Filter>
     <Filter Include="GameObjects\gameUI">
       <UniqueIdentifier>{993abb87-feff-487a-a220-d94884ddbf69}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameActors\에너미\walkers">
+      <UniqueIdentifier>{f655c497-a25a-4ec3-8c62-9933e9c7a6d1}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -227,14 +227,8 @@
     <ClInclude Include="gameStage.h">
       <Filter>GameObjects\스테이지</Filter>
     </ClInclude>
-    <ClInclude Include="homeStage.h">
-      <Filter>GameObjects\스테이지</Filter>
-    </ClInclude>
-    <ClInclude Include="dungeonStage.h">
-      <Filter>GameObjects\스테이지</Filter>
-    </ClInclude>
     <ClInclude Include="fennix.h">
-      <Filter>GameActors\에너미\Minions</Filter>
+      <Filter>GameActors\에너미\walkers</Filter>
     </ClInclude>
     <ClInclude Include="meleeWeapon.h">
       <Filter>GameObjects\아이템\무기\melee</Filter>
@@ -262,6 +256,12 @@
     </ClInclude>
     <ClInclude Include="inventory.h">
       <Filter>GameObjects\gameUI</Filter>
+    </ClInclude>
+    <ClInclude Include="enemyFactory.h">
+      <Filter>GameActors\에너미</Filter>
+    </ClInclude>
+    <ClInclude Include="scaveran.h">
+      <Filter>GameActors\에너미\walkers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -379,14 +379,8 @@
     <ClCompile Include="gameStage.cpp">
       <Filter>GameObjects\스테이지</Filter>
     </ClCompile>
-    <ClCompile Include="homeStage.cpp">
-      <Filter>GameObjects\스테이지</Filter>
-    </ClCompile>
-    <ClCompile Include="dungeonStage.cpp">
-      <Filter>GameObjects\스테이지</Filter>
-    </ClCompile>
     <ClCompile Include="fennix.cpp">
-      <Filter>GameActors\에너미\Minions</Filter>
+      <Filter>GameActors\에너미\walkers</Filter>
     </ClCompile>
     <ClCompile Include="meleeWeapon.cpp">
       <Filter>GameObjects\아이템\무기\melee</Filter>
@@ -414,6 +408,12 @@
     </ClCompile>
     <ClCompile Include="inventory.cpp">
       <Filter>GameObjects\gameUI</Filter>
+    </ClCompile>
+    <ClCompile Include="enemyFactory.cpp">
+      <Filter>GameActors\에너미</Filter>
+    </ClCompile>
+    <ClCompile Include="scaveran.cpp">
+      <Filter>GameActors\에너미\walkers</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
