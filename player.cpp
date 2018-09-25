@@ -2,6 +2,7 @@
 #include "player.h"
 #include "gameStage.h"
 #include "enemyManager.h"
+#include "warpUI.h"
 
 HRESULT player::init()
 {
@@ -10,12 +11,8 @@ HRESULT player::init()
 	_oldX = _oldY = 0;
 
 	_speed = 5.f;
-	_hp = PLAYER_CONST::MAX_HP;
-	_energy = PLAYER_CONST::MAX_ENERGY;
 
 	_jumpCount = 0;
-
-	_dir = LEFT;
 
 	(_dir == LEFT) ? (_angle = 180) : (_angle = 0);
 
@@ -27,14 +24,38 @@ HRESULT player::init()
 	_isDamaged = false;
 	_damagedAlpha = 255;
 
-	_inventory = new inventory;
-	_inventory->init();
+	_gravity = 0;
 
-	_hpBar = new progressBar;
-	_hpBar->init("Texture/character/hpbar", "", 61, 31, 123, 16);
+	if (_inventory == NULL)
+	{
+		_inventory = new inventory;
+		_inventory->init();
+	}
 
-	_energyBar = new progressBar;
-	_energyBar->init("Texture/character/energybar", "", 61, 49, 123, 16);
+	if (_warpUI == NULL)
+	{
+		_warpUI = new warpUI;
+		_warpUI->linkPlayer(this);
+		_warpUI->init();
+	}
+
+	if (_hpBar == NULL)
+	{
+		_hpBar = new progressBar;
+		_hpBar->init("Texture/character/hpbar", "", 61, 31, 123, 16);
+	}
+
+	if (_energyBar == NULL)
+	{
+		_energyBar = new progressBar;
+		_energyBar->init("Texture/character/energybar", "", 61, 49, 123, 16);
+	}
+
+	_isWarpOnline = true;
+
+	_stage = NULL;
+	_enemyManager = NULL;
+	_mapPixel = NULL;
 
 	return S_OK;
 }
@@ -57,6 +78,8 @@ void player::update()
 
 		_inventory->getInvenHP()->setGauge(_hp, PLAYER_CONST::MAX_HP);
 		_inventory->update();
+
+		_warpUI->update();
 
 		_weapon = dynamic_cast<weapon*>(_inventory->getCurWeapon());
 		if (_weapon != NULL)
@@ -96,7 +119,7 @@ void player::render()
 {
 	if (_isActive)
 	{
-		_count = (_count + 1) % 18;
+		DELAYCOUNT(_count, 18);
 		if (_count == 0)
 		{
 			++_curFrameX;
@@ -205,9 +228,6 @@ void player::render()
 			else
 				_hand[LEFT]->rotateFrameRender(getMemDC(), _x + temp.x - CAM->getX(), _y + temp.y - CAM->getY(), 0, _dir, _handAngle);
 		}
-		//_hair->frameRender(getMemDC(), _x - _img[_state]->getFrameWidth()*0.5 - CAM->getX(), _y - _img[_state]->getFrameHeight() * 0.5 - CAM->getY(), 0, _curFrameY);
-		//textMake(getMemDC(), _x - CAM->getX(), _y - CAM->getY(), "X");
-		//textMake(getMemDC(), 100, 100, "중력", _gravity);
 
 		if (_weapon != NULL)
 		{
@@ -277,13 +297,46 @@ void player::inputKey()
 	if (KEYMANAGER->isOnceKeyDown('I'))
 	{
 		if (!_inventory->getIsActive())
+		{
 			_inventory->setIsActive(true);
+			_warpUI->setIsActive(false);
+		}
 		else
 			_inventory->setIsActive(false);
+	}
+	
+	//기본은 워프가능상태지만, enemy가 워프감지렉트에 충돌하면 워프가 불가능하게 되어있음
+	_isWarpOnline = true;
+	if (_enemyManager != NULL)
+	{
+		RECT temp;
+		vector<enemy*> vE = _enemyManager->getEnemy();
+		for (int i = 0; i < vE.size(); ++i)
+		{
+			if (IntersectRect(&temp, &_rcWarpOnline, &vE[i]->getHitBox()))
+			{
+				_isWarpOnline = false;
+			}
+		}
+	}
+
+	if (_isWarpOnline)
+	{
+		if (KEYMANAGER->isOnceKeyDown('E'))
+		{
+			if (!_warpUI->getIsActive())
+			{
+				_warpUI->setIsActive(true);
+				_inventory->setIsActive(false);
+			}
+			else
+				_warpUI->setIsActive(false);
+		}
 	}
 
 	if (_weapon != NULL)
 	{
+		//인벤토리가 닫혀있을때만 전투
 		if (!_inventory->getIsActive())
 		{
 			if (KEYMANAGER->isOnceKeyDown(VK_LBUTTON))
@@ -613,9 +666,12 @@ void player::damaged(gameObject * actor)
 	{
 		_hp = 0;
 		EFFECTMANAGER->play("PLAYER_DEATH", _x, _y);
-		//TODO : 씬전환해서 우주선으로 가버리자
+		//씬전환해서 우주선으로 가버리자
+		setPosition(3350, 750, RIGHT);
+		SCENEMANAGER->loadScene("우주선");
+
 		_isActive = false;
-		_hp = 200;
+		_hp = PLAYER_CONST::MAX_HP;
 	}
 }
 
@@ -631,9 +687,12 @@ void player::damaged(float damage)
 	{
 		_hp = 0;
 		EFFECTMANAGER->play("PLAYER_DEATH", _x, _y);
-		//TODO : 씬전환해서 우주선으로 가버리자
+		//씬전환해서 우주선으로 가버리자
+		setPosition(3350, 750, RIGHT);
+		SCENEMANAGER->loadScene("우주선");
+
 		_isActive = false;
-		_hp = 200;
+		_hp = PLAYER_CONST::MAX_HP;
 	}
 }
 
@@ -649,6 +708,8 @@ void player::changeState(STATE state)
 void player::updateHitbox()
 {
 	_hitBox = RectMakeCenter((int)_x, (int)_y, PLAYER_CONST::WIDTH, PLAYER_CONST::HEIGHT);
+
+	_rcWarpOnline = RectMakeCenter((int)_x, (int)_y, PLAYER_CONST::WIDTH * 3, PLAYER_CONST::HEIGHT * 3);
 }
 
 void player::direction()
@@ -666,6 +727,7 @@ void player::drawUI()
 	_portraitUI->render(uiDC);
 	_hpBar->render(uiDC);
 	_energyBar->render(uiDC);
+	_warpUI->render();
 }
 
 void player::initImage()

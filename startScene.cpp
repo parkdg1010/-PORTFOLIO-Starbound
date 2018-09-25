@@ -48,6 +48,8 @@ void startScene::update()
 		if (PtInRect(&_rcUi[0], _ptMouse))
 		{
 			_player->setPosition(3350, 750, RIGHT);
+			_player->setHp(PLAYER_CONST::MAX_HP);
+			_player->setEnergy(PLAYER_CONST::MAX_ENERGY);
 			SCENEMANAGER->loadScene("¿ìÁÖ¼±");
 		}
 		if (PtInRect(&_rcUi[1], _ptMouse))
@@ -95,6 +97,7 @@ void startScene::render()
 
 void startScene::release()
 {
+	SAVEDATA->setPlayer(_player);
 }
 
 void startScene::buttonLighting(int index)

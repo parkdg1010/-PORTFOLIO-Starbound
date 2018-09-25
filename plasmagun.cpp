@@ -31,7 +31,8 @@ void plasmagun::update()
 			{
 				if (_mapPixel != NULL)
 				{
-					_vBullet->at(i).collideMap(_mapPixel);
+					if(_vBullet->at(i).collideMap(_mapPixel))
+						EFFECTMANAGER->play("plasmaEffect", _vBullet->at(i).getX(), _vBullet->at(i).getY());
 				}
 			}
 		}

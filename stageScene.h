@@ -27,6 +27,6 @@ public:
 
 	void createMonster();
 	
-	stageScene() {}
+	stageScene() { _itemFac = NULL; _enemyFac = NULL; _stage = NULL; _enemyManager = NULL; }
 	~stageScene() {}
 };

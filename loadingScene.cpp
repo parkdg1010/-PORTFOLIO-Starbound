@@ -74,10 +74,10 @@ void loadingScene::loadingImage()
 	_loading->loadImage("우주선배경", "Texture/ships/shipBack.bmp", 2731, 1536);
 	_loading->loadImage("텔레포터", "Texture/ships/hylotlteleporter.bmp", 192, 240, true, MAGENTA);
 	_loading->loadImage("워프UI", "Texture/ships/warpUI/warpUI.bmp", 372, 334, true, MAGENTA);
-	_loading->loadImage("워프버튼", "Texture/ships/warpUI/warpButton.bmp", 94, 56, true, MAGENTA);
-	_loading->loadImage("워프_우주선", "Texture/ships/warpUI/warpentry_ship.bmp", 340, 80, true, MAGENTA);
-	_loading->loadImage("워프_집", "Texture/ships/warpUI/warpentry_home.bmp", 340, 80, true, MAGENTA);
-	_loading->loadImage("워프_던전", "Texture/ships/warpUI/warpentry_dungeon.bmp", 340, 80, true, MAGENTA);
+	_loading->loadFrameImage("워프버튼", "Texture/ships/warpUI/warpButton.bmp", 94, 56, 1, 2);
+	_loading->loadFrameImage("워프_우주선", "Texture/ships/warpUI/warpentry_ship.bmp", 340, 80, 1, 2);
+	_loading->loadFrameImage("워프_집", "Texture/ships/warpUI/warpentry_home.bmp", 340, 80, 1, 2);
+	_loading->loadFrameImage("워프_던전", "Texture/ships/warpUI/warpentry_dungeon.bmp", 340, 80, 1, 2);
 
 	//오브젝트
 	loadingObjects();

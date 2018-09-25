@@ -82,8 +82,11 @@ void gameStage::loadStage()
 
 void gameStage::loadStageBuffer()
 {
+	if (_stageBuffer != NULL) _stageBuffer = NULL;
 	_stageBuffer = new image;
 	_stageBuffer->init(_tileX * TILESIZE, _tileY * TILESIZE, true, MAGENTA);
+
+	if (_pixelBuffer != NULL) _pixelBuffer = NULL;
 	_pixelBuffer = new image;
 	_pixelBuffer->init(_tileX * TILESIZE, _tileY * TILESIZE, true, MAGENTA);
 

@@ -12,8 +12,8 @@ HRESULT spaceShipScene::init()
 
 	_player = SAVEDATA->getPlayer();
 	_player->setGravityAccel(0.17f);
-	_player->linkMapPixel(_shipPixel);
 	_player->init();
+	_player->linkMapPixel(_shipPixel);
 
 	CAMERAMANAGER->init();
 	CAMERAMANAGER->setRange(_ship->getWidth(), _ship->getHeight());
@@ -31,7 +31,6 @@ void spaceShipScene::update()
 
 void spaceShipScene::render()
 {
-	//TODO : 배경루프렌더 하나 더하기
 	RECT back = { 0,0,WINSIZEX, WINSIZEY };
 	_background->loopRender(getMemDC(), &back, _offsetX, 0);
 	_ship->render(getMemDC(), CAM->getSX(), CAM->getSY(), CAM->getSourX(), CAM->getSourY(), WINSIZEX, WINSIZEY);

@@ -69,11 +69,11 @@ void warpUI::release()
 void warpUI::ctrlPanelUpdate()
 {
 	//TODO 위치 조정할것
-	_rcUI = RectMakeCenter(_x, _y, 407, 465);
-	_rcButton = RectMakeCenter(_rcUI.left + 46, _rcUI.top + 75, 65, 65);
-	_rc[DUNGEON] = RectMakeCenter(_rcUI.left + 123, _rcUI.top + 75, 65, 65);
-	_rc[SHIP] = RectMakeCenter(_rcUI.left + 58, _rcUI.top + 140, 65, 38);
-	_rc[HOME] = RectMakeCenter(_rcUI.left + 198, _rcUI.top + 75, 65, 65);
+	_rcUI = RectMakeCenter(_x, _y, 373, 335);
+	_rcButton = RectMakeCenter(_rcUI.left+190, _rcUI.top+293, 94, 28);
+	_rc[DUNGEON] = RectMakeCenter(_rcUI.left+185, _rcUI.top+90, 340, 40);
+	_rc[SHIP] = RectMakeCenter(_rcUI.left+185, _rcUI.top+150, 340, 40);
+	_rc[HOME] = RectMakeCenter(_rcUI.left+185, _rcUI.top+210, 340, 40);
 }
 
 void warpUI::ctrlPanelMove()
@@ -110,9 +110,9 @@ void warpUI::ctrlPanelRender()
 
 void warpUI::tabButtonSet()
 {
-	_warp[DUNGEON]->setFrameX(0);
-	_warp[HOME]->setFrameX(0);
-	_warp[SHIP]->setFrameX(0);
+	_warp[DUNGEON]->setFrameY(0);
+	_warp[HOME]->setFrameY(0);
+	_warp[SHIP]->setFrameY(0);
 }
 
 void warpUI::tabChange()
@@ -139,19 +139,23 @@ void warpUI::tabChange()
 
 void warpUI::warpDone()
 {
-	
-	
-	switch (_currentTab)
+	if (PtInRect(&_rcButton, _ptMouse))
 	{
-	case DUNGEON:
-		_player->setPosition(1600, 440, LEFT);
-		SCENEMANAGER->loadScene("인게임");
-		break;
-	case HOME:
-		break;
-	case SHIP:
-		_player->setPosition(3350, 750, RIGHT);
-		SCENEMANAGER->loadScene("우주선");
-		break;
+		switch (_currentTab)
+		{
+		case DUNGEON:
+			_isActive = false;
+			_player->setPosition(1600, 440, LEFT);
+			SCENEMANAGER->loadScene("인게임");
+			break;
+		case HOME:
+			_isActive = false;
+			break;
+		case SHIP:
+			_isActive = false;
+			_player->setPosition(3350, 750, RIGHT);
+			SCENEMANAGER->loadScene("우주선");
+			break;
+		}
 	}
 }

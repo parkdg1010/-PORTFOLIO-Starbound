@@ -3,19 +3,22 @@
 
 HRESULT stageScene::init()
 {
-	_itemFac = new itemFactory;
-	_enemyFac = new enemyFactory;
-	
-	_stage = new dungeonStage;
-	_enemyManager = new enemyManager;
+	if(_itemFac == NULL)
+		_itemFac = new itemFactory;
+	if(_enemyFac == NULL)
+		_enemyFac = new enemyFactory;
+	if(_stage == NULL)
+		_stage = new dungeonStage;
+	if(_enemyManager == NULL)
+		_enemyManager = new enemyManager;
 
 	_stage->init();
 	_stage->loadStage();
 
 	_player = SAVEDATA->getPlayer();
 	_player->setGravityAccel(0.29f);
-	_player->linkStage(_stage);
 	_player->init();
+	_player->linkStage(_stage);
 	_player->getInventory()->addWeaponInven(_itemFac->createItem(TAG_RANGEDWEAPON, "shotgun", 2, 500, 8.f, 0.f,
 		"¼¦°Ç¾ÆÀÌÄÜ", "¼¦°Ç", "standardBullet", "muzzleflashImg", "bulletEffectImg"));
 	_player->getInventory()->addWeaponInven(_itemFac->createItem(TAG_PLASMAGUN, "plasmagun", 4, 1500, 30.f, 0.f,

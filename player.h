@@ -12,6 +12,7 @@ namespace PLAYER_CONST
 
 class gameStage;		//스테이지 픽셀충돌을 하기위해 상호참조
 class enemyManager;		//에너미 상호작용을 위해 상호참조
+class warpUI;			//워프ui에서 플레이어 위치를 바꾸기 위해 상호참조했다.
 class player : public gameActor
 {
 private:
@@ -49,11 +50,14 @@ private:
 
 	float _handAngle;					//손 각도
 
+	RECT _rcWarpOnline;					//워프가능 감지렉트
+	bool _isWarpOnline;					//워프가능?
+
 	gameStage* _stage;					//스테이지 상호참조
 	enemyManager* _enemyManager;		//에너미매니저 상호참조
 
 	Synthesize(inventory*, _inventory, Inventory)	//인벤토리
-	Synthesize()
+	Synthesize(warpUI*, _warpUI, WarpUI);			//워프UI-씬전환
 	Synthesize(int, _jumpCount, JumpCount)			//이단점프
 	Synthesize(float, _dashSpeed, DashSpeed)		//대쉬속도
 	Synthesize(float, _energy, Energy)				//기력
@@ -84,7 +88,7 @@ public:
 	void linkStage(gameStage* stage) { _stage = stage; }
 	void linkEnemyManager(enemyManager* EM) { _enemyManager = EM; }
 
-	player() { gameObject::init(); _weapon = NULL; _stage = NULL; }
+	player() { gameObject::init(); _weapon = NULL; _inventory = NULL; _warpUI = NULL; _hpBar = NULL; _energyBar = NULL; }
 	~player() {}
 };
 
