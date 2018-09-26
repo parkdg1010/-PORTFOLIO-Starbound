@@ -257,7 +257,7 @@ void player::inputKey()
 			{
 				for (int i = 0; i < RND->getFromIntTo(6,3); ++i)
 				{
-					EFFECTMANAGER->play("JUMP_DUST", _x+RND->getInt(30)-RND->getInt(30), _y+PLAYER_CONST::HEIGHT*0.5);
+					EFFECTMANAGER->play("JUMP_DUST", _x+RND->getInt(30)-RND->getInt(30), _y+PLAYER_CONST::HEIGHT*0.5f);
 				}
 			}
 		}
@@ -477,7 +477,7 @@ bool player::collideStage(int range)
 		if (_state == WALK) _keepWalk = 15;
 		else _keepWalk = 0;
 
-		for (int i = _y + PLAYER_CONST::HEIGHT * 0.5f - range; i <= _y + PLAYER_CONST::HEIGHT * 0.5f + _keepWalk; i++)
+		for (int i = _y + PLAYER_CONST::HEIGHT * 0.5f - range; i <= _y + PLAYER_CONST::HEIGHT * 0.5f + _keepWalk; ++i)
 		{
 			color = GetPixel(_stage->getPixelBuffer()->getMemDC(), _x, i);
 			r = GetRValue(color);
@@ -576,7 +576,7 @@ bool player::collideStage(int range)
 		if (_state == WALK) _keepWalk = 15;
 		else _keepWalk = 0;
 
-		for (int i = _y + PLAYER_CONST::HEIGHT * 0.5f - range; i <= _y + PLAYER_CONST::HEIGHT * 0.5f + _keepWalk; i++)
+		for (int i = _y + PLAYER_CONST::HEIGHT * 0.5f - range; i <= _y + PLAYER_CONST::HEIGHT * 0.5f + _keepWalk; ++i)
 		{
 			color = GetPixel(_mapPixel->getMemDC(), _x, i);
 			r = GetRValue(color);

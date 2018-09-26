@@ -15,6 +15,10 @@ private:
 	int _deadCount;
 
 	progressBar* _hpBar;
+
+	RECT _rcStandby;
+
+	Synthesize(bool, _isStandby, Standby)
 public:
 	virtual void bltUpdate();
 	virtual void bltRender();

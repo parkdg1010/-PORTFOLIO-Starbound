@@ -19,7 +19,7 @@ HRESULT image::init(int width, int height, bool isTrans, COLORREF transColor)
 	// DC 가져오기
 	HDC hdc = GetDC(_hWnd); //윈도우창 dc가져옴
 
-							// 이미지 정보 구조체 새로 생성후 초기화 하기
+	// 이미지 정보 구조체 새로 생성후 초기화 하기
 	_imageInfo = new IMAGE_INFO;
 	_imageInfo->loadType = LOAD_EMPTY;
 	_imageInfo->redID = 0;

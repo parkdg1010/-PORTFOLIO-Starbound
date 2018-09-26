@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "gameStage.h"
 #include "kluexboss.h"
+#include "player.h"
 
 HRESULT kluexboss::init()
 {
@@ -28,17 +29,32 @@ HRESULT kluexboss::init()
 
 void kluexboss::update()
 {
-	_hitBox = _currentPhase->getHitBox();
-	_isActive = _currentPhase->getIsActive();
-	_currentPhase->update();
-	_hpBar->update();
-	_hpBar->setGauge(_currentPhase->getHp(), KLUEX_PH1_CONST::MAX_HP);
+	if (_isStandby)
+	{
+		_hitBox = _currentPhase->getHitBox();
+		_isActive = _currentPhase->getIsActive();
+		_currentPhase->update();
+		_hpBar->update();
+		_hpBar->setGauge(_currentPhase->getHp(), KLUEX_PH1_CONST::MAX_HP);
+	}
+	else
+	{
+		POINT p = { _player->getX(), _player->getY() };
+		_rcStandby = RectMakeCenter(_x, _y, WINSIZEX, WINSIZEY);
+		if (PtInRect(&_rcStandby, p))
+		{
+			_isStandby = true;
+		}
+	}
 }
 
 void kluexboss::render()
 {
-	_currentPhase->render();
-	_hpBar->render(UIMANAGER->getUIDC());
+	if (_isStandby)
+	{
+		_currentPhase->render();
+		_hpBar->render(UIMANAGER->getUIDC());
+	}
 }
 
 void kluexboss::release()
@@ -51,22 +67,26 @@ void kluexboss::release()
 
 void kluexboss::bltUpdate()
 {
-	_currentPhase->bltUpdate();
+	if(_isStandby)
+		_currentPhase->bltUpdate();
 }
 
 void kluexboss::bltRender()
 {
-	_currentPhase->bltRender();
+	if(_isStandby)
+		_currentPhase->bltRender();
 }
 
 void kluexboss::move()
 {
-	_currentPhase->move();
+	if(_isStandby)
+		_currentPhase->move();
 }
 
 void kluexboss::collide()
 {
-	_currentPhase->collide();
+	if(_isStandby)
+		_currentPhase->collide();
 }
 
 bool kluexboss::collideObject(gameObject* gameObject)

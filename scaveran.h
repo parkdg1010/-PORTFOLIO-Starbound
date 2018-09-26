@@ -13,14 +13,16 @@ namespace SCAVERAN_CONST
 		IDLE_BOBSIDE,
 		IDLE_BOBDOWN,
 		MOVE,
+		JUMP,
+		FALL,
 		HURT
 	};
 }
 
 class scaveran : public enemy
 {
-	animation* _imgR[6];
-	animation* _imgL[6];
+	animation* _imgR[8];
+	animation* _imgL[8];
 
 	int _stateDelay;
 	RECT _searchingRc;	//찾으면 접근

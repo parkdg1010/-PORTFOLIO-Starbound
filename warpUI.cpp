@@ -145,13 +145,13 @@ void warpUI::warpDone()
 		{
 		case DUNGEON:
 			_isActive = false;
-			_player->setPosition(1600, 440, LEFT);
+			_player->setPosition(3400, 440, LEFT);
 			_player->setStageNum(2);
 			SCENEMANAGER->loadScene("인게임");
 			break;
 		case HOME:
 			_isActive = false;
-			_player->setPosition(1600, 440, LEFT);
+			_player->setPosition(2000, 440, LEFT);
 			_player->setStageNum(1);
 			SCENEMANAGER->loadScene("인게임");
 			break;

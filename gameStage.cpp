@@ -25,9 +25,10 @@ void gameStage::update()
 
 void gameStage::render()
 {
-	HBRUSH myBrush = CreateSolidBrush(RGB(135, 206, 235));
+	//이유는 모르겠으나 이 브러시가 픽셀버퍼를 건드려서 충돌이 안되는 버그가 발생했다.
+	/*HBRUSH myBrush = CreateSolidBrush(RGB(135, 206, 235));
 	RECT rc = { 0,0,WINSIZEX,WINSIZEY };
-	FillRect(getMemDC(), &rc, myBrush);
+	FillRect(getMemDC(), &rc, myBrush);*/
 
 	stageRender();
 	stageObjectFrameRender();
@@ -96,11 +97,9 @@ void gameStage::loadStage()
 
 void gameStage::loadStageBuffer()
 {
-	if (_stageBuffer != NULL) _stageBuffer = NULL;
 	_stageBuffer = new image;
 	_stageBuffer->init(_tileX * TILESIZE, _tileY * TILESIZE, true, MAGENTA);
 
-	if (_pixelBuffer != NULL) _pixelBuffer = NULL;
 	_pixelBuffer = new image;
 	_pixelBuffer->init(_tileX * TILESIZE, _tileY * TILESIZE, true, MAGENTA);
 
@@ -137,10 +136,15 @@ void gameStage::loadStageBuffer()
 		if (_stage[i].object == OBJECT_FF_WOOD)
 		{
 			//계단은 대각선으로
-			if (_stage[i].objFrameX) // 0만 아니면 계단임
+			if (_stage[i].objFrameX == 1 || _stage[i].objFrameX == 2) // 1,2번은 픽셀2번 3,4번은 픽셀3번
 			{
 				_pixelTiles->frameRender(_pixelBuffer->getMemDC(), _stage[i].rc.left - 10,
 					_stage[i].rc.top - 10, 2, 0);
+			}
+			else if (_stage[i].objFrameX == 3 || _stage[i].objFrameX == 4)
+			{
+				_pixelTiles->frameRender(_pixelBuffer->getMemDC(), _stage[i].rc.left - 10,
+					_stage[i].rc.top - 10, 3, 0);
 			}
 			//발판은 일자로
 			else

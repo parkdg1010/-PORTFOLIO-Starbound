@@ -207,7 +207,7 @@ void loadingScene::loadingIntroImage()
 
 void loadingScene::loadingTiles()
 {
-	_loading->loadFrameImage("TILE_PIXEL", "Texture/tiles/pixel.bmp", 144, 48, 3, 1);
+	_loading->loadFrameImage("TILE_PIXEL", "Texture/tiles/pixel.bmp", 192, 48, 4, 1);
 
 	_loading->loadFrameImage("TILE_BRICK", "Texture/tiles/front/brick_240x432_5x9.bmp", 240, 432, 5, 9);
 	_loading->loadFrameImage("TILE_COBBLEBRICK", "Texture/tiles/front/cobblestonebrick_240x432_5x9.bmp", 240, 432, 5, 9);
@@ -296,6 +296,6 @@ void loadingScene::loadingMonster()
 	_loading->loadImage("BIRDBOSS1", "Texture/enemy/monsters/boss/kluexbossstatue/kluexbossstatue_4719x1089_13x3.bmp", 4719, 1089, true, MAGENTA);
 	_loading->loadImage("FENNIX_R", "Texture/enemy/monsters/walkers/fennix/fennix_R_960x288.bmp", 960, 288, true, MAGENTA);
 	_loading->loadImage("FENNIX_L", "Texture/enemy/monsters/walkers/fennix/fennix_L_960x288.bmp", 960, 288, true, MAGENTA);
-	_loading->loadImage("SCAVERAN_L", "Texture/enemy/monsters/walkers/fennix/scaveran_L_924x510.bmp", 924, 510, true, MAGENTA);
-	_loading->loadImage("SCAVERAN_R", "Texture/enemy/monsters/walkers/fennix/scaveran_R_924x510.bmp", 924, 510, true, MAGENTA);
+	_loading->loadImage("SCAVERAN_L", "Texture/enemy/monsters/walkers/scaveran/scaveran_L_924x510.bmp", 924, 510, true, MAGENTA);
+	_loading->loadImage("SCAVERAN_R", "Texture/enemy/monsters/walkers/scaveran/scaveran_R_924x510.bmp", 924, 510, true, MAGENTA);
 }

@@ -13,8 +13,6 @@ class stageScene : public gameNode
 
 	enemyManager* _enemyManager;
 
-	kluexboss* _kluexboss;
-
 	itemFactory* _itemFac;
 public:
 	virtual HRESULT init();

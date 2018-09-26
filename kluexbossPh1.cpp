@@ -293,19 +293,19 @@ void kluexbossPh1::pattern2Update()
 		if (_magmaY < _magma->getHeight())
 		{
 			_magmaY += 0.7f;
-			_magmaHitBox = RectMake(0, WINSIZEY - _magma->getHeight(), _mapPixel->getWidth(), WINSIZEY);
+			_magmaHitBox = RectMake(0, _y + KLUEX_PH1_CONST::HEIGHT*0.7 - _magma->getHeight(), _mapPixel->getWidth(), _y + KLUEX_PH1_CONST::HEIGHT*0.7);
 		}
 		//불 다 올라오면
 		else
 		{
 			_magmaLoopSPD += 2; //루프렌더
-			DELAYCOUNT(_p2Duration, 500); //TODO : 더늘려도 될듯
+			DELAYCOUNT(_p2Duration, 500);
 			//데미지주기
 			RECT temp;
 			if (IntersectRect(&temp, &_magmaHitBox, &_player->getHitBox()))
 			{
 				//CHECK 데미지조정
-				_player->damaged(1.f);
+				_player->damaged(3.f);
 			}
 
 			if (_p2Duration == 0)
@@ -336,7 +336,8 @@ void kluexbossPh1::pattern2Render()
 	if (_boardY >= _flatBoard->getHeight())
 	{
 		//불 올라오기 잘라서 루프렌더
-		RECT temp = { -CAM->getX(), WINSIZEY - _magma->getHeight() - CAM->getY(), _mapPixel->getWidth() - CAM->getX(), WINSIZEY - CAM->getY() }; //화면좌표인데 y는 바뀌면 안되니까 절대좌표로 바꿔버렸다
+		RECT temp = { -CAM->getX(), _y + KLUEX_PH1_CONST::HEIGHT*0.7 - _magma->getHeight() - CAM->getY(), 
+			_mapPixel->getWidth() - CAM->getX(), _y + KLUEX_PH1_CONST::HEIGHT*0.7 - CAM->getY() }; //화면좌표인데 y는 바뀌면 안되니까 절대좌표로 바꿔버렸다
 		_magma->loopRender(getMemDC(), &temp, (int)_magmaLoopSPD, 0); //TODO 잘라서 렌더하려면 고민좀 해야할듯
 	}
 }

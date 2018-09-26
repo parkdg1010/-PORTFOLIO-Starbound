@@ -6,20 +6,21 @@ HRESULT scaveran::init()
 {
 	enemy::init();
 
-	_speed = 3;
+	_speed = 2.4f;
 	_hp = 60;
+	_damage = 1.f;
 
 	_picR = IMAGEMANAGER->findImage("SCAVERAN_R");
 	_picL = IMAGEMANAGER->findImage("SCAVERAN_L");
 
-	for (int i = 0; i < 6; i++)
+	for (int i = 0; i < 8; i++)
 	{
 		_imgR[i] = new animation;
-		_imgR[i]->init(_picR->getWidth(), _picR->getHeight(), 10, 4);
+		_imgR[i]->init(_picR->getWidth(), _picR->getHeight(), 7, 5);
 		_imgR[i]->setFPS(1);
 
 		_imgL[i] = new animation;
-		_imgL[i]->init(_picL->getWidth(), _picL->getHeight(), 10, 4);
+		_imgL[i]->init(_picL->getWidth(), _picL->getHeight(), 7, 5);
 		_imgL[i]->setFPS(1);
 	}
 
@@ -28,6 +29,8 @@ HRESULT scaveran::init()
 	_imgR[SCAVERAN_CONST::IDLE_BOBSIDE]->setPlayFrame(8, 9);
 	_imgR[SCAVERAN_CONST::IDLE_BOBDOWN]->setPlayFrame(11, 13);
 	_imgR[SCAVERAN_CONST::MOVE]->setPlayFrame(29, 32);
+	_imgR[SCAVERAN_CONST::JUMP]->setPlayFrame(29, 32);
+	_imgR[SCAVERAN_CONST::FALL]->setPlayFrame(29, 32);
 	_imgR[SCAVERAN_CONST::HURT]->setPlayFrame(34, 34);
 
 	_imgL[SCAVERAN_CONST::IDLE]->setPlayFrame(1, 1);
@@ -35,6 +38,8 @@ HRESULT scaveran::init()
 	_imgL[SCAVERAN_CONST::IDLE_BOBSIDE]->setPlayFrame(8, 9);
 	_imgL[SCAVERAN_CONST::IDLE_BOBDOWN]->setPlayFrame(11, 13);
 	_imgL[SCAVERAN_CONST::MOVE]->setPlayFrame(29, 32);
+	_imgL[SCAVERAN_CONST::JUMP]->setPlayFrame(29, 32);
+	_imgL[SCAVERAN_CONST::FALL]->setPlayFrame(29, 32);
 	_imgL[SCAVERAN_CONST::HURT]->setPlayFrame(34, 34);
 
 	_wanderDelay = 0;
@@ -55,49 +60,44 @@ void scaveran::update()
 			_dir = LEFT;
 		}
 	}
-
 	switch (_state)
 	{
 	case SCAVERAN_CONST::IDLE:
-		DELAYCOUNT(_stateDelay, 60);
-		if (_stateDelay == 0)
-		{
-			_state = RND->getInt(2);
-		}
-		//평소엔 IDLE과 MOVE를 랜덤하게 오고감
-		break;
+	case SCAVERAN_CONST::IDLE_BOBUP:
+	case SCAVERAN_CONST::IDLE_BOBSIDE:
+	case SCAVERAN_CONST::IDLE_BOBDOWN:
 	case SCAVERAN_CONST::HURT:
 		DELAYCOUNT(_stateDelay, 60);
 		if (_stateDelay == 0)
 		{
 			_state = SCAVERAN_CONST::MOVE;
 		}
-		//데미지 받으면 이상태로 바꾸고 딜레이후 적절한 상태로 변경
 		break;
 	case SCAVERAN_CONST::MOVE:
-		//평소엔 IDLE과 MOVE를 랜덤하게 오고감
-		//평소에는 랜덤한 방향으로 움직이다 플레이어가 가까이 다가오면 감지하고 일정거리까지 따라옴
 	case SCAVERAN_CONST::JUMP:
-		//TODO 앞쪽 픽셀이 너무 높으면 점프함
 	case SCAVERAN_CONST::FALL:
 		move();
-		//허공에서 충돌 안되면 FALL상태
-		break;
-	case SCAVERAN_CONST::SHOOT:
-		bltFire();
-		//감지범위에 플레이어가 있으면 멈춰서서 화염방사
+		DELAYCOUNT(_stateDelay, 60);
+		if (_stateDelay == 0)
+		{
+			_state = RND->getInt(4);
+		}
+		//4개의 IDLE동작중 1개를 골라 렌더한뒤 무브상태로 바뀜
 		break;
 	}
 	collide();
 
 	_searchingRc = RectMakeCenter((int)_x, (int)_y, 600, 600);
-	_fireRc = RectMakeCenter((int)_x, (int)_y, 320, 320);
 	POINT p = { (LONG)_player->getX(), (LONG)_player->getY() };
 
-	if (PtInRect(&_searchingRc, p) && !_isFire)	_isSearch = true;
+	RECT temp;
+	if (IntersectRect(&temp, &_hitBox, &_player->getHitBox()))
+	{
+		_player->damaged(this);
+	}
+
+	if (PtInRect(&_searchingRc, p))	_isSearch = true;
 	else _isSearch = false;
-	if (PtInRect(&_fireRc, p)) _isFire = true;
-	else _isFire = false;
 
 	if (_dir == RIGHT)
 	{
@@ -105,7 +105,7 @@ void scaveran::update()
 		{
 			_imgR[_state]->start();
 		}
-		_imgR[_state]->frameUpdate(0.12f);
+		_imgR[_state]->frameUpdate(0.16f);
 	}
 	else if (_dir == LEFT)
 	{
@@ -113,7 +113,7 @@ void scaveran::update()
 		{
 			_imgL[_state]->start();
 		}
-		_imgL[_state]->frameUpdate(0.12f);
+		_imgL[_state]->frameUpdate(0.16f);
 	}
 }
 
@@ -122,18 +122,18 @@ void scaveran::render()
 	if (_dir == RIGHT)
 	{
 		_picR->aniRender(getMemDC(), int(_x - (_imgR[_state]->getFrameWidth() >> 1) - CAM->getX()),
-			int(_y - (_imgR[_state]->getFrameHeight() >> 1) - CAM->getY()), _imgR[_state]); //비트연산 *0.5
+			int(_y - 20 - (_imgR[_state]->getFrameHeight() >> 1) - CAM->getY()), _imgR[_state]); //비트연산 *0.5
 	}
 	else if (_dir == LEFT)
 	{
 		_picL->aniRender(getMemDC(), int(_x - (_imgL[_state]->getFrameWidth() >> 1) - CAM->getX()),
-			int(_y - (_imgL[_state]->getFrameHeight() >> 1) - CAM->getY()), _imgL[_state]); //비트연산 *0.5
+			int(_y - 20 - (_imgL[_state]->getFrameHeight() >> 1) - CAM->getY()), _imgL[_state]); //비트연산 *0.5
 	}
 }
 
 void scaveran::release()
 {
-	for (int i = 0; i < 6; ++i)
+	for (int i = 0; i < 8; ++i)
 	{
 		SAFE_DELETE(_imgR[i]);
 		SAFE_DELETE(_imgL[i]);
