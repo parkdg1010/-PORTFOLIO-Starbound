@@ -19,6 +19,8 @@ HRESULT spaceShipScene::init()
 	CAMERAMANAGER->setRange(_ship->getWidth(), _ship->getHeight());
 	CAMERAMANAGER->setPosition((int)_player->getX(), (int)_player->getY());
 
+	SOUNDMANAGER->playBgm("¿ìÁÖ¼±", _soundVolume);
+
 	return S_OK;
 }
 

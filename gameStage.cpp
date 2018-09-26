@@ -93,6 +93,16 @@ void gameStage::loadStage()
 	CloseHandle(file);
 
 	loadStageBuffer();
+
+	switch (_stageNum)
+	{
+	case 1:	
+		SOUNDMANAGER->playBgm("Áı", _soundVolume);
+		break;
+	case 2:
+		SOUNDMANAGER->playBgm("´øÀü", _soundVolume);
+		break;
+	}
 }
 
 void gameStage::loadStageBuffer()

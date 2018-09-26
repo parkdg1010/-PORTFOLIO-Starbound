@@ -7,6 +7,10 @@
 HRESULT mainGame::init()
 {
 	gameNode::init(TRUE);
+
+	_soundVolume = INIDATA->loadDataFloat("Music/setting", "Sound", "master");
+	_effectVolume = INIDATA->loadDataFloat("Music/setting", "Sound", "effect");
+
 	//이곳에서 초기화를 한다
 	SCENEMANAGER->addScene("로딩화면", new loadingScene);
 	SCENEMANAGER->addScene("맵툴", new mapToolScene);
@@ -34,6 +38,10 @@ void mainGame::release()
 
 	_player->release();
 	SAFE_DELETE(_player);
+
+	INIDATA->addData("Sound", "master", to_string(_soundVolume).c_str());
+	INIDATA->addData("Sound", "effect", to_string(_effectVolume).c_str());
+	INIDATA->saveINI("Music/setting");
 }
 
 //=============================================================

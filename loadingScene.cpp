@@ -97,6 +97,11 @@ void loadingScene::loadingImage()
 	//ui
 	_loading->loadFrameImage("숫자", "Texture/ui/numbers.bmp", 160, 16, 10, 1);
 	_loading->loadImage("빈패드", "Texture/ui/empty.bmp", 18, 18, true, MAGENTA);
+
+	_loading->loadImage("소리옵션창", "Texture/ui/sound/sound_body.bmp", 404, 266, true, MAGENTA);
+	_loading->loadFrameImage("소리버튼", "Texture/ui/sound/okay.bmp", 108, 56, 1, 2);
+	_loading->loadFrameImage("왼쪽화살표", "Texture/ui/sound/leftarrow.bmp", 31, 62, 1, 2);
+	_loading->loadFrameImage("오른쪽화살표", "Texture/ui/sound/rightarrow.bmp", 31, 62, 1, 2);
 	
 	//IMAGEMANAGER->addImage("mountain", "mountain.bmp", WINSIZEX, WINSIZEY, true, RGB(255, 0, 255));
 	//백그라운드 이미지
@@ -107,6 +112,32 @@ void loadingScene::loadingImage()
 //로딩사운드 함수(이곳에 사운드를 전부 넣어라)
 void loadingScene::loadingSound()
 {
+	//배경음
+	_loading->loadSound("인트로", "Music/bgm/title-menu-music.ogg", true, true);
+	_loading->loadSound("집", "Music/bgm/on-the-beach-at-night.ogg", true, true);
+	_loading->loadSound("우주선", "Music/bgm/space_loop3.ogg", true, true);
+	_loading->loadSound("던전", "Music/bgm/desert_day.ogg", true, true);
+
+	//효과음
+	_loading->loadSound("샷건", "Music/effect/shotgun1.ogg");
+	_loading->loadSound("샷건타격", "Music/effect/shotgun_hit_organic.ogg");
+	_loading->loadSound("플라즈마", "Music/effect/plasma_ar1.ogg");
+	_loading->loadSound("플라즈마타격", "Music/effect/plasmabullet_hit_organic.ogg");
+	_loading->loadSound("인벤토리열기", "Music/effect/metalbox_open.ogg");
+	_loading->loadSound("인벤토리닫기", "Music/effect/metalbox_close.ogg");
+	_loading->loadSound("단추누르기", "Music/effect/actionbar_select.ogg");
+
+	_loading->loadSound("보스죽음", "Music/effect/boss/kluexboss_death.ogg");
+	_loading->loadSound("보스용암", "Music/effect/boss/kluexboss_floorlava.ogg");
+	_loading->loadSound("보스얼음", "Music/effect/boss/kluexboss_iceeruption1.ogg");
+	_loading->loadSound("보스불릿", "Music/effect/boss/kluexboss_phase1.ogg");
+	_loading->loadSound("보스발판올림", "Music/effect/boss/kluexboss_pillarplatform.ogg");
+
+	_loading->loadSound("화염방사", "Music/effect/walkers/flamethrower_loop.ogg");
+
+	_loading->loadSound("새울음소리0", "Music/effect/walkers/scaveran_idle1.ogg");
+	_loading->loadSound("새울음소리1", "Music/effect/walkers/scaveran_idle2.ogg");
+	_loading->loadSound("새울음소리2", "Music/effect/walkers/scaveran_idle3.ogg");
 }
 
 void loadingScene::loadingEffectImage()

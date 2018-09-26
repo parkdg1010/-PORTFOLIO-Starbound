@@ -299,10 +299,14 @@ void player::inputKey()
 		if (!_inventory->getIsActive())
 		{
 			_inventory->setIsActive(true);
+			SOUNDMANAGER->play("인벤토리열기", _effectVolume);
 			_warpUI->setIsActive(false);
 		}
 		else
+		{
 			_inventory->setIsActive(false);
+			SOUNDMANAGER->play("인벤토리닫기", _effectVolume);
+		}
 	}
 	
 	//기본은 워프가능상태지만, enemy가 워프감지렉트에 충돌하면 워프가 불가능하게 되어있음

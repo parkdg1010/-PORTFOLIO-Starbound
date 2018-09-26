@@ -32,6 +32,7 @@ class scaveran : public enemy
 	int _wanderDelay;
 	int _wanderDirection;
 
+	int _soundDelay;
 public:
 	virtual void move();
 	virtual void collide();

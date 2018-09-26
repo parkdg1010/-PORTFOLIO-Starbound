@@ -30,8 +30,11 @@ void shotgun01::update()
 			{
 				if (_mapPixel != NULL)
 				{
-					if(_vBullet->at(i).collideMap(_mapPixel))
+					if (_vBullet->at(i).collideMap(_mapPixel))
+					{
 						EFFECTMANAGER->play("bulletEffect", _vBullet->at(i).getX(), _vBullet->at(i).getY());
+						SOUNDMANAGER->play("¼¦°ÇÅ¸°Ý", _effectVolume);
+					}
 				}
 			}
 		}
@@ -48,6 +51,7 @@ void shotgun01::update()
 					{
 						EFFECTMANAGER->play("bulletEffect", _vBullet->at(i).getX(), _vBullet->at(i).getY());
 						em[j]->damaged(&_vBullet->at(i));
+						SOUNDMANAGER->play("¼¦°ÇÅ¸°Ý", _effectVolume);
 						_vBullet->at(i).setIsActive(false);
 					}
 				}
@@ -89,6 +93,7 @@ void shotgun01::attack()
 				EFFECTMANAGER->play("muzzleflash", _fireX+5, _fireY - 5, _angle + PI*1.5);
 			_vBullet->at(i * 5 + j).fire(_fireX, _fireY, _angle + RAD_TO_DEG(29) - RAD_TO_DEG(15)*j);
 		}
+		SOUNDMANAGER->play("¼¦°Ç", _effectVolume);
 		break;
 	}
 }

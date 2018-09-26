@@ -115,6 +115,13 @@ void scaveran::update()
 		}
 		_imgL[_state]->frameUpdate(0.16f);
 	}
+
+	DELAYCOUNT(_soundDelay, 300)
+	if(_soundDelay == 0)
+	{
+		string soundkey = "새울음소리" + to_string(RND->getInt(3));
+		SOUNDMANAGER->play(soundkey, _effectVolume*0.2);
+	}
 }
 
 void scaveran::render()

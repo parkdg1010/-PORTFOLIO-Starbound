@@ -193,6 +193,7 @@ void kluexbossPh1::damaged(gameObject * actor)
 		_flatBoardPixelErase->render(_mapPixel->getMemDC(), _x - 400, _y + _img[KLUEX_PH1_CONST::MAIN]->getFrameHeight() * 0.5
 			- _flatBoard->getHeight(), 0, 0, _flatBoard->getWidth(), _flatBoard->getHeight());
 		//TODO 죽으면 이펙트 or 페이즈2
+		SOUNDMANAGER->play("보스죽음", _effectVolume);
 		_isActive = false;
 	}
 }
@@ -211,6 +212,10 @@ void kluexbossPh1::pattern1Update()
 		if (_plasmaCount < _vPlasmaBall.size())
 		{
 			_img[_state]->start();
+
+			if(!SOUNDMANAGER->isPlaySound("보스불릿"))
+				SOUNDMANAGER->play("보스불릿", _effectVolume);
+
 			if (!_vPlasmaBall[_plasmaCount].getIsActive())
 			{
 				_vPlasmaBall[_plasmaCount].fire(_x + 200 * cosf(_plasmaCount *PI*0.25f), _y + 200 * -sinf(_plasmaCount *PI*0.25f),
@@ -285,6 +290,9 @@ void kluexbossPh1::pattern2Update()
 			, 0, 0, _flatBoard->getWidth(), _boardY);
 		_flatBoardPixel->render(_mapPixel->getMemDC(), _x + 400, _y + _img[KLUEX_PH1_CONST::MAIN]->getFrameHeight() * 0.5 - _boardY
 			, 0, 0, _flatBoard->getWidth(), _boardY);
+
+		if (!SOUNDMANAGER->isPlaySound("보스발판올림"))
+			SOUNDMANAGER->play("보스발판올림", _effectVolume);
 	}
 	//발판 다 올라오면
 	else
@@ -299,6 +307,10 @@ void kluexbossPh1::pattern2Update()
 		else
 		{
 			_magmaLoopSPD += 2; //루프렌더
+
+			if (!SOUNDMANAGER->isPlaySound("보스용암"))
+				SOUNDMANAGER->play("보스용암", _effectVolume);
+
 			DELAYCOUNT(_p2Duration, 500);
 			//데미지주기
 			RECT temp;
@@ -365,6 +377,9 @@ void kluexbossPh1::pattern3Update()
 			_iceblock->setFrameX(0);
 		}
 		_img[_state]->start();
+
+		if (!SOUNDMANAGER->isPlaySound("보스얼음"))
+			SOUNDMANAGER->play("보스얼음", _effectVolume);
 	}
 		
 	//충돌렉트 크기 늘려주고

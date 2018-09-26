@@ -55,7 +55,7 @@ public:
 	HRESULT init(string keyName, const char* fileName, int width, int height, int frameX, int frameY, bool isTrans = TRUE, COLORREF transColor = RGB(255, 0, 255));
 	HRESULT init(string keyName, const char* fileName, float x, float y, int width, int height, int frameX, int frameY, bool isTrans = TRUE, COLORREF transColor = RGB(255, 0, 255));
 	//사운드 파일로 초기화
-	HRESULT initForSound(string keyName, const char* fileName, bool bgm = false, bool loop = false);
+	HRESULT init(string keyName, const char* fileName, bool bgm = false, bool loop = false);
 
 	//로딩아이템 종류 가져오기
 	LOAD_KIND getLoadingKind() { return _kind; }

@@ -85,7 +85,7 @@ HRESULT loadItem::init(string keyName, const char * fileName, float x, float y, 
 	return S_OK;
 }
 
-HRESULT loadItem::initForSound(string keyName, const char* fileName, bool bgm, bool loop)
+HRESULT loadItem::init(string keyName, const char* fileName, bool bgm, bool loop)
 {
 	//로딩종류 초기화
 	_kind = LOAD_KIND_SOUND;

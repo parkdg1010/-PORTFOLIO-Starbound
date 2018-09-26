@@ -158,11 +158,12 @@ void fennix::bltFire()
 		DELAYCOUNT(_fireDelay, 14);
 		if (_fireDelay == 0)
 		{
+			if(!SOUNDMANAGER->isPlaySound("È­¿°¹æ»ç"))
+				SOUNDMANAGER->play("È­¿°¹æ»ç", _effectVolume*0.5);
 			for (int i = 0; i < _vBullet->size(); ++i)
 			{
 				if (_vBullet->at(i).getIsActive()) continue;
 
-				//EFFECTMANAGER->play("red_Pulse_Cannon_Explosion", (int)_vPlasmaBall[temp].getX(), (int)_vPlasmaBall[temp].getY());
 				_vBullet->at(i).fire(_x, _y, utl::getAnglePL(_x, _y, _player->getX(), _player->getY()));
 				break;
 			}

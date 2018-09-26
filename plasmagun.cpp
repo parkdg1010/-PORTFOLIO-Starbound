@@ -31,8 +31,11 @@ void plasmagun::update()
 			{
 				if (_mapPixel != NULL)
 				{
-					if(_vBullet->at(i).collideMap(_mapPixel))
+					if (_vBullet->at(i).collideMap(_mapPixel))
+					{
 						EFFECTMANAGER->play("plasmaEffect", _vBullet->at(i).getX(), _vBullet->at(i).getY());
+						SOUNDMANAGER->play("플라즈마타격", _effectVolume);
+					}
 				}
 			}
 		}
@@ -49,6 +52,7 @@ void plasmagun::update()
 					{
 						EFFECTMANAGER->play("plasmaEffect", _vBullet->at(i).getX(), _vBullet->at(i).getY());
 						em[j]->damaged(&_vBullet->at(i));
+						SOUNDMANAGER->play("플라즈마타격", _effectVolume);
 					}
 				}
 			}
@@ -86,7 +90,7 @@ void plasmagun::attack()
 			else
 				EFFECTMANAGER->play("plasmaflash", _fireX + 5, _fireY - 5, _angle + PI * 1.5);
 			_vBullet->at(i).fire(_fireX, _fireY, _angle);
-
+			SOUNDMANAGER->play("플라즈마", _effectVolume);
 		break;
 	}
 }
