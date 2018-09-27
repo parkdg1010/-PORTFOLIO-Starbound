@@ -27,6 +27,8 @@ HRESULT progressBar::init(const char * frontImageKey, const char * backImageKey,
 	_progressBarFront = IMAGEMANAGER->addImage(frontImageKey, frontImage, x, y, width, height, true, RGB(255, 0, 255));
 	_progressBarBack = IMAGEMANAGER->addImage(backImageKey, backImage, x, y, width, height, true, RGB(255, 0, 255));
 
+	_index = 0;
+
 	return S_OK;
 }
 
@@ -48,9 +50,25 @@ void progressBar::render(HDC hdc)
 	if(_progressBarBack != NULL)
 		_progressBarBack->render(hdc, _rcProgress.left, _y);
 	//앞에 보여지는 체력바 이미지
-	if(_progressBarFront != NULL)
-		_progressBarFront->render(hdc, _rcProgress.left, _y,
-			0, 0, _width, _progressBarFront->getHeight());
+	if (_progressBarFront != NULL)
+	{
+		if (_progressBarFront->getMaxFrameX() || _progressBarFront->getMaxFrameY()) //둘중에 하나라도 값이 있으면 프레임이미지다.
+		{
+			DELAYCOUNT(_delay, 7);
+			if (_delay == 0)
+			{
+				++_index;
+				if (_index > _progressBarFront->getMaxFrameY())
+					_index = 0;
+			}
+			_progressBarFront->frameRender(hdc, _rcProgress.left, _y, 0, 0, _width, _progressBarFront->getFrameHeight(), 0, _index);
+		}
+		else
+		{
+			_progressBarFront->render(hdc, _rcProgress.left, _y, 0, 0, _width, _progressBarFront->getHeight());
+		}
+	}
+	
 }
 
 void progressBar::setGauge(float currentHp, float maxHp)

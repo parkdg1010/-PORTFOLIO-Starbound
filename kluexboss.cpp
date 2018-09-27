@@ -22,6 +22,28 @@ HRESULT kluexboss::init()
 	_hpBar = new progressBar;
 	_hpBar->init("Texture/enemy/monsters/boss/bosshealthFront", "Texture/enemy/monsters/boss/bosshealthBack", WINSIZEX*0.36f, WINSIZEY*0.8f, 480, 39);
 
+	_deadGravity = 0;
+	bullet temp;
+	temp.init(3.f, 0, 0, WINSIZEX, "kluexCrystalImg");
+	for (int i = 0; i < RND->getFromIntTo(15,5); ++i)
+	{
+		_deadEffect[0].push_back(temp);
+		_deadEffect[0][i].setSpeed(6 + RND->getFloat(2));
+	}
+	temp.init(3.f, 0, 0, WINSIZEX, "kluexCrystalShardImg");
+	for (int i = 0; i < RND->getFromIntTo(15,5); ++i)
+	{
+		_deadEffect[1].push_back(temp);
+		_deadEffect[1][i].setSpeed(4 + RND->getFloat(2));
+	}
+	temp.init(3.f, 0, 0, WINSIZEX, "kluexStatueShardImg");
+	for (int i = 0; i < RND->getFromIntTo(20,10); ++i)
+	{
+		_deadEffect[2].push_back(temp);
+		_deadEffect[2][i].setSpeed(2 + RND->getFloat(2));
+	}
+	_isDeadEffect = false;
+
 	_currentPhase = _phase1;
 
 	return S_OK;
@@ -32,10 +54,59 @@ void kluexboss::update()
 	if (_isStandby)
 	{
 		_hitBox = _currentPhase->getHitBox();
-		_isActive = _currentPhase->getIsActive();
+		//_isActive = _currentPhase->getIsActive();
 		_currentPhase->update();
 		_hpBar->update();
 		_hpBar->setGauge(_currentPhase->getHp(), KLUEX_PH1_CONST::MAX_HP);
+		_x = _currentPhase->getX();
+		_y = _currentPhase->getY();
+
+		if (!_phase1->getIsActive())
+		{
+			//Á×À½ÀÌÆåÆ®
+			if (!_isDeadEffect)
+			{
+				for (int i = 0; i < 3; ++i)
+				{
+					for (int j = 0; j < _deadEffect[i].size(); ++j)
+					{
+						if (_deadEffect[i][j].getIsActive()) continue;
+
+						_deadEffect[i][j].fire(_x, _y, PI_2 + (RND->getFloat(PI_8) - RND->getFloat(PI_8))*2);
+					}
+				}
+				_isDeadEffect = true;
+			}
+
+			_deadGravity += 0.3f;
+			for (int i = 0; i < 3; ++i)
+			{
+				for (int j = 0; j < _deadEffect[i].size(); ++j)
+				{
+					_deadEffect[i][j].update();
+					_deadEffect[i][j].setGravity(_deadGravity);
+
+					if (_deadEffect[i][j].getIsActive())
+					{
+						if (_mapPixel != NULL)
+						{
+							_deadEffect[i][j].collideMap(_mapPixel);
+						}
+					}
+				}
+			}
+
+			if (!_phase2->getIsActive())
+			{
+
+			}
+			else
+			{
+			}
+		}
+		else
+		{
+		}
 	}
 	else
 	{
@@ -54,6 +125,28 @@ void kluexboss::render()
 	{
 		_currentPhase->render();
 		_hpBar->render(UIMANAGER->getUIDC());
+
+		if (!_phase1->getIsActive())
+		{
+			for (int i = 0; i < 3; ++i)
+			{
+				for (int j = 0; j < _deadEffect[i].size(); ++j)
+				{
+					_deadEffect[i][j].render(true);
+				}
+			}
+
+			if (!_phase2->getIsActive())
+			{
+
+			}
+			else
+			{
+			}
+		}
+		else
+		{
+		}
 	}
 }
 
@@ -97,6 +190,16 @@ bool kluexboss::collideObject(gameObject* gameObject)
 void kluexboss::damaged(gameObject * actor)
 {
 	_currentPhase->damaged(actor);
+	if (!_phase1->getIsActive())
+	{
+		//TODO Á×À¸¸é ÀÌÆåÆ® or ÆäÀÌÁî2
+		SOUNDMANAGER->play("º¸½ºÁ×À½", _effectVolume);
+		//_phase2->setIsActive(true);
+		if (!_phase2->getIsActive())
+		{
+
+		}
+	}
 }
 
 void kluexboss::drawUI()

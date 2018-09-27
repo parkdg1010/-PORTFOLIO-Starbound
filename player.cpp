@@ -110,8 +110,16 @@ void player::update()
 	}
 	else
 	{
-		setPosition(1600, 430, _dir);
-		_isActive = true;
+		EFFECTMANAGER->play("PLAYER_DEATH", _x, _y);
+		//씬전환해서 우주선으로 가버리자
+		DELAYCOUNT(_deadDelay, 50);
+		if (_deadDelay == 0)
+		{
+			setPosition(3350, 750, RIGHT);
+			SCENEMANAGER->loadScene("우주선");
+			_isActive = true;
+			_hp = PLAYER_CONST::MAX_HP;
+		}
 	}
 }
 
@@ -669,18 +677,12 @@ void player::damaged(gameObject * actor)
 	{
 		_hp -= actor->getDamage();
 		_isDamaged = true;
+		//데미지받을때 깜빡임
 	}
-	//TODO : 데미지받을때 깜빡임
 	if (_hp <= 0)
 	{
 		_hp = 0;
-		EFFECTMANAGER->play("PLAYER_DEATH", _x, _y);
-		//씬전환해서 우주선으로 가버리자
-		setPosition(3350, 750, RIGHT);
-		SCENEMANAGER->loadScene("우주선");
-
 		_isActive = false;
-		_hp = PLAYER_CONST::MAX_HP;
 	}
 }
 
@@ -690,18 +692,12 @@ void player::damaged(float damage)
 	{
 		_hp -= damage;
 		_isDamaged = true;
+		//데미지받을때 깜빡임
 	}
-	//TODO : 데미지받을때 깜빡임
 	if (_hp < 0)
 	{
 		_hp = 0;
-		EFFECTMANAGER->play("PLAYER_DEATH", _x, _y);
-		//씬전환해서 우주선으로 가버리자
-		setPosition(3350, 750, RIGHT);
-		SCENEMANAGER->loadScene("우주선");
-
 		_isActive = false;
-		_hp = PLAYER_CONST::MAX_HP;
 	}
 }
 

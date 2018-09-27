@@ -15,6 +15,9 @@ private:
 	image* _progressBarFront;	//체력바 앞 이미지
 	image* _progressBarBack;	//체력바 뒤 이미지
 
+	int _delay;					//앞이미지 프레임딜레이
+	int _index;
+
 public:
 	//체력바 초기화(앞이미지키, 백이미지키, x, y, 가로길이, 세로길이)
 	HRESULT init(const char* frontImageKey, const char* backImageKey, int x, int y, int width, int height);
@@ -31,6 +34,9 @@ public:
 	void setPosition(int x, int y) { _x = x; _y = y; }
 	//체력바 렉트 가져오기
 	RECT getRect() { return _rcProgress; }
+
+	void setFrontImg(image* barFront) { _progressBarFront = barFront; }
+	void setBackImg(image* barBack) { _progressBarBack = barBack; }
 
 	progressBar() {}
 	~progressBar() {}

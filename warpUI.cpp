@@ -68,7 +68,6 @@ void warpUI::release()
 
 void warpUI::ctrlPanelUpdate()
 {
-	//TODO 위치 조정할것
 	_rcUI = RectMakeCenter(_x, _y, 373, 335);
 	_rcButton = RectMakeCenter(_rcUI.left+190, _rcUI.top+293, 94, 28);
 	_rc[DUNGEON] = RectMakeCenter(_rcUI.left+185, _rcUI.top+90, 340, 40);
@@ -145,7 +144,7 @@ void warpUI::warpDone()
 		{
 		case DUNGEON:
 			_isActive = false;
-			_player->setPosition(3400, 440, LEFT);
+			_player->setPosition(3400, 340, LEFT);
 			_player->setStageNum(2);
 			SCENEMANAGER->loadScene("인게임");
 			break;

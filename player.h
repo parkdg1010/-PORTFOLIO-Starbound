@@ -47,6 +47,7 @@ private:
 	int _damagedCount;				//무적시간
 	bool _isDamaged;				//무적시간
 	int _damagedAlpha;
+	int _deadDelay;					//죽음이펙트 플레이딜레이
 
 	float _handAngle;					//손 각도
 

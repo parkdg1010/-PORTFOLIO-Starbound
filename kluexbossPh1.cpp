@@ -26,7 +26,7 @@ HRESULT kluexbossPh1::init()
 	_img[KLUEX_PH1_CONST::ICE]->init(_picL->getWidth(), _picL->getHeight(), 13, 3);
 	_img[KLUEX_PH1_CONST::ICE]->setPlayFrame(26, 37, true);
 	_img[KLUEX_PH1_CONST::ICE]->setFPS(1);
-	//TODO : hitbox크기조정
+
 	_hitBox = RectMakeCenter(_x, _y+50, KLUEX_PH1_CONST::WIDTH, KLUEX_PH1_CONST::HEIGHT);
 
 	_state = KLUEX_PH1_CONST::MAIN;
@@ -78,50 +78,56 @@ HRESULT kluexbossPh1::init()
 
 void kluexbossPh1::update()
 {
-	switch (_activeP)
+	if (_isActive)
 	{
-	case KLUEX_PH1_CONST::NONE:
-		//딜레이주고 랜덤으로 패턴바꾸기
-		DELAYCOUNT(_patternDelay, 60);
-		if (_patternDelay == 0)
-			_activeP = RND->getInt(3);
-		_state = KLUEX_PH1_CONST::MAIN;
-		break;
-	case KLUEX_PH1_CONST::MAIN:
-		_state = KLUEX_PH1_CONST::MAIN;
-		pattern1Update();
-		break;
-	case KLUEX_PH1_CONST::FIRE: //TODO 상태가 너무 확바뀌는데 퀄 높일때 바꿔보자
-		_state = KLUEX_PH1_CONST::FIRE;
-		pattern2Update();
-		break;
-	case KLUEX_PH1_CONST::ICE:
-		_state = KLUEX_PH1_CONST::ICE;
-		pattern3Update();
-	}
+		switch (_activeP)
+		{
+		case KLUEX_PH1_CONST::NONE:
+			//딜레이주고 랜덤으로 패턴바꾸기
+			DELAYCOUNT(_patternDelay, 60);
+			if (_patternDelay == 0)
+				_activeP = RND->getInt(3);
+			_state = KLUEX_PH1_CONST::MAIN;
+			break;
+		case KLUEX_PH1_CONST::MAIN:
+			_state = KLUEX_PH1_CONST::MAIN;
+			pattern1Update();
+			break;
+		case KLUEX_PH1_CONST::FIRE: //TODO 상태가 너무 확바뀌는데 퀄 높일때 바꿔보자
+			_state = KLUEX_PH1_CONST::FIRE;
+			pattern2Update();
+			break;
+		case KLUEX_PH1_CONST::ICE:
+			_state = KLUEX_PH1_CONST::ICE;
+			pattern3Update();
+		}
 
-	_img[_state]->frameUpdate(0.46f);
+		_img[_state]->frameUpdate(0.46f);
+	}
 }
 
 void kluexbossPh1::render()
 {
-	_picL->aniRender(getMemDC(), int(_x - (_img[_state]->getFrameWidth() >> 1) - CAM->getX()),
-		int(_y - (_img[_state]->getFrameHeight() >> 1) - CAM->getY()), _img[_state]); //비트연산 *0.5
-	
-	switch (_activeP)
+	if (_isActive)
 	{
-	case KLUEX_PH1_CONST::NONE:
-		_state = KLUEX_PH1_CONST::MAIN;
-		break;
-	case KLUEX_PH1_CONST::MAIN:
-		pattern1Render();
-		break;
-	case KLUEX_PH1_CONST::FIRE:
-		pattern2Render();
-		break;
-	case KLUEX_PH1_CONST::ICE:
-		pattern3Render();
-		break;
+		_picL->aniRender(getMemDC(), int(_x - (_img[_state]->getFrameWidth() >> 1) - CAM->getX()),
+			int(_y - (_img[_state]->getFrameHeight() >> 1) - CAM->getY()), _img[_state]); //비트연산 *0.5
+
+		switch (_activeP)
+		{
+		case KLUEX_PH1_CONST::NONE:
+			_state = KLUEX_PH1_CONST::MAIN;
+			break;
+		case KLUEX_PH1_CONST::MAIN:
+			pattern1Render();
+			break;
+		case KLUEX_PH1_CONST::FIRE:
+			pattern2Render();
+			break;
+		case KLUEX_PH1_CONST::ICE:
+			pattern3Render();
+			break;
+		}
 	}
 }
 
@@ -192,8 +198,6 @@ void kluexbossPh1::damaged(gameObject * actor)
 			- _flatBoard->getHeight(), 0, 0, _flatBoard->getWidth(), _flatBoard->getHeight());
 		_flatBoardPixelErase->render(_mapPixel->getMemDC(), _x - 400, _y + _img[KLUEX_PH1_CONST::MAIN]->getFrameHeight() * 0.5
 			- _flatBoard->getHeight(), 0, 0, _flatBoard->getWidth(), _flatBoard->getHeight());
-		//TODO 죽으면 이펙트 or 페이즈2
-		SOUNDMANAGER->play("보스죽음", _effectVolume);
 		_isActive = false;
 	}
 }
@@ -227,7 +231,8 @@ void kluexbossPh1::pattern1Update()
 
 	if (_plasmaCount >= _vPlasmaBall.size())
 	{
-		DELAYCOUNT(_p1FireDelay, int(_hp * 0.03f));	//체력과 비례해서 발사딜레이 줄이기
+		if(_hp != 0)
+			DELAYCOUNT(_p1FireDelay, int(_hp * 0.03f));	//체력과 비례해서 발사딜레이 줄이기
 
 		if (_p1FireDelay == 0 && _p1FireCount < 20)
 		{
@@ -316,7 +321,6 @@ void kluexbossPh1::pattern2Update()
 			RECT temp;
 			if (IntersectRect(&temp, &_magmaHitBox, &_player->getHitBox()))
 			{
-				//CHECK 데미지조정
 				_player->damaged(3.f);
 			}
 
@@ -350,7 +354,7 @@ void kluexbossPh1::pattern2Render()
 		//불 올라오기 잘라서 루프렌더
 		RECT temp = { -CAM->getX(), _y + KLUEX_PH1_CONST::HEIGHT*0.7 - _magma->getHeight() - CAM->getY(), 
 			_mapPixel->getWidth() - CAM->getX(), _y + KLUEX_PH1_CONST::HEIGHT*0.7 - CAM->getY() }; //화면좌표인데 y는 바뀌면 안되니까 절대좌표로 바꿔버렸다
-		_magma->loopRender(getMemDC(), &temp, (int)_magmaLoopSPD, 0); //TODO 잘라서 렌더하려면 고민좀 해야할듯
+		_magma->loopRender(getMemDC(), &temp, (int)_magmaLoopSPD, 0); //TODO 올라올때 잘라서 렌더하고 다 올라오면 루프렌더로 바꾸는 걸로 렌더 코드를 2번 나눠두자
 	}
 }
 
@@ -360,9 +364,11 @@ void kluexbossPh1::pattern3Update()
 	{
 		for (int i = 0; i < 3; ++i)
 		{
+			int temp = RND->getInt(8);
+			if (_iceActive[temp]) continue;
 			//얼음은 한번에 3개씩 약간 랜덤한 위치에다 만들어야 하는데
 			//미리 충돌렉트를 깔아두고 isActive를 각각 따로 만든다음에
-			_iceActive[RND->getInt(8)] = true;
+			_iceActive[temp] = true;
 			//랜덤으로 3개만 isActive를 활성해서
 		}
 		_iceStart = true;
@@ -408,8 +414,7 @@ void kluexbossPh1::pattern3Update()
 			{
 				if (IntersectRect(&temp, &_iceHitBox[i], &_player->getHitBox()))
 				{
-					//CHECK 데미지조정
-					_player->damaged(3.f);
+					_player->damaged(5.f);
 					break;
 				}
 			}

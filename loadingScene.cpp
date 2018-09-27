@@ -29,6 +29,9 @@ void loadingScene::update()
 	//로딩완료후 씬변경
 	if (_loading->loadingDone()) //loadingImage와 loadingSound의 인자값으로 addimage, addframeimage하고 다 되면 true
 	{
+		//로딩에서 썻던 흰글씨, 투명배경을 없앰
+		SetBkMode(getMemDC(), OPAQUE);
+		SetTextColor(getMemDC(), RGB(0, 0, 0));
 		loadingEffect();
 		SCENEMANAGER->loadScene("시작"); //게임씬으로 전환
 	}
@@ -78,6 +81,9 @@ void loadingScene::loadingImage()
 	_loading->loadFrameImage("워프_우주선", "Texture/ships/warpUI/warpentry_ship.bmp", 340, 80, 1, 2);
 	_loading->loadFrameImage("워프_집", "Texture/ships/warpUI/warpentry_home.bmp", 340, 80, 1, 2);
 	_loading->loadFrameImage("워프_던전", "Texture/ships/warpUI/warpentry_dungeon.bmp", 340, 80, 1, 2);
+
+	_loading->loadFrameImage("warpDown", "Texture/ships/warpUI/warpdown_240x320_4x1.bmp", 240, 320, 4, 1);	//워프빔
+	_loading->loadFrameImage("warpField", "Texture/ships/warpUI/starfield1.bmp", 1280, 720, true, MAGENTA);	//워프우주
 
 	//오브젝트
 	loadingObjects();
@@ -161,13 +167,17 @@ void loadingScene::loadingEffectImage()
 	_loading->loadFrameImage("plasmaflashImg", "Texture/item/weapons/ranged/plasmaflash_120x64_3x2.bmp", 120, 64, 3, 2);		//플라즈마플래시
 
 	_loading->loadFrameImage("standardBullet", "Texture/item/weapons/ranged/standardbullet.bmp", 51, 9, 1, 1);					//기본불릿
-	_loading->loadFrameImage("bulletEffectImg", "Texture/item/weapons/ranged/bulletEffect_161x25_7x1.bmp", 161, 25, 7, 1);		//불릿이펙트
+	_loading->loadFrameImage("bulletEffectImg", "Texture/item/weapons/ranged/bulletEffect_160x40_4x1.bmp", 160, 40, 4, 1);		//불릿이펙트
 	_loading->loadFrameImage("plasmaBullet", "Texture/item/weapons/ranged/plasma_288x44_4x1.bmp", 288, 44, 4, 1);				//플라즈마불릿
-	_loading->loadFrameImage("plasmaEffectImg", "Texture/item/weapons/ranged/plasmaEffect_78x39_2x1.bmp", 78, 39, 2, 1);		//플라즈마이펙트
+	_loading->loadFrameImage("plasmaEffectImg", "Texture/item/weapons/ranged/plasmaEffect_156x78_2x1.bmp", 156, 78, 2, 1);		//플라즈마이펙트
 
 	_loading->loadFrameImage("tearswoosh1Img", "Texture/item/weapons/melee/broadsword/tearswoosh1_732x295_3x2.bmp", 732, 295, 3, 2);	//칼공격1번
 	_loading->loadFrameImage("tearswoosh2Img", "Texture/item/weapons/melee/broadsword/tearswoosh2_363x116_3x2.bmp", 363, 116, 3, 2);	//칼공격2번
 	_loading->loadFrameImage("tearswoosh3Img", "Texture/item/weapons/melee/broadsword/tearswoosh3_412x68_3x2.bmp", 412, 68, 3, 2);		//칼공격3번
+
+	_loading->loadFrameImage("kluexCrystalImg", "Texture/enemy/monsters/boss/death/kluexcrystal.bmp", 48, 48, 1, 1);				//보스죽음유리
+	_loading->loadFrameImage("kluexCrystalShardImg", "Texture/enemy/monsters/boss/death/kluexcrystalshard.bmp", 48, 48, 1, 1);		//보스죽음유리2
+	_loading->loadFrameImage("kluexStatueShardImg", "Texture/enemy/monsters/boss/death/kluexstatueshard.bmp", 48, 48, 1, 1);		//보스죽음석상
 }
 
 void loadingScene::loadingEffect()
@@ -179,7 +189,7 @@ void loadingScene::loadingEffect()
 	EFFECTMANAGER->addEffect("bulletEffect", "bulletEffectImg", 1.4f, 15);
 
 	EFFECTMANAGER->addEffect("plasmaflash", "plasmaflashImg", 0.4f, 10);
-	EFFECTMANAGER->addEffect("plasmaEffect", "plasmaEffectImg", 1.0f, 15);
+	EFFECTMANAGER->addEffect("plasmaEffect", "plasmaEffectImg", 2.0f, 15);
 
 	EFFECTMANAGER->addEffect("kluex_Staff_Plasma", "kluexstaffplasmaImg", 0.05f, 20);
 	EFFECTMANAGER->addEffect("red_Pulse_Cannon_Explosion", "redpulsecannonexplosionImg", 0.05, 20);

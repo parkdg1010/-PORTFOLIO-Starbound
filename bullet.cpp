@@ -24,7 +24,7 @@ HRESULT bullet::init(float radius, float speed, float damage, float range, const
 
 HRESULT bullet::init(float radius, float speed, float damage, float range, image* image)
 {
-	if (image != NULL) //문자열 비교함수 strcmp 
+	if (image != NULL)
 		_image = image;
 	else
 		_image = NULL;

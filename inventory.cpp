@@ -55,7 +55,7 @@ void inventory::update()
 			}
 		}
 
-		//TODO 오른쪽 클릭으로 아이템장착하기 넣자.
+		//오른쪽 클릭으로 아이템장착하기
 		if (KEYMANAGER->isOnceKeyDown(VK_RBUTTON))
 		{
 			itemUse();
@@ -76,8 +76,8 @@ void inventory::render()
 		curTabIconRender();
 		//장비템 렌더
 		equipItemRender();
-		//TODO 공격력, 방어력, 체력 렌더하기
-		//매개변수로 플레이어의 체력값을 받아다 체력바 렌더하자
+		//공격력, 방어력, 체력 렌더하기
+		//체력바 렌더는 플레이어에게 있다.
 		_hpBar->render(_uiDC);
 	}
 }

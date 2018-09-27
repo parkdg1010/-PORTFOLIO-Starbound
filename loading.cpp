@@ -106,10 +106,12 @@ HRESULT loading::init(void)
 {
 	//로딩화면 백그라운드 이미지 초기화
 	_background = IMAGEMANAGER->addFrameImage("bgLoadingScene", "Texture/ui/bunny_2048x160_1x8.bmp", 2048, 160, 8, 1); //IMAGEMANAGER->addImage("bgLoadingScene", "bgLoadingScene.bmp", WINSIZEX, WINSIZEY);
-
+	
 	//로딩바 클래스 초기화
 	_loadingBar = new progressBar;
-	_loadingBar->init("loadingBarFront", "loadingBarBack", 320, 630, 600, 20);
+	_loadingBar->init("loadingBarFront", "loadingBarBack", 320, 630, 600, 40);
+	image* temp = IMAGEMANAGER->addFrameImage("loadingBarFrontFrame", "loadingBarFront.bmp", 600, 600, 1, 15);
+	_loadingBar->setFrontImg(temp);
 	_loadingBar->setGauge(0, 0);
 	//현재 게이지 초기화
 	_currentGauge = 0;
@@ -159,9 +161,13 @@ void loading::render(void)
 	char fileName[64];
 	if (_currentGauge < _vLoadItem.size())
 	{
+		//글자배경모드
+		SetBkMode(getMemDC(), TRANSPARENT);
+		//글자색상
+		SetTextColor(getMemDC(), RGB(255, 255, 255));
 		if (_vLoadItem[_currentGauge]->getLoadingKind() == LOAD_KIND_SOUND)
 		{
-			sprintf_s(fileName, "Sound\\%s.mp3", _vLoadItem[_currentGauge]->getSoundResource().keyName.c_str()); //c_str 스트링을 const char*형으로
+			sprintf_s(fileName, "Sound\\%s.ogg", _vLoadItem[_currentGauge]->getSoundResource().keyName.c_str()); //c_str 스트링을 const char*형으로
 			TextOut(getMemDC(), _loadingBar->getRect().left + 10, _loadingBar->getRect().bottom + 20, fileName, strlen(fileName));
 		}
 		else

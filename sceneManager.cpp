@@ -63,8 +63,9 @@ HRESULT sceneManager::loadScene(string sceneName)
 	//못찾았다면 E_FAIL
 	if (find == _mSceneList.end()) return E_FAIL;
 
-	//바꾸려는 씬과 현재씬이 같다면 E_FAIL
-	if (find->second == _currentScene) return E_FAIL;
+	//CHECK stageScene으로 던전과 집을 공유하고 있어서 같은씬이어도 realease하고 init해야함
+	//바꾸려는 씬과 현재씬이 같다면 E_FAIL 
+	//if (find->second == _currentScene) return E_FAIL;
 
 	if (_currentScene != NULL)
 		_currentScene->release();

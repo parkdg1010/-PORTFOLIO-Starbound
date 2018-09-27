@@ -3,7 +3,6 @@
 
 namespace SCAVERAN_CONST
 {
-	//TODO ¿Á¡∂¡§
 	const int WIDTH = 113;
 	const int HEIGHT = 54;
 	enum STATE

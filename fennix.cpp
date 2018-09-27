@@ -152,7 +152,6 @@ void fennix::release()
 
 void fennix::bltFire()
 {
-	//TODO : 불릿프레임 천천히 돌게하고, 발사딜레이 주기
 	if (_isFire)
 	{
 		DELAYCOUNT(_fireDelay, 14);
@@ -388,6 +387,8 @@ void fennix::damaged(gameObject * actor)
 	{
 		_hp = 0;
 		_isActive = false;
+		if (SOUNDMANAGER->isPlaySound("화염방사"))
+			SOUNDMANAGER->stop("화염방사");
 	}
 }
 
