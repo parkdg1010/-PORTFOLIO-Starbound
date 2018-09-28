@@ -680,7 +680,7 @@ void player::damaged(gameObject * actor)
 	if (!_isDamaged)
 	{
 		_hp -= actor->getDamage();
-		EFFECTMANAGER->play("PLAYER_HIT", _x, _y+15);
+		EFFECTMANAGER->play("PLAYER_HIT", _x + RND->getInt(15) - RND->getInt(15), _y + RND->getInt(15) - RND->getInt(15));
 		if (!SOUNDMANAGER->isPauseSound("¼¦°ÇÅ¸°Ý"))
 			SOUNDMANAGER->play("¼¦°ÇÅ¸°Ý", _effectVolume);
 		_isDamaged = true;
@@ -698,7 +698,7 @@ void player::damaged(float damage)
 	if (!_isDamaged)
 	{
 		_hp -= damage;
-		EFFECTMANAGER->play("PLAYER_HIT", _x, _y+15);
+		EFFECTMANAGER->play("PLAYER_HIT", _x + RND->getInt(15) - RND->getInt(15), _y + RND->getInt(15) - RND->getInt(15));
 		if (!SOUNDMANAGER->isPauseSound("¼¦°ÇÅ¸°Ý"))
 			SOUNDMANAGER->play("¼¦°ÇÅ¸°Ý", _effectVolume);
 		_isDamaged = true;
