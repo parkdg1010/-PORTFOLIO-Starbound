@@ -34,6 +34,8 @@ HRESULT mapToolScene::init()
 
 	initBrush();
 
+	SOUNDMANAGER->stop("¿Œ∆Æ∑Œ");
+
 	return S_OK;
 }
 

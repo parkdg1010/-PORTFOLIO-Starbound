@@ -17,6 +17,7 @@ HRESULT mainGame::init()
 	SCENEMANAGER->addScene("시작", new startScene);
 	SCENEMANAGER->addScene("인게임", new stageScene);
 	SCENEMANAGER->addScene("우주선", new spaceShipScene);
+	SCENEMANAGER->addScene("엔딩", new endingScene);
 
 	SCENEMANAGER->loadScene("로딩화면");
 

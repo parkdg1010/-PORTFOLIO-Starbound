@@ -468,56 +468,38 @@ bool player::collideStage(int range)
 		// 벽 반대쪽으로 _speed값만을 벽방향으로 1픽셀(i값)씩 검사하면 된다.
 
 		//위쪽 검사
-		for (int i = _y - PLAYER_CONST::HEIGHT * 0.5f + range; i >= _y - PLAYER_CONST::HEIGHT * 0.5f; --i)
+		if (_stage->getPixelBuffer() != NULL)
 		{
-			color = GetPixel(_stage->getPixelBuffer()->getMemDC(), _x, i);
-			r = GetRValue(color);
-			g = GetGValue(color);
-			b = GetBValue(color);
-
-			if (r == 0 && g == 0 && b == 255)
+			for (int i = _y - PLAYER_CONST::HEIGHT * 0.5f + range; i >= _y - PLAYER_CONST::HEIGHT * 0.5f; --i)
 			{
-				_y = i + PLAYER_CONST::HEIGHT * 0.5f;
-				updateHitbox();
-				upCollision = true;
-				break;
-			}
-		}
+				color = GetPixel(_stage->getPixelBuffer()->getMemDC(), _x, i);
+				r = GetRValue(color);
+				g = GetGValue(color);
+				b = GetBValue(color);
 
-		//아래쪽 검사
-		//WALK상태 FALL상태에 대해 처리해야함
-		if (_state == WALK) _keepWalk = 15;
-		else _keepWalk = 0;
-
-		for (int i = _y + PLAYER_CONST::HEIGHT * 0.5f - range; i <= _y + PLAYER_CONST::HEIGHT * 0.5f + _keepWalk; ++i)
-		{
-			color = GetPixel(_stage->getPixelBuffer()->getMemDC(), _x, i);
-			r = GetRValue(color);
-			g = GetGValue(color);
-			b = GetBValue(color);
-
-			//타일
-			if (r == 0 && g == 0 && b == 255)
-			{
-				_y = i - PLAYER_CONST::HEIGHT * 0.5f;
-				updateHitbox();
-				_gravity = 0;
-				if (_state == FALL)
-					changeState(IDLE);
-				_axisY = NONE;
-				_longJumpValue = 0;
-				_jumpCount = 0;
-				break;
-			}
-			//발판
-			else if (r == 0 && g == 255 && b == 0)
-			{
-				if (_axisY == DOWN && _state == FALL)
+				if (r == 0 && g == 0 && b == 255)
 				{
-					_longJumpValue = 8;
-					_jumpCount = 1;
+					_y = i + PLAYER_CONST::HEIGHT * 0.5f;
+					updateHitbox();
+					upCollision = true;
+					break;
 				}
-				else
+			}
+
+			//아래쪽 검사
+			//WALK상태 FALL상태에 대해 처리해야함
+			if (_state == WALK) _keepWalk = 15;
+			else _keepWalk = 0;
+
+			for (int i = _y + PLAYER_CONST::HEIGHT * 0.5f - range; i <= _y + PLAYER_CONST::HEIGHT * 0.5f + _keepWalk; ++i)
+			{
+				color = GetPixel(_stage->getPixelBuffer()->getMemDC(), _x, i);
+				r = GetRValue(color);
+				g = GetGValue(color);
+				b = GetBValue(color);
+
+				//타일
+				if (r == 0 && g == 0 && b == 255)
 				{
 					_y = i - PLAYER_CONST::HEIGHT * 0.5f;
 					updateHitbox();
@@ -529,40 +511,62 @@ bool player::collideStage(int range)
 					_jumpCount = 0;
 					break;
 				}
+				//발판
+				else if (r == 0 && g == 255 && b == 0)
+				{
+					if (_axisY == DOWN && _state == FALL)
+					{
+						_longJumpValue = 8;
+						_jumpCount = 1;
+					}
+					else
+					{
+						_y = i - PLAYER_CONST::HEIGHT * 0.5f;
+						updateHitbox();
+						_gravity = 0;
+						if (_state == FALL)
+							changeState(IDLE);
+						_axisY = NONE;
+						_longJumpValue = 0;
+						_jumpCount = 0;
+						break;
+					}
+				}
 			}
-		}
 
-		//왼쪽 검사
-		for (int i = _x - PLAYER_CONST::WIDTH * 0.5f + range; i >= _x - PLAYER_CONST::WIDTH * 0.5f; --i)
-		{
-			color = GetPixel(_stage->getPixelBuffer()->getMemDC(), i, _y);
-			r = GetRValue(color);
-			g = GetGValue(color);
-			b = GetBValue(color);
-
-			if (r == 0 && g == 0 && b == 255)
+			//왼쪽 검사
+			for (int i = _x - PLAYER_CONST::WIDTH * 0.5f + range; i >= _x - PLAYER_CONST::WIDTH * 0.5f; --i)
 			{
-				_x = i + PLAYER_CONST::WIDTH * 0.5f;
-				updateHitbox();
-				break;
+				color = GetPixel(_stage->getPixelBuffer()->getMemDC(), i, _y);
+				r = GetRValue(color);
+				g = GetGValue(color);
+				b = GetBValue(color);
+
+				if (r == 0 && g == 0 && b == 255)
+				{
+					_x = i + PLAYER_CONST::WIDTH * 0.5f;
+					updateHitbox();
+					break;
+				}
 			}
-		}
 
-		//오른쪽 검사
-		for (int i = _x + PLAYER_CONST::WIDTH * 0.5f - range; i <= _x + PLAYER_CONST::WIDTH * 0.5f; ++i)
-		{
-			color = GetPixel(_stage->getPixelBuffer()->getMemDC(), i, _y);
-			r = GetRValue(color);
-			g = GetGValue(color);
-			b = GetBValue(color);
-
-			if (r == 0 && g == 0 && b == 255)
+			//오른쪽 검사
+			for (int i = _x + PLAYER_CONST::WIDTH * 0.5f - range; i <= _x + PLAYER_CONST::WIDTH * 0.5f; ++i)
 			{
-				_x = i - PLAYER_CONST::WIDTH * 0.5f;
-				updateHitbox();
-				break;
+				color = GetPixel(_stage->getPixelBuffer()->getMemDC(), i, _y);
+				r = GetRValue(color);
+				g = GetGValue(color);
+				b = GetBValue(color);
+
+				if (r == 0 && g == 0 && b == 255)
+				{
+					_x = i - PLAYER_CONST::WIDTH * 0.5f;
+					updateHitbox();
+					break;
+				}
 			}
 		}
+		
 	}
 	else if (_mapPixel != NULL)
 	{
@@ -676,6 +680,9 @@ void player::damaged(gameObject * actor)
 	if (!_isDamaged)
 	{
 		_hp -= actor->getDamage();
+		EFFECTMANAGER->play("PLAYER_HIT", _x, _y+15);
+		if (!SOUNDMANAGER->isPauseSound("샷건타격"))
+			SOUNDMANAGER->play("샷건타격", _effectVolume);
 		_isDamaged = true;
 		//데미지받을때 깜빡임
 	}
@@ -691,6 +698,9 @@ void player::damaged(float damage)
 	if (!_isDamaged)
 	{
 		_hp -= damage;
+		EFFECTMANAGER->play("PLAYER_HIT", _x, _y+15);
+		if (!SOUNDMANAGER->isPauseSound("샷건타격"))
+			SOUNDMANAGER->play("샷건타격", _effectVolume);
 		_isDamaged = true;
 		//데미지받을때 깜빡임
 	}

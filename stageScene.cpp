@@ -46,6 +46,18 @@ void stageScene::update()
 	_stage->update();
 	_enemyManager->update();
 	_player->update();
+	for (int i = 0; i < _enemyManager->getEnemy().size(); ++i)
+	{
+		if (dynamic_cast<kluexboss*>(_enemyManager->getEnemy()[i]) != NULL)
+		{
+			if (!dynamic_cast<kluexboss*>(_enemyManager->getEnemy()[i])->getIsActive())
+			{
+				SCENEMANAGER->loadScene("¿£µù");
+				break;
+			}
+		}
+	}
+	
 	CAM->videoShooting((int)_player->getX(), (int)_player->getY());
 }
 

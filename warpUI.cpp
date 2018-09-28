@@ -12,6 +12,9 @@ HRESULT warpUI::init()
 	_warp[SHIP] = IMAGEMANAGER->findImage("워프_우주선");
 	_warp[HOME] = IMAGEMANAGER->findImage("워프_집");
 
+	_warpBeam = IMAGEMANAGER->findImage("워프다운");
+	_warpSpace = IMAGEMANAGER->findImage("워프필드");
+
 	_x = WINSIZEX * 0.8f;
 	_y = WINSIZEY * 0.5f;
 
@@ -22,6 +25,8 @@ void warpUI::update()
 {
 	if (_isActive)
 	{
+		UIMANAGER->setStandby(true);
+
 		if (PtInRect(&_rcButton, _ptMouse))
 			_warpButton->setFrameY(1);
 		else _warpButton->setFrameY(0);
@@ -59,6 +64,31 @@ void warpUI::render()
 		_uiDC = UIMANAGER->getUIDC();
 		//워프패널 렌더
 		ctrlPanelRender();
+	}
+
+	if (!UIMANAGER->getStandby())
+	{
+		DELAYCOUNT(_warpBeamCount, 7);
+		if (_warpBeamCount == 0)
+		{
+			++_warpBeamIndex;
+			if (_warpBeamIndex > _warpBeam->getMaxFrameX())
+			{
+				_warpBeamIndex = 0;
+			}
+		}
+		RECT temp = { 0, 0, WINSIZEX, WINSIZEY };
+		_warpSpace->loopRender(getMemDC(), &temp, 0, _warpSpaceLoopY);
+		++_warpSpaceLoopY;
+		_warpBeam->frameRender(getMemDC(), (WINSIZEX - _warpBeam->getFrameWidth())*0.5, 
+			(WINSIZEY - _warpBeam->getFrameHeight())*0.5, _warpBeamIndex, 0);
+		DELAYCOUNT(_warpBeamDelay, 180);
+		if (_warpBeamDelay == 0)
+			UIMANAGER->setStandby(true);
+		}
+	else
+	{
+		_warpSpaceLoopY = 0;
 	}
 }
 
@@ -144,18 +174,21 @@ void warpUI::warpDone()
 		{
 		case DUNGEON:
 			_isActive = false;
+			UIMANAGER->setStandby(false);
 			_player->setPosition(3400, 340, LEFT);
 			_player->setStageNum(2);
 			SCENEMANAGER->loadScene("인게임");
 			break;
 		case HOME:
 			_isActive = false;
+			UIMANAGER->setStandby(false);
 			_player->setPosition(2000, 440, LEFT);
 			_player->setStageNum(1);
 			SCENEMANAGER->loadScene("인게임");
 			break;
 		case SHIP:
 			_isActive = false;
+			UIMANAGER->setStandby(false);
 			_player->setPosition(3350, 750, RIGHT);
 			SCENEMANAGER->loadScene("우주선");
 			break;

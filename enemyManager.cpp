@@ -17,12 +17,15 @@ HRESULT enemyManager::init()
 
 void enemyManager::update()
 {
-	for (int i = 0; i < _vEnemy.size(); ++i)
+	if (UIMANAGER->getStandby())
 	{
-		if (!_vEnemy[i]->getIsActive()) continue;
+		for (int i = 0; i < _vEnemy.size(); ++i)
+		{
+			if (!_vEnemy[i]->getIsActive()) continue;
 
-		_vEnemy[i]->bltUpdate();
-		_vEnemy[i]->update();
+			_vEnemy[i]->bltUpdate();
+			_vEnemy[i]->update();
+		}
 	}
 }
 
@@ -33,8 +36,8 @@ void enemyManager::render()
 	{
 		if (!_vEnemy[i]->getIsActive()) continue;
 
-		_vEnemy[i]->bltRender();
 		_vEnemy[i]->render();
+		_vEnemy[i]->bltRender();
 	}
 }
 

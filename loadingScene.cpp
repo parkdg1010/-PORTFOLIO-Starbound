@@ -82,8 +82,8 @@ void loadingScene::loadingImage()
 	_loading->loadFrameImage("워프_집", "Texture/ships/warpUI/warpentry_home.bmp", 340, 80, 1, 2);
 	_loading->loadFrameImage("워프_던전", "Texture/ships/warpUI/warpentry_dungeon.bmp", 340, 80, 1, 2);
 
-	_loading->loadFrameImage("warpDown", "Texture/ships/warpUI/warpdown_240x320_4x1.bmp", 240, 320, 4, 1);	//워프빔
-	_loading->loadFrameImage("warpField", "Texture/ships/warpUI/starfield1.bmp", 1280, 720, true, MAGENTA);	//워프우주
+	_loading->loadFrameImage("워프다운", "Texture/ships/warpUI/warpdown_240x320_4x1.bmp", 240, 320, 4, 1);	//워프빔
+	_loading->loadFrameImage("워프필드", "Texture/ships/warpUI/starfield1.bmp", 1280, 720, true, MAGENTA);	//워프우주
 
 	//오브젝트
 	loadingObjects();
@@ -123,6 +123,7 @@ void loadingScene::loadingSound()
 	_loading->loadSound("집", "Music/bgm/on-the-beach-at-night.ogg", true, true);
 	_loading->loadSound("우주선", "Music/bgm/space_loop3.ogg", true, true);
 	_loading->loadSound("던전", "Music/bgm/desert_day.ogg", true, true);
+	_loading->loadSound("엔딩", "Music/bgm/gravitational-collapse-loop.ogg", true, true);
 
 	//효과음
 	_loading->loadSound("샷건", "Music/effect/shotgun1.ogg");
@@ -137,6 +138,7 @@ void loadingScene::loadingSound()
 	_loading->loadSound("보스용암", "Music/effect/boss/kluexboss_floorlava.ogg");
 	_loading->loadSound("보스얼음", "Music/effect/boss/kluexboss_iceeruption1.ogg");
 	_loading->loadSound("보스불릿", "Music/effect/boss/kluexboss_phase1.ogg");
+	_loading->loadSound("보스불릿발사", "Music/effect/boss/pulsecannon_blast1.ogg");
 	_loading->loadSound("보스발판올림", "Music/effect/boss/kluexboss_pillarplatform.ogg");
 
 	_loading->loadSound("화염방사", "Music/effect/walkers/flamethrower_loop.ogg");
@@ -150,6 +152,7 @@ void loadingScene::loadingEffectImage()
 {
 	_loading->loadFrameImage("JUMPDUSTImg", "Texture/character/dust2/jumpDust_64x32_2x1.bmp", 64, 32, 2, 1);					//점프 먼지
 	_loading->loadFrameImage("PLAYERDEAthImg", "Texture/character/playerdeath_1806x129_14x1.bmp", 1806, 129, 14, 1);			//플레이어 죽음
+	_loading->loadFrameImage("PLAYERHITImg", "Texture/character/largehitspark_540x108_5x1.bmp", 540, 108, 5, 1);				//플레이어 피격
 
 	_loading->loadFrameImage("kluexstaffplasmaImg", "Texture/projectiles/kluexstaffplasma.bmp", 432, 51, 8, 1);					//기운수정 조준판
 	_loading->loadFrameImage("redpulsecannonexplosionImg", "Texture/projectiles/redpulsecannonexplosion.bmp", 468, 117, 4, 1);	//기운수정 쏠떄
@@ -157,7 +160,7 @@ void loadingScene::loadingEffectImage()
 	_loading->loadImage("pillarplatformImg", "Texture/projectiles/pillarplatform.bmp", 144, 192, true, MAGENTA);				//발판
 	_loading->loadImage("pillarplatformPixelImg", "Texture/projectiles/pillarplatformPixel.bmp", 144, 192);						//발판픽셀 - 마젠타를 여기서 무시해버리면 그릴때 발판 초록색만 나와버린다 아랫부분이 안지워짐
 	_loading->loadImage("pillarplatformPixelEraserImg", "Texture/projectiles/platformPixelEraser.bmp", 144, 192);				//발판픽셀 - 지우기
-	_loading->loadImage("firefloorhazardImg", "Texture/projectiles/firefloorhazard.bmp", 1536, 48, true, MAGENTA);				//마그마올리기
+	_loading->loadImage("firefloorhazardImg", "Texture/projectiles/firefloorhazard.bmp", 3072, 48, true, MAGENTA);				//마그마올리기
 	_loading->loadFrameImage("iceeruptionImg", "Texture/projectiles/iceeruption.bmp", 768, 168, 4, 1);							//얼음기둥
 	_loading->loadFrameImage("energywaveImg", "Texture/projectiles/energywave.bmp", 576, 66, 3, 1);								//기운파도(불릿)
 
@@ -165,6 +168,8 @@ void loadingScene::loadingEffectImage()
 
 	_loading->loadFrameImage("muzzleflashImg", "Texture/item/weapons/ranged/muzzleflash_135x90_3x2.bmp", 135, 90, 3, 2);		//머즐플래시
 	_loading->loadFrameImage("plasmaflashImg", "Texture/item/weapons/ranged/plasmaflash_120x64_3x2.bmp", 120, 64, 3, 2);		//플라즈마플래시
+
+	_loading->loadFrameImage("iceShardImg", "Texture/projectiles/iceshard_120x24_5x1.bmp", 120, 24, 5, 1);						//얼음조각
 
 	_loading->loadFrameImage("standardBullet", "Texture/item/weapons/ranged/standardbullet.bmp", 51, 9, 1, 1);					//기본불릿
 	_loading->loadFrameImage("bulletEffectImg", "Texture/item/weapons/ranged/bulletEffect_160x40_4x1.bmp", 160, 40, 4, 1);		//불릿이펙트
@@ -184,6 +189,7 @@ void loadingScene::loadingEffect()
 {
 	EFFECTMANAGER->addEffect("JUMP_DUST", "JUMPDUSTImg", 0.05f, 10);
 	EFFECTMANAGER->addEffect("PLAYER_DEATH", "PLAYERDEAthImg", 0.3f, 1);
+	EFFECTMANAGER->addEffect("PLAYER_HIT", "PLAYERHITImg", 0.7f, 1);
 
 	EFFECTMANAGER->addEffect("muzzleflash", "muzzleflashImg", 0.4f, 10);
 	EFFECTMANAGER->addEffect("bulletEffect", "bulletEffectImg", 1.4f, 15);
@@ -196,6 +202,7 @@ void loadingScene::loadingEffect()
 	EFFECTMANAGER->addEffect("energy_Crystal", "energycrystalImg", 0.05f, 20);
 	EFFECTMANAGER->addEffect("ice_Eruption", "iceeruptionImg", 0.05f, 10);
 	EFFECTMANAGER->addEffect("energy_Wave", "energywaveImg", 0.05f, 10);
+	EFFECTMANAGER->addEffect("iceShard", "iceShardImg", 0.2f, 90);
 
 	EFFECTMANAGER->addEffect("tearswoosh2", "tearswoosh2Img", 0.05f, 1);
 	EFFECTMANAGER->addEffect("tearswoosh3", "tearswoosh3Img", 0.05f, 1);

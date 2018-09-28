@@ -32,6 +32,8 @@ private:
 	int _destX, _destY;
 	int _rcWidth, _rcHeight;
 
+	bool _isStandby;
+
 	/////// volume UI
 	image *_board, *_backToMenu;
 	progressBar * _volume;
@@ -49,6 +51,9 @@ public:
 
 	void newSceneStart(HDC hdc);
 	void startingNewScene(int x, int y);
+
+	bool getStandby() { return _isStandby; }
+	void setStandby(bool go) { _isStandby = go; }
 
 	bool checkEndScene() { return _endScene; }
 	bool checkBlocking() { return _isBlockingUI; }

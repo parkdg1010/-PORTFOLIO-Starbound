@@ -21,6 +21,7 @@ HRESULT UIManager::init()
 	_alpha = 200;
 
 	_sceneChanging = _startingScene = false;
+	_isStandby = true;
 
 	///////////// volume UI
 	//_backToMenu = IMAGEMANAGER->findImage("BACK_TO_MENU");
@@ -69,7 +70,8 @@ void UIManager::update()
 
 void UIManager::render(HDC hdc)
 {
-	_uiDC->render(hdc);
+	if(_isStandby)
+		_uiDC->render(hdc);
 
 	/*if (_sceneChanging)
 	{

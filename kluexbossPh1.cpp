@@ -231,7 +231,7 @@ void kluexbossPh1::pattern1Update()
 
 	if (_plasmaCount >= _vPlasmaBall.size())
 	{
-		if(_hp != 0)
+		if(_hp > 0)
 			DELAYCOUNT(_p1FireDelay, int(_hp * 0.03f));	//체력과 비례해서 발사딜레이 줄이기
 
 		if (_p1FireDelay == 0 && _p1FireCount < 20)
@@ -244,7 +244,7 @@ void kluexbossPh1::pattern1Update()
 
 				EFFECTMANAGER->play("red_Pulse_Cannon_Explosion", (int)_vPlasmaBall[temp].getX(), (int)_vPlasmaBall[temp].getY());
 				_vBullet->at(i).fire(_vPlasmaBall[temp].getX(), _vPlasmaBall[temp].getY(),
-					utl::getAnglePL(_vPlasmaBall[temp].getX(), _vPlasmaBall[temp].getY(), _player->getX(), _player->getY()));
+					utl::getAnglePL(_vPlasmaBall[temp].getX(), _vPlasmaBall[temp].getY(), _player->getX(), _player->getY()), "보스불릿발사");
 				++_p1FireCount;
 				break;
 			}
@@ -314,7 +314,7 @@ void kluexbossPh1::pattern2Update()
 			_magmaLoopSPD += 2; //루프렌더
 
 			if (!SOUNDMANAGER->isPlaySound("보스용암"))
-				SOUNDMANAGER->play("보스용암", _effectVolume);
+				SOUNDMANAGER->play("보스용암", _effectVolume*1.2);
 
 			DELAYCOUNT(_p2Duration, 500);
 			//데미지주기
@@ -349,12 +349,19 @@ void kluexbossPh1::pattern2Render()
 	_flatBoard->render(getMemDC(), _x + 400 - CAM->getX(), _y + _img[KLUEX_PH1_CONST::MAIN]->getFrameHeight() * 0.5 - _boardY - CAM->getY()
 		, 0, 0, _flatBoard->getWidth(), _boardY);
 
-	if (_boardY >= _flatBoard->getHeight())
+	if (_magmaY < _magma->getHeight())
 	{
-		//불 올라오기 잘라서 루프렌더
-		RECT temp = { -CAM->getX(), _y + KLUEX_PH1_CONST::HEIGHT*0.7 - _magma->getHeight() - CAM->getY(), 
-			_mapPixel->getWidth() - CAM->getX(), _y + KLUEX_PH1_CONST::HEIGHT*0.7 - CAM->getY() }; //화면좌표인데 y는 바뀌면 안되니까 절대좌표로 바꿔버렸다
-		_magma->loopRender(getMemDC(), &temp, (int)_magmaLoopSPD, 0); //TODO 올라올때 잘라서 렌더하고 다 올라오면 루프렌더로 바꾸는 걸로 렌더 코드를 2번 나눠두자
+		_magma->render(getMemDC(), _x-_magma->getWidth()*0.5-CAM->getX(), _y + KLUEX_PH1_CONST::HEIGHT * 0.7 - _magmaY - CAM->getY(), 0, 0, _magma->getWidth(), _magmaY);
+	}
+	else
+	{
+		if (_boardY >= _flatBoard->getHeight())
+		{
+			//불 올라오기 잘라서 루프렌더
+			RECT temp = { _x - _magma->getWidth()*0.5 -CAM->getX(), _y + KLUEX_PH1_CONST::HEIGHT*0.7 - _magma->getHeight() - CAM->getY(),
+				_magma->getWidth(), _y + KLUEX_PH1_CONST::HEIGHT*0.7 - CAM->getY() }; //화면좌표인데 y는 바뀌면 안되니까 절대좌표로 바꿔버렸다
+			_magma->loopRender(getMemDC(), &temp, (int)_magmaLoopSPD, 0);
+		}
 	}
 }
 
@@ -427,7 +434,15 @@ void kluexbossPh1::pattern3Update()
 			_activeP = KLUEX_PH1_CONST::NONE;
 			for (int i = 0; i < 8; ++i)
 			{
-				_iceActive[i] = false;
+				if (_iceActive[i])
+				{
+					for (int j = 0; j < 30; ++j)
+					{
+						EFFECTMANAGER->play("iceShard", _iceHitBox[i].left + RND->getFloat(_iceHitBox[i].right - _iceHitBox[i].left),
+							_iceHitBox[i].top + RND->getFloat(_iceHitBox[i].bottom - _iceHitBox[i].top), RND->getFloat(PI));
+					}
+					_iceActive[i] = false;
+				}
 				_iceHitBox[i] = RectMake(_x - _iceblock->getFrameWidth() * 4 + _iceblock->getFrameWidth()*i,
 					0, _iceblock->getFrameWidth(), _y + _img[KLUEX_PH1_CONST::MAIN]->getFrameHeight() * 0.5);
 				_iceblock->setFrameX(0);

@@ -263,6 +263,9 @@
     <ClInclude Include="scaveran.h">
       <Filter>GameActors\에너미\walkers</Filter>
     </ClInclude>
+    <ClInclude Include="endingScene.h">
+      <Filter>GameScene</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -414,6 +417,9 @@
     </ClCompile>
     <ClCompile Include="scaveran.cpp">
       <Filter>GameActors\에너미\walkers</Filter>
+    </ClCompile>
+    <ClCompile Include="endingScene.cpp">
+      <Filter>GameScene</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

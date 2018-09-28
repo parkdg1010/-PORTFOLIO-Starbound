@@ -5,6 +5,7 @@
 #include "mapToolScene.h"
 #include "stageScene.h"
 #include "spaceShipScene.h"
+#include "endingScene.h"
 #include "player.h"
 
 class mainGame : public gameNode

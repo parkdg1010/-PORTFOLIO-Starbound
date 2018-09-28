@@ -14,9 +14,10 @@ private:
 	bool _isPhase2;
 	int _deadCount;
 
-	vector<bullet> _deadEffect[3];
+	vector<bullet> _vDeadEffect[3];
 	float _deadGravity;
 	bool _isDeadEffect;
+	int _deadDelay;
 
 	progressBar* _hpBar;
 

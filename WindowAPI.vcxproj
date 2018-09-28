@@ -153,6 +153,7 @@
     <ClInclude Include="commonMacroFunction.h" />
     <ClInclude Include="effect.h" />
     <ClInclude Include="effectManager.h" />
+    <ClInclude Include="endingScene.h" />
     <ClInclude Include="enemyFactory.h" />
     <ClInclude Include="fennix.h" />
     <ClInclude Include="gameActor.h" />
@@ -207,6 +208,7 @@
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="effect.cpp" />
     <ClCompile Include="effectManager.cpp" />
+    <ClCompile Include="endingScene.cpp" />
     <ClCompile Include="enemyFactory.cpp" />
     <ClCompile Include="fennix.cpp" />
     <ClCompile Include="gameActor.cpp" />

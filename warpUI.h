@@ -21,6 +21,14 @@ private:
 	bool _isCtrlPanelMove;
 	POINT _ctrlPanelMove;
 
+	image* _warpBeam;
+	image* _warpSpace;
+	//bool _isWarpBeam;
+	int _warpBeamDelay;
+	int _warpBeamCount;
+	int _warpBeamIndex;
+	int _warpSpaceLoopY;
+
 	player* _player;
 public:
 	void ctrlPanelUpdate();						//패널, 패널단추 업데이트

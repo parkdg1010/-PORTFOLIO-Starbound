@@ -27,20 +27,20 @@ HRESULT kluexboss::init()
 	temp.init(3.f, 0, 0, WINSIZEX, "kluexCrystalImg");
 	for (int i = 0; i < RND->getFromIntTo(15,5); ++i)
 	{
-		_deadEffect[0].push_back(temp);
-		_deadEffect[0][i].setSpeed(6 + RND->getFloat(2));
+		_vDeadEffect[0].push_back(temp);
+		_vDeadEffect[0][i].setSpeed(6 + RND->getFloat(2));
 	}
 	temp.init(3.f, 0, 0, WINSIZEX, "kluexCrystalShardImg");
 	for (int i = 0; i < RND->getFromIntTo(15,5); ++i)
 	{
-		_deadEffect[1].push_back(temp);
-		_deadEffect[1][i].setSpeed(4 + RND->getFloat(2));
+		_vDeadEffect[1].push_back(temp);
+		_vDeadEffect[1][i].setSpeed(4 + RND->getFloat(2));
 	}
 	temp.init(3.f, 0, 0, WINSIZEX, "kluexStatueShardImg");
 	for (int i = 0; i < RND->getFromIntTo(20,10); ++i)
 	{
-		_deadEffect[2].push_back(temp);
-		_deadEffect[2][i].setSpeed(2 + RND->getFloat(2));
+		_vDeadEffect[2].push_back(temp);
+		_vDeadEffect[2][i].setSpeed(2 + RND->getFloat(2));
 	}
 	_isDeadEffect = false;
 
@@ -68,11 +68,11 @@ void kluexboss::update()
 			{
 				for (int i = 0; i < 3; ++i)
 				{
-					for (int j = 0; j < _deadEffect[i].size(); ++j)
+					for (int j = 0; j < _vDeadEffect[i].size(); ++j)
 					{
-						if (_deadEffect[i][j].getIsActive()) continue;
+						if (_vDeadEffect[i][j].getIsActive()) continue;
 
-						_deadEffect[i][j].fire(_x, _y, PI_2 + (RND->getFloat(PI_8) - RND->getFloat(PI_8))*2);
+						_vDeadEffect[i][j].fire(_x, _y, PI_2 + (RND->getFloat(PI_8) - RND->getFloat(PI_8))*2);
 					}
 				}
 				_isDeadEffect = true;
@@ -81,16 +81,16 @@ void kluexboss::update()
 			_deadGravity += 0.3f;
 			for (int i = 0; i < 3; ++i)
 			{
-				for (int j = 0; j < _deadEffect[i].size(); ++j)
+				for (int j = 0; j < _vDeadEffect[i].size(); ++j)
 				{
-					_deadEffect[i][j].update();
-					_deadEffect[i][j].setGravity(_deadGravity);
+					_vDeadEffect[i][j].update();
+					_vDeadEffect[i][j].setGravity(_deadGravity);
 
-					if (_deadEffect[i][j].getIsActive())
+					if (_vDeadEffect[i][j].getIsActive())
 					{
 						if (_mapPixel != NULL)
 						{
-							_deadEffect[i][j].collideMap(_mapPixel);
+							_vDeadEffect[i][j].collideMap(_mapPixel);
 						}
 					}
 				}
@@ -106,6 +106,15 @@ void kluexboss::update()
 		}
 		else
 		{
+		}
+
+		if (_isDeadEffect)
+		{
+			DELAYCOUNT(_deadDelay, 240);
+			if (_deadDelay == 0)
+			{
+				_isActive = false;
+			}
 		}
 	}
 	else
@@ -130,9 +139,9 @@ void kluexboss::render()
 		{
 			for (int i = 0; i < 3; ++i)
 			{
-				for (int j = 0; j < _deadEffect[i].size(); ++j)
+				for (int j = 0; j < _vDeadEffect[i].size(); ++j)
 				{
-					_deadEffect[i][j].render(true);
+					_vDeadEffect[i][j].render(true);
 				}
 			}
 
