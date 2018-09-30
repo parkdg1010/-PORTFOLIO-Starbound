@@ -15,8 +15,9 @@
 #define PI_8		PI *0.125 //8로 나눔
 
 //ADDED 매크로 함수
-#define DELAYCOUNT(count, delay) {count = (count +1) % delay;}
-#define RAD_TO_DEG(angle) angle *0.017453292519943295769f
+#define DELAYCOUNT(count, delay) {count = (count +1) % delay;} //딜레이
+#define RAD_TO_DEG(angle) angle *0.017453292519943295769f // 호도를 각도로
+#define MID(p1,p2) (p1+p2)*0.5 //두 점의 중점
 
 namespace MY_UTIL
 {
@@ -33,6 +34,7 @@ namespace MY_UTIL
 	void textMake(HDC dc, int x, int y, const char* name);
 
 	int getRectArea(RECT rc);
+	POINT getRectCenter(RECT rc);
 };
 
 namespace utl = MY_UTIL;

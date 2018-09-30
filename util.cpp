@@ -54,3 +54,11 @@ int MY_UTIL::getRectArea(RECT rc)
 	
 	return area;
 }
+
+POINT MY_UTIL::getRectCenter(RECT rc)
+{
+	POINT temp;
+	temp.x = MID(rc.left, rc.right);
+	temp.y = MID(rc.top, rc.bottom);
+	return temp;
+}
