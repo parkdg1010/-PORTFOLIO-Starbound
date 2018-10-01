@@ -35,6 +35,8 @@ namespace MY_UTIL
 
 	int getRectArea(RECT rc);
 	POINT getRectCenter(RECT rc);
+
+	void painting(HDC memDC, RECT location, COLORREF color);
 };
 
 namespace utl = MY_UTIL;

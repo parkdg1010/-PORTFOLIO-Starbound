@@ -1,5 +1,6 @@
 #pragma once
 #include "gameObject.h"
+#include "tileNode.h"
 
 class bullet : public gameObject
 {
@@ -11,6 +12,12 @@ protected:
 	int _frameDelay;	// 프레임 딜레이
 
 	float _fireX, _fireY;
+
+	tagTile* _stage;
+	POINT _tileXY;
+	image* _stageBuffer;
+
+	Synthesize(bool, _isDirtDrill, DirtDrill)
 public:
 	virtual HRESULT init(float radius, float speed, float damage, float range, const char* imageName = "없음");
 	virtual HRESULT init(float radius, float speed, float damage, float range, image* image = NULL);

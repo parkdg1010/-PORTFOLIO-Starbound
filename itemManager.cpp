@@ -25,6 +25,10 @@ gameItem* itemFactory::createItem(CATEGORY tag, string name, int rarity, int pri
 		item = new plasmagun;
 		dynamic_cast<plasmagun*>(item)->init(tag, name, rarity, price, damage, armor, icon, img, effect1, effect2, effect3);
 		break;
+	case TAG_DRILLGUN:
+		item = new drillgun;
+		dynamic_cast<drillgun*>(item)->init(tag, name, rarity, price, damage, armor, icon, img, effect1, effect2, effect3);
+		break;
 	}
 
 	return item;
@@ -58,6 +62,11 @@ gameItem* itemFactory::createItem(CATEGORY tag, string name, int rarity, int pri
 	case TAG_PLASMAGUN:
 		item = new plasmagun;
 		dynamic_cast<plasmagun*>(item)->init(tag, name, rarity, price, damage, armor, _icon, _img, _effect1, _effect2, _effect3);
+		item->setCategory(TAG_RANGEDWEAPON);
+		break;
+	case TAG_DRILLGUN:
+		item = new drillgun;
+		dynamic_cast<drillgun*>(item)->init(tag, name, rarity, price, damage, armor, _icon, _img, _effect1, _effect2, _effect3);
 		item->setCategory(TAG_RANGEDWEAPON);
 		break;
 	}

@@ -19,6 +19,12 @@ HRESULT bullet::init(float radius, float speed, float damage, float range, const
 	_gravity = 0;
 	_count = _index = 0;
 
+	_isDirtDrill = false;
+
+	_stage = SAVEDATA->getTiles();
+	_tileXY = SAVEDATA->getTileXY();
+	_stageBuffer = SAVEDATA->getStageBuffer();
+
 	return S_OK;
 }
 
@@ -40,6 +46,12 @@ HRESULT bullet::init(float radius, float speed, float damage, float range, image
 	_angle = 0;
 	_gravity = 0;
 	_count = _index = 0;
+
+	_isDirtDrill = false;
+
+	_stage = SAVEDATA->getTiles();
+	_tileXY = SAVEDATA->getTileXY();
+	_stageBuffer = SAVEDATA->getStageBuffer();
 
 	return S_OK;
 }
@@ -126,7 +138,43 @@ bool bullet::collideMap(image * pixelImage)
 	if (!(r == 255 && g == 0 && b == 255))
 	{
 		if (_isActive) _isActive = false;
+
+		//땅파기
+		if (_isDirtDrill)
+		{
+			tagTile hitTemp = _stage[int(_y / TILESIZE) * _tileXY.x + int(_x / TILESIZE)];
+			tagTile hitAround[8];
+			hitAround[0] = _stage[int(_y / TILESIZE) * _tileXY.x + int(_x / TILESIZE) - 1];			//왼쪽
+			hitAround[1] = _stage[(int(_y / TILESIZE) - 1) * _tileXY.x + int(_x / TILESIZE)];		//위쪽
+			hitAround[2] = _stage[(int(_y / TILESIZE)) * _tileXY.x + int(_x / TILESIZE) + 1];		//오른쪽
+			hitAround[3] = _stage[(int(_y / TILESIZE) + 1) * _tileXY.x + int(_x / TILESIZE)];		//아래쪽
+			hitAround[4] = _stage[(int(_y / TILESIZE) + 1) * _tileXY.x + int(_x / TILESIZE) - 1];	//왼쪽아래
+			hitAround[5] = _stage[(int(_y / TILESIZE) - 1) * _tileXY.x + int(_x / TILESIZE) + 1];	//오른쪽위
+			hitAround[6] = _stage[(int(_y / TILESIZE) + 1) * _tileXY.x + int(_x / TILESIZE) + 1];	//오른쪽아래
+			hitAround[7] = _stage[(int(_y / TILESIZE) - 1) * _tileXY.x + int(_x / TILESIZE) - 1];	//오른쪽아래
+
+			if (hitTemp.terrain != TR_NONE)
+			{
+				utl::painting(pixelImage->getMemDC(), hitTemp.rc, MAGENTA);
+				utl::painting(_stageBuffer->getMemDC(), hitTemp.rc, MAGENTA);
+			}
+
+			for (int i = 0; i < 8; ++i)
+			{
+				if (hitAround[i].terrain == TR_NONE)
+				{
+					utl::painting(pixelImage->getMemDC(), hitAround[i].rc, MAGENTA);
+					utl::painting(_stageBuffer->getMemDC(), hitAround[i].rc, MAGENTA);
+				}
+				else if (hitAround[i].terrain == TR_BRICK)
+				{
+
+				}
+			}
+		}
+
 		return true;
+
 	}
 
 	//사거리 벗어남

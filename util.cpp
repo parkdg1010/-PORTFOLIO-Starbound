@@ -62,3 +62,22 @@ POINT MY_UTIL::getRectCenter(RECT rc)
 	temp.y = MID(rc.top, rc.bottom);
 	return temp;
 }
+
+void MY_UTIL::painting(HDC memDC, RECT location, COLORREF color)
+{
+	HPEN myPen, oldPen;
+	HBRUSH myBrush, oldBrush;
+	myBrush = CreateSolidBrush(color);
+	oldBrush = (HBRUSH)SelectObject(memDC, myBrush);
+	myPen = CreatePen(PS_SOLID, 1, color);
+	oldPen = (HPEN)SelectObject(memDC, myPen);
+
+	Rectangle(memDC, location);
+	SelectObject(memDC, oldBrush);
+	SelectObject(memDC, oldPen);
+
+	DeleteObject(myBrush);
+	DeleteObject(oldBrush);
+	DeleteObject(myPen);
+	DeleteObject(oldPen);
+}

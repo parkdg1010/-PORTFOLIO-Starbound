@@ -175,6 +175,8 @@ void loadingScene::loadingEffectImage()
 	_loading->loadFrameImage("bulletEffectImg", "Texture/item/weapons/ranged/bulletEffect_160x40_4x1.bmp", 160, 40, 4, 1);		//불릿이펙트
 	_loading->loadFrameImage("plasmaBullet", "Texture/item/weapons/ranged/plasma_288x44_4x1.bmp", 288, 44, 4, 1);				//플라즈마불릿
 	_loading->loadFrameImage("plasmaEffectImg", "Texture/item/weapons/ranged/plasmaEffect_156x78_2x1.bmp", 156, 78, 2, 1);		//플라즈마이펙트
+	_loading->loadFrameImage("drillBullet", "Texture/item/weapons/ranged/drill_210x27_5x1.bmp", 210, 27, 5, 1);					//드릴불릿
+	_loading->loadFrameImage("drillEffectImg", "Texture/item/weapons/ranged/drillEffect_128x32_4x1.bmp", 256, 64, 4, 1);		//드릴이펙트
 
 	_loading->loadFrameImage("tearswoosh1Img", "Texture/item/weapons/melee/broadsword/tearswoosh1_732x295_3x2.bmp", 732, 295, 3, 2);	//칼공격1번
 	_loading->loadFrameImage("tearswoosh2Img", "Texture/item/weapons/melee/broadsword/tearswoosh2_363x116_3x2.bmp", 363, 116, 3, 2);	//칼공격2번
@@ -196,6 +198,8 @@ void loadingScene::loadingEffect()
 
 	EFFECTMANAGER->addEffect("plasmaflash", "plasmaflashImg", 0.4f, 10);
 	EFFECTMANAGER->addEffect("plasmaEffect", "plasmaEffectImg", 2.0f, 15);
+
+	EFFECTMANAGER->addEffect("drillEffect", "drillEffectImg", 0.4f, 8);
 
 	EFFECTMANAGER->addEffect("kluex_Staff_Plasma", "kluexstaffplasmaImg", 0.05f, 20);
 	EFFECTMANAGER->addEffect("red_Pulse_Cannon_Explosion", "redpulsecannonexplosionImg", 0.05, 20);
@@ -302,6 +306,9 @@ void loadingScene::loadingItem()
 
 	_loading->loadFrameImage("플라즈마건", "Texture/item/weapons/ranged/plasmarifle_207x96_2x1.bmp", 207, 96, 1, 2);
 	_loading->loadImage("플라즈마건아이콘", "Texture/item/weapons/ranged/plasmarifleIcon.bmp", 40, 40, true, MAGENTA);
+
+	_loading->loadFrameImage("드릴건", "Texture/item/weapons/ranged/exmachina_207x96_2x1.bmp", 207, 96, 1, 2);
+	_loading->loadImage("드릴건아이콘", "Texture/item/weapons/ranged/exmachinaIcon.bmp", 40, 40, true, MAGENTA);
 }
 
 void loadingScene::loadingPlayer()

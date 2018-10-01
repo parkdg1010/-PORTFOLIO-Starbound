@@ -266,6 +266,9 @@
     <ClInclude Include="endingScene.h">
       <Filter>GameScene</Filter>
     </ClInclude>
+    <ClInclude Include="drillgun.h">
+      <Filter>GameObjects\아이템\무기\ranged</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -420,6 +423,9 @@
     </ClCompile>
     <ClCompile Include="endingScene.cpp">
       <Filter>GameScene</Filter>
+    </ClCompile>
+    <ClCompile Include="drillgun.cpp">
+      <Filter>GameObjects\아이템\무기\ranged</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

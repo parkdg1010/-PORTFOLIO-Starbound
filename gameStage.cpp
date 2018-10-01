@@ -77,7 +77,7 @@ void gameStage::loadStage()
 	_tileY = atoi(vStr[1].c_str());
 	_curBackTop = atoi(vStr[2].c_str());
 	_curBackBot = atoi(vStr[3].c_str());
-
+	
 	if (_stage != NULL) _stage = NULL;
 	_stage = new tagTile[_tileX * _tileY];
 
@@ -181,6 +181,10 @@ void gameStage::loadStageBuffer()
 			}
 		}
 	}
+
+	SAVEDATA->setTiles(_stage);
+	SAVEDATA->setTileXY(_tileX, _tileY);
+	SAVEDATA->setStageBuffer(_stageBuffer);
 }
 
 void gameStage::initImage()

@@ -20,12 +20,18 @@ HRESULT stageScene::init()
 	_player->setGravityAccel(0.29f);
 	_player->init();
 	_player->linkStage(_stage);
-	_player->getInventory()->addWeaponInven(_itemFac->createItem(TAG_RANGEDWEAPON, "shotgun", 2, 500, 8.f, 0.f,
-		"샷건아이콘", "샷건", "standardBullet", "muzzleflashImg", "bulletEffectImg"));
-	_player->getInventory()->addWeaponInven(_itemFac->createItem(TAG_PLASMAGUN, "plasmagun", 4, 1500, 30.f, 0.f,
-		"플라즈마건아이콘", "플라즈마건", "plasmaBullet", "plasmaflashImg", "plasmaEffectImg"));
-	//_player->getInventory()->addWeaponInven(_itemFac->createItem(TAG_MELEEWEAPON, "astrosabredeluxe", 4, 1500, 300.f, 0.f, 
-	//	"우주검아이콘", "우주검", "tearswoosh1Img", "tearswoosh2Img", "tearswoosh3Img"));
+	if (_player->getStageNum() == 2)
+	{
+		_player->getInventory()->addWeaponInven(_itemFac->createItem(TAG_RANGEDWEAPON, "shotgun", 2, 500, 8.f, 0.f,
+			"샷건아이콘", "샷건", "standardBullet", "muzzleflashImg", "bulletEffectImg"));
+		_player->getInventory()->addWeaponInven(_itemFac->createItem(TAG_PLASMAGUN, "plasmagun", 4, 1500, 30.f, 0.f,
+			"플라즈마건아이콘", "플라즈마건", "plasmaBullet", "plasmaflashImg", "plasmaEffectImg"));
+		_player->getInventory()->addWeaponInven(_itemFac->createItem(TAG_DRILLGUN, "drillgun", 1, 1000, 1.f, 0.f,
+			"드릴건아이콘", "드릴건", "drillBullet", "muzzleflashImg", "drillEffectImg"));
+		//_player->getInventory()->addWeaponInven(_itemFac->createItem(TAG_MELEEWEAPON, "astrosabredeluxe", 4, 1500, 300.f, 0.f, 
+		//	"우주검아이콘", "우주검", "tearswoosh1Img", "tearswoosh2Img", "tearswoosh3Img"));
+	}
+
 	_player->linkEnemyManager(_enemyManager);
 
 	_stage->linkPlayer(_player);
@@ -46,14 +52,17 @@ void stageScene::update()
 	_stage->update();
 	_enemyManager->update();
 	_player->update();
-	for (int i = 0; i < _enemyManager->getEnemy().size(); ++i)
+	if (_enemyManager != NULL)
 	{
-		if (dynamic_cast<kluexboss*>(_enemyManager->getEnemy()[i]) != NULL)
+		for (int i = 0; i < _enemyManager->getEnemy().size(); ++i)
 		{
-			if (!dynamic_cast<kluexboss*>(_enemyManager->getEnemy()[i])->getIsActive())
+			if (dynamic_cast<kluexboss*>(_enemyManager->getEnemy()[i]) != NULL)
 			{
-				SCENEMANAGER->loadScene("엔딩");
-				break;
+				if (!dynamic_cast<kluexboss*>(_enemyManager->getEnemy()[i])->getIsActive())
+				{
+					SCENEMANAGER->loadScene("엔딩");
+					break;
+				}
 			}
 		}
 	}

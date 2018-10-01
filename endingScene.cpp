@@ -28,7 +28,7 @@ void endingScene::render()
 {
 	if (_alpha < 255)
 		_alpha += 1;
-	DELAYCOUNT(_count, 200);
+	DELAYCOUNT(_count, 250);
 	if (_count == 0)
 	{
 		++_index;
